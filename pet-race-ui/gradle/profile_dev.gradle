@@ -1,0 +1,50 @@
+apply plugin: 'spring-boot'
+
+ext {
+    logbackLoglevel = "DEBUG"
+}
+
+dependencies {
+    compile "org.springframework.boot:spring-boot-devtools"
+    compile "org.springframework.boot:spring-boot-starter-tomcat:${spring_boot_version}"
+}
+
+def profiles = 'dev'
+if (project.hasProperty('no-liquibase')) {
+    profiles += ',no-liquibase'
+}
+if (project.hasProperty('no-swagger')) {
+    profiles += ',no-swagger'
+}
+if (project.hasProperty('no-cache')) {
+    profiles += ',no-cache'
+}
+
+bootRun {
+    args = ["--spring.profiles.active=" + profiles]
+}
+
+war {
+    webAppDirName = 'src/main/webapp/'
+}
+
+task gulpConstantDev(type: GulpTask) {
+    args = ["ngconstant:dev", "--no-notification"]
+}
+
+task setProdProperties(dependsOn: bootRun) << {
+    doFirst {
+        System.setProperty('spring.profiles.active', profiles)
+    }
+}
+
+processResources {
+    filesMatching('**/logback-spring.xml') {
+        filter {
+            it.replace('@logback.loglevel@', logbackLoglevel)
+        }
+    }
+}
+
+
+setProdProperties.dependsOn gulpConstantDev

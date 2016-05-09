@@ -1,0 +1,8 @@
+version: '2'
+services:
+    gpmr-sonar:
+        container_name: gpmr-sonar
+        image: sonarqube:5.3
+        ports:
+            - 9000:9000
+            - 9092:9092

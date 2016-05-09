@@ -1,0 +1,30 @@
+version: '2'
+services:
+    gpmr-cassandra:
+        container_name: gpmr-cassandra
+        image: cassandra:2.2.5
+        # volumes:
+        #     - ~/volumes/jhipster/gpmr/cassandra/:/var/lib/cassandra/data
+        ports:
+            - 7000:7000
+            - 7001:7001
+            - 7199:7199
+            - 9042:9042
+            - 9160:9160
+    gpmr-cassandra-node:
+        image: cassandra:2.2.5
+        links:
+            - gpmr-cassandra:seed
+        environment:
+            - CASSANDRA_SEEDS=seed
+    gpmr-cassandra-migration:
+        container_name: gpmr-cassandra-migration
+        links:
+            - gpmr-cassandra
+        environment:
+            - CASSANDRA_CONTACT_POINT=gpmr-cassandra
+        build:
+            context: .
+            dockerfile: cassandra/Cassandra.Dockerfile
+        volumes:
+            - ../resources/config/cql:/cql:ro
