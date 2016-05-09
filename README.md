@@ -1,2 +1,4 @@
-# gpmr
-Greek Pet Monster Race
+# Greek Pet Monster Race
+
+## Data Model
+
