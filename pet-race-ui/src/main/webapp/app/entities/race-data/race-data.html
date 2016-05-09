@@ -1,0 +1,66 @@
+<div>
+    <h2>Race Data</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="race-data.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Race Data
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Pet Id</span></th>
+                    <th><span>Pet Name</span></th>
+                    <th><span>Pet Category</span></th>
+                    <th><span>Pet Category Id</span></th>
+                    <th><span>Runner Postion</span></th>
+                    <th><span>Runner Sash Color</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="raceData in vm.raceData track by raceData.id">
+                    <td><a ui-sref="race-data-detail({id:raceData.id})">{{raceData.id}}</a></td>
+                    <td>{{raceData.petId}}</td>
+                    <td>{{raceData.petName}}</td>
+                    <td>{{raceData.petCategory}}</td>
+                    <td>{{raceData.petCategoryId}}</td>
+                    <td>{{raceData.runnerPostion}}</td>
+                    <td>{{raceData.runnerSashColor}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="race-data-detail({id:raceData.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="race-data.edit({id:raceData.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="race-data.delete({id:raceData.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

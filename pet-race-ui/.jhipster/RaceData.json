@@ -1,0 +1,39 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "petId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "petName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "petCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "petCategoryId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "runnerPostion",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "runnerSashColor",
+      "fieldType": "String"
+    }
+  ],
+  "changelogDate": "20160509045153",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}

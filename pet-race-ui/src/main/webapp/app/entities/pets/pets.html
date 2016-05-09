@@ -1,0 +1,62 @@
+<div>
+    <h2>Pets</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="pets.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Pets
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr>
+                    <th><span>ID</span></th>
+                    <th><span>Name</span></th>
+                    <th><span>Pet Category</span></th>
+                    <th><span>Pet Category Id</span></th>
+                    <th><span>Pet Speed</span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="pets in vm.pets track by pets.id">
+                    <td><a ui-sref="pets-detail({id:pets.id})">{{pets.id}}</a></td>
+                    <td>{{pets.name}}</td>
+                    <td>{{pets.petCategory}}</td>
+                    <td>{{pets.petCategoryId}}</td>
+                    <td>{{pets.petSpeed}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="pets-detail({id:pets.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="pets.edit({id:pets.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="pets.delete({id:pets.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

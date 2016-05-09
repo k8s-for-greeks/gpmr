@@ -1,0 +1,66 @@
+
+entity Race {
+	id UUID,
+    numOfPets Integer,
+    length Integer,
+    numOfSamples Integer,
+	winnerId UUID,
+    winnerName String,
+    winnnerPetCategory String,
+	startTime Date,
+	endTime Date
+}
+
+entity RaceParticipants {
+	id UUID,
+    petId UUID,
+    petName String,
+    petType String,
+    petColor String,
+    petCategory String,
+    petCategoryId String,
+    raceId UUID
+}
+
+entity RaceResults {
+	id UUID,
+    petId UUID,
+    petName String,
+    petCategory String,
+    petCategoryId UUID,
+    place Integer,
+    time Date
+}
+
+entity RaceData {
+	id UUID,
+    petId UUID,
+    petName String,
+    petCategory String,
+    petCategoryId UUID,
+    runnerPostion Integer,
+    runnerSashColor String
+}
+
+entity Pets {
+	id UUID,
+    name String,
+    petCategory String,
+    petCategoryId UUID,
+    petSpeed BigDecimal
+}
+
+entity PetCategories {
+	id UUID,
+    name String
+}
+
+//paginate RaceResults, RaceData with infinite-scroll
+//paginate Race with pagination
+service PetCategories, Pets, PetCategories with serviceImpl
+
+//dto Employee with mapstruct
+
+//service Employee with serviceClass
+
+	

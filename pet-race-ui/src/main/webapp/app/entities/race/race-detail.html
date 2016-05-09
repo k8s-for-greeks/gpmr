@@ -1,0 +1,45 @@
+
+<div>
+    <h2><span>Race</span> {{vm.race.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Num Of Pets</span></dt>
+        <dd>
+            <span>{{vm.race.numOfPets}}</span>
+        </dd>
+        <dt><span>Length</span></dt>
+        <dd>
+            <span>{{vm.race.length}}</span>
+        </dd>
+        <dt><span>Num Of Samples</span></dt>
+        <dd>
+            <span>{{vm.race.numOfSamples}}</span>
+        </dd>
+        <dt><span>Winner Id</span></dt>
+        <dd>
+            <span>{{vm.race.winnerId}}</span>
+        </dd>
+        <dt><span>Winner Name</span></dt>
+        <dd>
+            <span>{{vm.race.winnerName}}</span>
+        </dd>
+        <dt><span>Winnner Pet Category</span></dt>
+        <dd>
+            <span>{{vm.race.winnnerPetCategory}}</span>
+        </dd>
+        <dt><span>Start Time</span></dt>
+        <dd>
+            <span>{{vm.race.startTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>End Time</span></dt>
+        <dd>
+            <span>{{vm.race.endTime | date:'medium'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

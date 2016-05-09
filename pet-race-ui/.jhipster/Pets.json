@@ -1,0 +1,29 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "petCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "petCategoryId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "petSpeed",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "changelogDate": "20160509045154",
+  "dto": "no",
+  "pagination": "no",
+  "service": "serviceImpl"
+}

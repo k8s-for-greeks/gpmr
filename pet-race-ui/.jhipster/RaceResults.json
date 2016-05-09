@@ -1,0 +1,39 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "petId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "petName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "petCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "petCategoryId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "place",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "time",
+      "fieldType": "Date"
+    }
+  ],
+  "changelogDate": "20160509045152",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}

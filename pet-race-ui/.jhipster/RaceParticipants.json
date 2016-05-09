@@ -1,0 +1,44 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "petId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "petName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "petType",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "petColor",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "petCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "petCategoryId",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 7,
+      "fieldName": "raceId",
+      "fieldType": "UUID"
+    }
+  ],
+  "changelogDate": "20160509045151",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}

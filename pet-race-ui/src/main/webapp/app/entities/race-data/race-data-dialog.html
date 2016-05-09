@@ -1,0 +1,62 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myRaceDataLabel">Create or edit a Race Data</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.raceData.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.raceData.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petId">Pet Id</label>
+            <input type="text" class="form-control" name="petId" id="field_petId"
+                    ng-model="vm.raceData.petId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petName">Pet Name</label>
+            <input type="text" class="form-control" name="petName" id="field_petName"
+                    ng-model="vm.raceData.petName"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategory">Pet Category</label>
+            <input type="text" class="form-control" name="petCategory" id="field_petCategory"
+                    ng-model="vm.raceData.petCategory"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryId">Pet Category Id</label>
+            <input type="text" class="form-control" name="petCategoryId" id="field_petCategoryId"
+                    ng-model="vm.raceData.petCategoryId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_runnerPostion">Runner Postion</label>
+            <input type="number" class="form-control" name="runnerPostion" id="field_runnerPostion"
+                    ng-model="vm.raceData.runnerPostion"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_runnerSashColor">Runner Sash Color</label>
+            <input type="text" class="form-control" name="runnerSashColor" id="field_runnerSashColor"
+                    ng-model="vm.raceData.runnerSashColor"
+                     />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

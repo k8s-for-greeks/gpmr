@@ -1,0 +1,49 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "numOfPets",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "length",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "numOfSamples",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "winnerId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "winnerName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "winnnerPetCategory",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 7,
+      "fieldName": "startTime",
+      "fieldType": "Date"
+    },
+    {
+      "fieldId": 8,
+      "fieldName": "endTime",
+      "fieldType": "Date"
+    }
+  ],
+  "changelogDate": "20160509045150",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no"
+}
