@@ -4,4 +4,5 @@ import sys
 import os
 sys.path.insert(0, os.path.abspath('..'))
 
-import pet_race_job
+import pet_race_job.core as core
+import pet_race_job.pet_race_job as pet_race_job
