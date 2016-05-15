@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .context import pet_race_job
+from .context import pet_race as PetRace
 
 import unittest
 
@@ -8,7 +8,8 @@ class AdvancedTestSuite(unittest.TestCase):
     """Advanced test cases."""
 
     def test_race(self):
-      race = pet_race_job.pet_race.PetRace()
+      arg = {}
+      race = PetRace(arg)
       race.run()
 
 

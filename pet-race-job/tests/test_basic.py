@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from .context import pet_race_job
+from .context import pet_race
 
 import unittest
 
