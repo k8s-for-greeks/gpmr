@@ -1,12 +1,12 @@
 from operator import itemgetter
-from numpy import numpy
+import numpy
 
 
 class PetRace(object):
   """docstring for """
   def __init__(self, arg):
     super()
-  
+
 
 
     #self.arg = arg
@@ -78,14 +78,14 @@ class PetRace(object):
     while True:
       racers_finished_this_iteration = []
       random_normal = self.numpy_normal(len(self.racers_still_running))
-      save_normal(random_normal)
+      self.save_normal(random_normal)
       for racer in self.racers_still_running:
           # may not have to do this if normal takes a base value
         current_racer_speed = random_normal.pop() * self.base_racer_speed
         race_distance = self.race['distance']
         previous_distance = self.racers[racer]['current_distance']
         current_racer_distance = previous_distance + current_racer_speed
-        current_racer_distance_adj, finished = either_race_distance_current( race_distance, current_racer_distance)
+        current_racer_distance_adj, finished = self.either_race_distance_current( race_distance, current_racer_distance)
         self.racers[racer]['current_distance'] = current_racer_distance_adj
         self.racers[racer]['finished'] = finished
 
@@ -101,10 +101,10 @@ class PetRace(object):
           self.racers[racer]['total_distance'] = current_racer_distance
           self.racers[racer]['finished'] = finished
           # TODO
-          save_racer_finish(racers[racer])
+          self.save_racer_finish(racers[racer])
 
           # TODO
-        save_racer_current_point(racers[racer])
+        self.save_racer_current_point(racers[racer])
 
 
         # how the heck do we do this??
@@ -116,5 +116,5 @@ class PetRace(object):
       if len(self.racers_still_running) == 0:
         break
       # end while
-      save_race()
+      self.save_race()
       # TODO save race data
