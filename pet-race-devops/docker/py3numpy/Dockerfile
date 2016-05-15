@@ -1,5 +1,7 @@
 FROM alpine:3.3
 
+#Strip down this image once Dev for race is close to complete.
+
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
