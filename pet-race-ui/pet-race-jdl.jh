@@ -1,58 +1,61 @@
 
 entity Race {
-	id UUID,
-    numOfPets Integer,
-    length Integer,
-    numOfSamples Integer,
+	raceId UUID,
+  numOfPets Integer,
+  length Integer,
 	winnerId UUID,
-    winnerName String,
-    winnnerPetCategory String,
+  winnerName String,
+  winnnerPetCategory String,
 	startTime Date,
 	endTime Date
 }
 
 entity RaceParticipants {
-	id UUID,
+		raceParticipantsId UUID,
     petId UUID,
+    raceId UUID
     petName String,
     petType String,
     petColor String,
     petCategory String,
     petCategoryId String,
-    raceId UUID
 }
 
 entity RaceResults {
-	id UUID,
-    petId UUID,
-    petName String,
-    petCategory String,
-    petCategoryId UUID,
-    place Integer,
-    time Date
+	raceResultsId UUID,
+	raceId UUID,
+  petId UUID,
+  petName String,
+  petCategory String,
+  petCategoryId UUID,
+  place String,
+  time Date
 }
 
 entity RaceData {
-	id UUID,
-    petId UUID,
-    petName String,
-    petCategory String,
-    petCategoryId UUID,
-    runnerPostion Integer,
-    runnerSashColor String
+	raceDataId UUID,
+  petId UUID,
+  petName String,
+  petCategory String,
+  petCategoryId UUID,
+  runnerPosition Integer,
+  runnerSashColor String,
+  interval Integer,
+  RunnerDistance BigDecimal,
+  startTime Date,
 }
 
 entity Pets {
-	id UUID,
-    name String,
-    petCategory String,
-    petCategoryId UUID,
-    petSpeed BigDecimal
+	petId UUID,
+  name String,
+  petCategory String,
+  petCategoryId UUID,
+  petSpeed BigDecimal
 }
 
 entity PetCategories {
-	id UUID,
-    name String
+	petCategoryId UUID,
+  name String
 }
 
 //paginate RaceResults, RaceData with infinite-scroll
@@ -62,5 +65,3 @@ service PetCategories, Pets, PetCategories with serviceImpl
 //dto Employee with mapstruct
 
 //service Employee with serviceClass
-
-	

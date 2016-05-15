@@ -5,8 +5,10 @@ from numpy import numpy
 class PetRace(object):
   """docstring for """
   def __init__(self, arg):
-    #super(, self).__init__()
-    return
+    super()
+  
+
+
     #self.arg = arg
 
   # guid list of racers still running
