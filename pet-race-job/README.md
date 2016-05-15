@@ -1,6 +1,13 @@
-Sample Module Repository
-========================
+#Race Job
 
-This simple project is an example repo for Python projects.
+Look at using https://github.com/esa/pagmo/ for race place
 
-`Learn more <http://www.kennethreitz.org/essays/repository-structure-and-python>`_.
+https://github.com/esa/pagmo/blob/master/src/util/race_pop.cpp is the code for the positions. 
+We can update the C++ code to return the current racer positions, but we do not have the
+distance between the racers.  Not sure how we can generate that.
+
+Still need to architect
+- racer position at data point
+- racer speed at data point
+
+
