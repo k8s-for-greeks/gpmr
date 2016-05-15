@@ -1,7 +1,5 @@
 FROM alpine:3.3
 
-#Strip down this image once Dev for race is close to complete.
-
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG C.UTF-8
@@ -9,7 +7,7 @@ ENV LANG C.UTF-8
 # gpg: key F73C700D: public key "Larry Hastings <larry@hastings.org>" imported
 ENV GPG_KEY 97FC712E4C024BBEA48A61ED3A5CA953F73C700D
 
-ENV PYTHON_VERSION 3.5.1
+ENV PYTHON_VERSION 3.4.4
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
 ENV PYTHON_PIP_VERSION 8.1.2
@@ -40,7 +38,6 @@ RUN set -ex \
 		openssl-dev \
 		pax-utils \
 		readline-dev \
-		sqlite-dev \
 		xz-dev \
 		zlib-dev \
 	&& cd /usr/src/python \
@@ -48,7 +45,9 @@ RUN set -ex \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
 	&& pip3 install --no-cache-dir --upgrade --ignore-installed pip==$PYTHON_PIP_VERSION \
-  && apk add --update gfortran py-pip build-base py-numpy@testing \
+  && pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
+	&& pip3 install nose sphinx \
+	&& pip install cassandra-driver pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local -depth \
 		\( \
 		    \( -type d -a -name test -o -name tests \) \
