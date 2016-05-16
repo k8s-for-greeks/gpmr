@@ -1,6 +1,11 @@
 
-
+# how do a I do a callback to shutdown the session gracefully?
 class CassandraDriver(object):
+  keyspace = None
+  seeds = None
+  cluster = None
+  session = None
+
   """docstring for """
   def __init__(self, arg):
     super()
@@ -10,8 +15,5 @@ class CassandraDriver(object):
     self.session = cluster.connect(self.keyspace)
     return
 
-  keyspace = None
-  seeds = []
-  cluster = {}
-
-  
+  def shutdown(self):
+    self.cluster.shutdown()
