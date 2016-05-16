@@ -5,10 +5,7 @@ import numpy
 class PetRace(object):
   """docstring for """
   def __init__(self, *args, **kwargs):
-
     super()
-
-
 
   super.datasource = None
   #self.arg = arg
