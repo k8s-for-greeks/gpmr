@@ -27,3 +27,5 @@ class Race(Model):
   winnnerPetCategory  = columns.Text(required=False)
   startTime           = columns.DateTime()
   endTime             = columns.DateTime()
+	
+	__keyspace__ = 'gpmr'

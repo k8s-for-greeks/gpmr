@@ -29,3 +29,5 @@ class RaceParticipants(Model):
   petCategory         = columns.Text(required=False)
   petCategoryId       = columns.UUID(primary_key=True, default=uuid.uuid4)
   endTime             = columns.DateTime()
+
+	__keyspace__ = 'gpmr'
