@@ -22,3 +22,12 @@ class Pets(Model):
   petCategory   = columns.Text(required=False)
   petCategoryId = columns.UUID(required=False)
   petSpeed      = columns.BigInt()
+
+	__keyspace__ = 'gpmr'
+
+	# TODO
+	#__options__ = {'compaction': {'class': 'LeveledCompactionStrategy',
+  #                                'sstable_size_in_mb': '64',
+  #                                'tombstone_threshold': '.2'},
+  #                 'read_repair_chance': '0.5',
+  #                 'comment': 'User data stored here'}
