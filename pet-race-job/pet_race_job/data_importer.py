@@ -3,7 +3,7 @@ from cassandra.cqlengine.management import sync_table, drop_keyspace, create_key
 from cassanrda.cqlengine.connection import set_session
 from cassandra.util import uuid_from_time
 
-import cassandra_driver, datetime
+import cassandra_driver, datetime, csv
 
 class DataImporter(object):
   """docstring for """
@@ -21,13 +21,13 @@ class DataImporter(object):
     # self.session.set_keyspace('mykeyspace')
     set_session(session)
 
-  def create_keyspace(super):
+  def create_keyspace(self):
     self.connect()
     drop_keyspace(keyspace)
     create_keyspace_simple(keyspace)
     self.cass.shutdown()
 
-  def create_tables(super):
+  def create_tables(self):
     self.connect(keyspace)
     sync_table(pet_categories.PetCategories)
     sync_table(pets.Pets)
@@ -36,14 +36,14 @@ class DataImporter(object):
     sync_table(rac.Race)
     self.cass.shutdown()
 
-  def load_pets(super,pets):
+  def load_pets(self,pets,category_name):
     self.connect(keyspace)
 
-      for pet in pets:
-        petCategory = pet_categories.PetCategories.objects.filter(name=pet['category_name'])
-        petCategory = petCategory[0]
+    petCategory = pet_categories.PetCategories.objects.filter(name=pet['category_name'])
+    petCategory = petCategory[0]
 
-        pets.Pets.create(
+    for pet in pets:
+      pets.Pets.create(
           petId=uuid_from_time(datetime.utcnow(),
           name=pets['name'],
           petCategory=petCategory['name'],
@@ -53,7 +53,7 @@ class DataImporter(object):
 
     self.cass.shutdown()
 
-  def load_pet_categories(super,categories):
+  def load_pet_categories(self,categories):
     self.connect(keyspace)
 
     for cat in categories:
@@ -64,3 +64,12 @@ class DataImporter(object):
       )
 
     self.cass.shutdown()
+
+if __name__ == '__main__':
+  loader = DataImporter(['cassandra-0','cassandra-1'])
+  #loader.create_keyspace()
+  loader.create_tables()
+
+  with open('../data/pet_categores.csv', newline='') as csvfile:
+      data = csv.DictReader(csvfile)
+      # TODO here
