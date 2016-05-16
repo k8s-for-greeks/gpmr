@@ -4,12 +4,14 @@ import numpy
 
 class PetRace(object):
   """docstring for """
-  def __init__(self, arg):
+  def __init__(self, *args, **kwargs):
+
     super()
 
 
 
-    #self.arg = arg
+  super.datasource = None
+  #self.arg = arg
 
   # guid list of racers still running
   racers_still_running = []
