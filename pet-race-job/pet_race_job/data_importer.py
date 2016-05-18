@@ -1,5 +1,6 @@
 import csv
 import glob
+import logging
 import os
 from datetime import datetime
 
@@ -19,14 +20,18 @@ class DataImporter(object):
     logger = None
 
     """ arguments: seed, keyspace """
+
     def __init__(self, **kwargs):
         super()
-        self.seeds = kwargs.get('seeds')
-        self.keyspace = kwargs.get('keyspace')
-        self.cass = CassandraDriver({"cassandra_seeds": self.seeds, "keyspace": self.keyspace})
-        self.session = self.cass.session()
+
+        if kwargs is None:
+            self.seeds = kwargs.get('seeds')
+            self.keyspace = kwargs.get('keyspace')
+            self.cass = CassandraDriver({"cassandra_seeds": self.seeds, "keyspace": self.keyspace})
+            self.session = self.cass.session()
+            set_session(self.session)
+
         self.logger = logging.getLogger('pet_race_job')
-        set_session(self.session)
 
     def create_keyspace(self):
         self.cass.connect()
@@ -70,15 +75,34 @@ class DataImporter(object):
             )
             self.logger.debug("pet cat created: %s", cat['name'])
 
-    @staticmethod
-    def parse_pet_categories():
-        with open('../data/pet_categores.csv', newline='') as csv_file:
-            return csv.DictReader(csv_file)
+    def parse_pet_files(self, d):
+        files = glob.glob(d)
+        _pets = []
+        for pet_f in files:
+            self.logger.debug(pet_f)
+            data = self.parse_pet(pet_f)
+            fn, fx = os.path.splitext(pet_f)
+            fn = fn.split('/')[-1]
+            _pets.append({'pet': data, 'cat': fn})
+        return _pets
 
     @staticmethod
-    def parse_pet(file):
+    def parse_pet_categories(file):
+        data = []
         with open(file, newline='') as csv_file:
-            return csv.DictReader(csv_file, fieldnames=['name', 'description'])
+            reader = csv.DictReader(csv_file)
+            for row in reader:
+                data.append(row)
+        return data
+
+    def parse_pet(self,file):
+        self.logger.debug(file)
+        data = []
+        with open(file, newline='') as csv_file:
+            reader = csv.DictReader(csv_file, fieldnames=['name', 'description'])
+            for row in reader:
+                data.append(row)
+        return data
 
 
 if __name__ == '__main__':
@@ -86,15 +110,12 @@ if __name__ == '__main__':
     loader.create_keyspace()
     loader.create_tables()
 
-    pet_cats = loader.parse_pet_categories()
+    pet_cats = loader.parse_pet_categories('../data/pet_categories.csv')
     loader.save_pet_categories(pet_cats)
 
-    pet_files = glob.glob("../data/pets/")
+    pets = loader.parse_pet_files('../data/pets/*.csv')
 
-    for pet_file in pet_files:
-        pet_data = loader.parse_pet(pet_file)
-        filename, file_extension = os.path.splitext(pet_file)
-        filename = filename.split('/')[-1]
-        loader.save_pets(pet_data, filename)
+    for pet in pets:
+        loader.save_pets(pet['pet'], pet['cat'])
 
     loader.cass.shutdown()

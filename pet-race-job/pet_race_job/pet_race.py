@@ -1,4 +1,5 @@
 import numpy
+import logging
 
 
 class PetRace(object):
@@ -28,11 +29,14 @@ class PetRace(object):
     # point in time with each poll spot
     racers_positions_by_time = [[]]
 
+    logger = None
+
     def __init__(self, **kwargs):
         self.base_racer_speed = kwargs.get('base_racer_speed')
         self.racers = kwargs.get('racers')
         self.race = kwargs.get('race')
         self.data_source = kwargs.get('data_source')
+        self.logger = logging.getLogger('pet_race_job')
         super()
 
     # I am thinking this is a possible idea?
@@ -83,7 +87,8 @@ class PetRace(object):
         racer = self.racers[racer_guid]
         return 42
 
-    def run(self):
+    def run_race(self):
+        logging.debug("Starting a race")
         # current_positions = []
         while True:
             racers_finished_this_iteration = []
