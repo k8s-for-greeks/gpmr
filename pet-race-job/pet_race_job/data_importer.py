@@ -54,10 +54,11 @@ class DataImporter(object):
         pet_cat = pet_categories.PetCategories.objects.filter(name=category_name)
         pet_cat = pet_cat[0]
 
-        for pet in pets_create:
+        for p in pets_create:
             pets.Pets.create(
                 petId=uuid_from_time(datetime.utcnow()),
-                name=pet['name'],
+                name=p['name'],
+                description=p['description'],
                 petCategory=pet_cat['name'],
                 petCategoryId=pet_cat['petCategoryId'],
                 petSpeed=pet_cat['speed']
@@ -95,7 +96,7 @@ class DataImporter(object):
                 data.append(row)
         return data
 
-    def parse_pet(self,file):
+    def parse_pet(self, file):
         self.logger.debug(file)
         data = []
         with open(file, newline='') as csv_file:
