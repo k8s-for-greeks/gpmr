@@ -1,75 +1,100 @@
-from model import pet_categories, pets, race_data, race_participants, race
+import csv
+import glob
+import os
+from datetime import datetime
+
+from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
-from cassanrda.cqlengine.connection import set_session
 from cassandra.util import uuid_from_time
 
-import cassandra_driver, datetime, csv
+from .cassandra_driver import CassandraDriver
+from .model import pet_categories, pets, race_data, race_participants, race
+
 
 class DataImporter(object):
-  """docstring for """
-  def __init__(self, *args, **kwargs):
-    self.seeds = args['seeds']
-    super()
+    session = None
+    keyspace = None
+    seeds = None
+    cass = None
+    logger = None
 
-  session = None
-  keyspace = 'gpmr'
-  seeds = None
+    """ arguments: seed, keyspace """
+    def __init__(self, **kwargs):
+        super()
+        self.seeds = kwargs.get('seeds')
+        self.keyspace = kwargs.get('keyspace')
+        self.cass = CassandraDriver({"cassandra_seeds": self.seeds, "keyspace": self.keyspace})
+        self.session = self.cass.session()
+        self.logger = logging.getLogger('pet_race_job')
+        set_session(self.session)
 
-  def connect(super,keyspace:None):
-    self.cass = CassandraDriver({cassandra_seeds:super.seeds,keyspace:keyspace})
-    self.session = cass.session()
-    # self.session.set_keyspace('mykeyspace')
-    set_session(session)
+    def create_keyspace(self):
+        self.cass.connect()
+        drop_keyspace(self.keyspace)
+        create_keyspace_simple(name=self.keyspace, replication_factor=3)
+        self.logger.debug("ks created")
 
-  def create_keyspace(self):
-    self.connect()
-    drop_keyspace(keyspace)
-    create_keyspace_simple(keyspace)
-    self.cass.shutdown()
+    def create_tables(self):
+        self.cass.connect(self.keyspace)
+        sync_table(pet_categories.PetCategories)
+        sync_table(pets.Pets)
+        sync_table(race_data.RaceData)
+        sync_table(race_participants.RaceParticipants)
+        sync_table(race.Race)
+        self.logger.debug("tables created")
 
-  def create_tables(self):
-    self.connect(keyspace)
-    sync_table(pet_categories.PetCategories)
-    sync_table(pets.Pets)
-    sync_table(race_data.RaceData)
-    sync_table(race_participants.RaceParticipants)
-    sync_table(rac.Race)
-    self.cass.shutdown()
+    def save_pets(self, pets_create, category_name):
+        self.cass.connect(self.keyspace)
 
-  def load_pets(self,pets,category_name):
-    self.connect(keyspace)
+        pet_cat = pet_categories.PetCategories.objects.filter(name=category_name)
+        pet_cat = pet_cat[0]
 
-    petCategory = pet_categories.PetCategories.objects.filter(name=pet['category_name'])
-    petCategory = petCategory[0]
+        for pet in pets_create:
+            pets.Pets.create(
+                petId=uuid_from_time(datetime.utcnow()),
+                name=pet['name'],
+                petCategory=pet_cat['name'],
+                petCategoryId=pet_cat['petCategoryId'],
+                petSpeed=pet_cat['speed']
+            )
+            self.logger.debug("pet created: %s", pet['name'])
 
-    for pet in pets:
-      pets.Pets.create(
-          petId=uuid_from_time(datetime.utcnow(),
-          name=pets['name'],
-          petCategory=petCategory['name'],
-          petCategoryId = petCategory['petCategoryId']
-          petSpeed = petCategory['speed']
-        )
+    def save_pet_categories(self, categories):
+        self.cass.connect(self.keyspace)
 
-    self.cass.shutdown()
+        for cat in categories:
+            pet_categories.PetCategories.create(
+                petCategoryId=uuid_from_time(datetime.utcnow()),
+                name=cat['name'],
+                speed=cat['speed']
+            )
+            self.logger.debug("pet cat created: %s", cat['name'])
 
-  def load_pet_categories(self,categories):
-    self.connect(keyspace)
+    @staticmethod
+    def parse_pet_categories():
+        with open('../data/pet_categores.csv', newline='') as csv_file:
+            return csv.DictReader(csv_file)
 
-    for cat in categories:
-      pet_categories.PetCategories.create(
-        petCategoryId=uuid_from_time(datetime.utcnow(),
-        name=cat['name']
-        speed=cat['speed']
-      )
+    @staticmethod
+    def parse_pet(file):
+        with open(file, newline='') as csv_file:
+            return csv.DictReader(csv_file, fieldnames=['name', 'description'])
 
-    self.cass.shutdown()
 
 if __name__ == '__main__':
-  loader = DataImporter(['cassandra-0','cassandra-1'])
-  #loader.create_keyspace()
-  loader.create_tables()
+    loader = DataImporter(seeds=['cassandra-0', 'cassandra-1'], keyspace='gpmr')
+    loader.create_keyspace()
+    loader.create_tables()
 
-  with open('../data/pet_categores.csv', newline='') as csvfile:
-      data = csv.DictReader(csvfile)
-      # TODO here
+    pet_cats = loader.parse_pet_categories()
+    loader.save_pet_categories(pet_cats)
+
+    pet_files = glob.glob("../data/pets/")
+
+    for pet_file in pet_files:
+        pet_data = loader.parse_pet(pet_file)
+        filename, file_extension = os.path.splitext(pet_file)
+        filename = filename.split('/')[-1]
+        loader.save_pets(pet_data, filename)
+
+    loader.cass.shutdown()
