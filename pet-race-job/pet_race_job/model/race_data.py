@@ -1,6 +1,6 @@
 '''
 entity RaceData {
-	raceDataId UUID,
+  raceDataId UUID,
   petId UUID,
   petName String,
   petCategory String,
@@ -14,33 +14,32 @@ entity RaceData {
 '''
 
 import uuid
+
 from cassandra.cqlengine import columns
-from cassandra.cqlengine import connection
-from datetime import datetime
-from cassandra.cqlengine.management import sync_table
 from cassandra.cqlengine.models import Model
 
-#first, define a model
-class RaceData(Model):
-  raceDataId      = columns.UUID(primary_key=True, default=uuid.uuid4)
-  petId           = columns.UUID(primary_key=True, default=uuid.uuid4)
-  raceId          = columns.UUID(primary_key=True, default=uuid.uuid4)
-  petName         = columns.Text(index=True)
-  petType         = columns.Text(required=False)
-  petColor        = columns.UUID(primary_key=True, default=uuid.uuid4)
-  petCategory     = columns.Text(required=False)
-  petCategoryId   = columns.UUID(primary_key=True, default=uuid.uuid4)
-  interval        = columns.Integer(index=True)
-  runnerPosition  = columns.Integer()
-  runnerDistance  = columns.BigInt()
-  time            = columns.DateTime()
-  startTime       = columns.DateTime()
 
-	__keyspace__ = 'gpmr'
-	__options__ = {'compaction': {'class': 'SizeTieredCompactionStrategy',
+# first, define a model
+class RaceData(Model):
+    raceDataId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    petId = columns.UUID(index=True, default=uuid.uuid4)
+    raceId = columns.UUID(index=True, default=uuid.uuid4)
+    petName = columns.Text(index=True)
+    petType = columns.Text(required=False)
+    petColor = columns.UUID(index=True, default=uuid.uuid4)
+    petCategory = columns.Text(required=False)
+    petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
+    interval = columns.Integer()
+    runnerPosition = columns.Integer()
+    runnerDistance = columns.BigInt()
+    time = columns.DateTime()
+    startTime = columns.DateTime()
+
+    __keyspace__ = 'gpmr'
+    __options__ = {'compaction': {'class': 'SizeTieredCompactionStrategy',
                                   'bucket_low': '.3',
                                   'bucket_high': '2',
                                   'min_threshold': '2',
                                   'max_threshold': '64',
                                   'tombstone_compaction_interval': '86400'},
-                   			'gc_grace_seconds': '0'}
+                   'gc_grace_seconds': '0'}
