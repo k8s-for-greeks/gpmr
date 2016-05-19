@@ -29,9 +29,9 @@ class RaceData(Model):
     petColor = columns.UUID(index=True, default=uuid.uuid4)
     petCategory = columns.Text(required=False)
     petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
-    interval = columns.Integer()
+    interval = columns.Float()
     runnerPosition = columns.Integer()
-    runnerDistance = columns.BigInt()
+    runnerDistance = columns.Float()
     time = columns.DateTime()
     startTime = columns.DateTime()
 
