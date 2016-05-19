@@ -1,4 +1,4 @@
-FROM alpine:3.3
+FROM alpine:edge
 
 # http://bugs.python.org/issue19846
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
@@ -14,6 +14,7 @@ ENV PYTHON_PIP_VERSION 8.1.2
 
 ADD repositories /etc/apk/repositories
 
+# FIXME remove zsh and vim
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps curl gnupg \
 	&& curl -fSL "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
@@ -40,12 +41,14 @@ RUN set -ex \
 		readline-dev \
 		xz-dev \
 		zlib-dev \
+		zsh \
+		vim \
 	&& cd /usr/src/python \
 	&& ./configure --enable-shared --enable-unicode=ucs4 \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
 	&& pip3 install --no-cache-dir --upgrade --ignore-installed pip==$PYTHON_PIP_VERSION \
-  && pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
+    && pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
 	&& pip3 install nose sphinx \
 	&& pip install cassandra-driver pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local -depth \
@@ -73,4 +76,5 @@ RUN cd /usr/local/bin \
 	&& ln -s python3 python \
 	&& ln -s python3-config python-config
 
-CMD ["python3"]
+COPY run.sh /
+CMD ["/run.sh"]
