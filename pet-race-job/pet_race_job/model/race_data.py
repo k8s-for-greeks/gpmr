@@ -25,7 +25,6 @@ class RaceData(Model):
     petId = columns.UUID(index=True, default=uuid.uuid4)
     raceId = columns.UUID(index=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
-    petType = columns.Text(required=False)
     petColor = columns.UUID(index=True, default=uuid.uuid4)
     petCategory = columns.Text(required=False)
     petCategoryId = columns.UUID(index=True, default=uuid.uuid4)

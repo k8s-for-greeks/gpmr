@@ -23,10 +23,10 @@ class RaceParticipants(Model):
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
-    petType = columns.Text(required=False)
     petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petCategory = columns.Text(required=False)
+    petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    startTime = columns.DateTime()
     endTime = columns.DateTime()
 
     __keyspace__ = 'gpmr'

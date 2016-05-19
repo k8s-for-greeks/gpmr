@@ -1,5 +1,6 @@
-import numpy
 import logging
+
+import numpy
 
 
 class PetRace(object):
@@ -19,7 +20,6 @@ class PetRace(object):
     #              racers_positions_by_time : [{postion: 1, velocity: 42, total_traveled: 84 }]
     #             }}
     racers = {}
-    base_racer_speed = 5
 
     # includes race_guid, distance
     # {guid: 42, length: 4, location: guid}
@@ -31,10 +31,14 @@ class PetRace(object):
 
     logger = None
 
+    normal_scale = None
+    base_racer_speed = 5
+
     def __init__(self, **kwargs):
-        self.base_racer_speed = kwargs.get('base_racer_speed')
-        self.racers = kwargs.get('racers')
         self.race = kwargs.get('race')
+        self.base_racer_speed = self.race['baseSpeed']
+        self.normal_scale = kwargs.get('normal_scale')
+        self.racers = kwargs.get('racers')
         self.data_source = kwargs.get('data_source')
         self.logger = logging.getLogger('pet_race_job')
         super()
@@ -42,37 +46,39 @@ class PetRace(object):
     # I am thinking this is a possible idea?
     # http://docs.scipy.org/doc/numpy-1.10.1/reference/generated/numpy.random.normal.html
     # what do we set loc,scale,and size to?
-    @staticmethod
-    def numpy_normal(normal_size):
-        random_normal = numpy.random.normal(loc=0.0, scale=1.0, size=normal_size)
+    def numpy_normal(self, normal_size, loc=None, scale=None):
+
+        if loc is None:
+            loc = self.base_racer_speed
+        if scale is None:
+            scale = self.normal_scale
+
+        random_normal = numpy.random.normal(loc=loc, scale=scale, size=normal_size)
+        self.save_normal(random_normal, loc, scale, normal_size)
+        print(random_normal)
         return random_normal
 
     # TODO
-    def save_normal(self, normal):
-        self.data_source.save_normal(normal, self.race)
-        return
+    def save_normal(self, normals, loc, scale, size):
+        self.data_source.save_normal(normals, loc, scale, size, self.race)
 
     # TODO
     def save_racer_current(self, racer_guid, finished):
         racer = self.racers[racer_guid]
         self.data_source.save_racer_current(racer, self.race, finished)
-        return
 
     # TODO
     def save_racer_finish(self, racer_guid):
         racer = self.racers[racer_guid]
         self.data_source.save_racer_finish(racer, self.race)
-        return
 
     # TODO
     def save_racer_current_point(self, racer_guid):
         racer = self.racers[racer_guid]
         self.data_source.save_racer_current_point(racer, self.race)
-        return
 
     def save_race(self):
         self.data_source.save_race(self.race, self.racers)
-        return
 
     @staticmethod
     def either_race_distance_current(race_distance, current_distance):
@@ -91,20 +97,23 @@ class PetRace(object):
         logging.debug("Starting a race")
         # current_positions = []
         while True:
+
             racers_finished_this_iteration = []
+
+            # calculate normals and save them
             random_normal = self.numpy_normal(len(self.racers_still_running))
-            self.save_normal(random_normal)
+
             for racer in self.racers_still_running:
-                # may not have to do this if normal takes a base value
-                current_racer_speed = random_normal.pop() * self.base_racer_speed
+
                 race_distance = self.race['distance']
                 previous_distance = self.racers[racer]['current_distance']
-                current_racer_distance = previous_distance + current_racer_speed
+                current_racer_distance = previous_distance + random_normal.pop()
                 current_racer_distance_adj, finished = self.either_race_distance_current(race_distance,
                                                                                          current_racer_distance)
                 self.racers[racer]['current_distance'] = current_racer_distance_adj
                 self.racers[racer]['finished'] = finished
 
+                # TODO
                 # store race interval in racer
                 # no position here
                 self.save_racer_current(racer, finished)
