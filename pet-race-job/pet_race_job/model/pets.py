@@ -18,10 +18,10 @@ from cassandra.cqlengine.models import Model
 class Pets(Model):
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     name = columns.Text(required=True, index=True)
-    description = columns.Text()
-    petCategory = columns.Text(required=True)
+    description = columns.Text(required=False)
+    petCategoryName = columns.Text(required=True)
     petCategoryId = columns.UUID(required=True, index=True)
-    petSpeed = columns.BigInt(required=True)
+    petSpeed = columns.Float(required=True)
 
 
 __keyspace__ = 'gpmr'

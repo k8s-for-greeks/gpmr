@@ -2,14 +2,16 @@ import csv
 import glob
 import logging
 import os
-from datetime import datetime
+import sys
+import getopt
 
+from datetime import datetime
+from cassandra.cqlengine.connection import get_session
 from cassandra.cqlengine.connection import set_session
+from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
-
-from .cassandra_driver import CassandraDriver
-from .model import pet_categories, pets, race_data, race_participants, race
+from model import pet_categories, pets, race_data, race_participants, race
 
 
 class DataImporter(object):
@@ -22,25 +24,28 @@ class DataImporter(object):
     """ arguments: seed, keyspace """
 
     def __init__(self, **kwargs):
+
+        # if kwargs is None:
+        self.seeds = kwargs.get('seeds')
+        self.keyspace = kwargs.get('keyspace')
+        setup_cass(self.seeds, 'system')
+        self.session = get_session()
+        self.logger = logging.getLogger('pet_race_job')
         super()
 
-        if kwargs is None:
-            self.seeds = kwargs.get('seeds')
-            self.keyspace = kwargs.get('keyspace')
-            self.cass = CassandraDriver({"cassandra_seeds": self.seeds, "keyspace": self.keyspace})
-            self.session = self.cass.session()
-            set_session(self.session)
-
-        self.logger = logging.getLogger('pet_race_job')
+    def connect_cass(self):
+        setup_cass(self.seeds, self.keyspace)
+        self.session = get_session()
+        set_session(self.session)
 
     def create_keyspace(self):
-        self.cass.connect()
+        set_session(self.session)
         drop_keyspace(self.keyspace)
         create_keyspace_simple(name=self.keyspace, replication_factor=3)
         self.logger.debug("ks created")
 
     def create_tables(self):
-        self.cass.connect(self.keyspace)
+        self.connect_cass()
         sync_table(pet_categories.PetCategories)
         sync_table(pets.Pets)
         sync_table(race_data.RaceData)
@@ -49,30 +54,36 @@ class DataImporter(object):
         self.logger.debug("tables created")
 
     def save_pets(self, pets_create, category_name):
-        self.cass.connect(self.keyspace)
 
-        pet_cat = pet_categories.PetCategories.objects.filter(name=category_name)
-        pet_cat = pet_cat[0]
+        self.connect_cass()
 
-        for p in pets_create:
+        q = pet_categories.PetCategories.objects.filter(name=category_name)
+        if len(q) is not 1:
+            raise ValueError('category not found: ', category_name)
+        pet_cat = q.first()
+
+        for _p in pets_create:
             pets.Pets.create(
                 petId=uuid_from_time(datetime.utcnow()),
-                name=p['name'],
-                description=p['description'],
-                petCategory=pet_cat['name'],
+                name=_p['name'],
+                description=_p['description'],
+                petCategoryName=pet_cat['name'],
                 petCategoryId=pet_cat['petCategoryId'],
                 petSpeed=pet_cat['speed']
             )
-            self.logger.debug("pet created: %s", pet['name'])
+            self.logger.debug("pet created: %s", _p['name'])
 
     def save_pet_categories(self, categories):
-        self.cass.connect(self.keyspace)
+
+        self.connect_cass()
 
         for cat in categories:
+            speed = float(cat['speed'])
+
             pet_categories.PetCategories.create(
                 petCategoryId=uuid_from_time(datetime.utcnow()),
                 name=cat['name'],
-                speed=cat['speed']
+                speed=speed
             )
             self.logger.debug("pet cat created: %s", cat['name'])
 
@@ -107,16 +118,35 @@ class DataImporter(object):
 
 
 if __name__ == '__main__':
-    loader = DataImporter(seeds=['cassandra-0', 'cassandra-1'], keyspace='gpmr')
+
+    options, remainder = getopt.getopt(sys.argv[1:], 'd:h', ['directory=','help'])
+
+    # if options.d is None: # where foo is obviously your required option
+    #    parser.print_help()
+    #    sys.exit(1)
+
+    for opt, arg in options:
+        if opt in ('-d', '--directory'):
+            data_dir = arg
+        if opt in ('-h', '--help'):
+            print("usage: --directory=data_directory")
+            exit(0)
+
+    if data_dir is None:
+        exit("no parameter found")
+
+    os.environ["CQLENG_ALLOW_SCHEMA_MANAGEMENT"] = "1"
+    # TODO move this to config files
+    loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local',
+                                 'cassandra-1.cassandra.default.svc.cluster.local'], keyspace='gpmr')
     loader.create_keyspace()
     loader.create_tables()
 
-    pet_cats = loader.parse_pet_categories('../data/pet_categories.csv')
+    # todo move path to config files
+    pet_cats = loader.parse_pet_categories(data_dir + '/pet_categories.csv')
     loader.save_pet_categories(pet_cats)
 
-    pets = loader.parse_pet_files('../data/pets/*.csv')
+    pets_data = loader.parse_pet_files(data_dir + '/pets/*.csv')
 
-    for pet in pets:
-        loader.save_pets(pet['pet'], pet['cat'])
-
-    loader.cass.shutdown()
+    for p in pets_data:
+        loader.save_pets(p['pet'], p['cat'])

@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: py-dev
+spec:
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Recycle
+  nfs:
+    path: /Users/clove/Workspace
+    server: 192.168.64.1
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: pyclaim-dev
+spec:
+  accessModes:
+    - ReadWriteMany
+  resources:
+    requests:
+      storage: 4Gi
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: py3numpy-dev
+spec:
+  containers:
+  - command:
+    - /run.sh
+    image: 10.100.179.231:5000/py3numpy:v1.0
+    imagePullPolicy: IfNotPresent
+    name: py3numpy-dev
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "1"
+    volumeMounts:
+    - mountPath: /mnt
+      name: dev-persistent-storage
+  volumes:
+  - name: dev-persistent-storage
+    persistentVolumeClaim:
+      claimName: pyclaim-dev

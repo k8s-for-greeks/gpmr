@@ -22,7 +22,7 @@ class RaceResults(Model):
     raceResultsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petName = columns.Integer(index=True)
+    petName = columns.Text(index=True)
     petType = columns.Text(required=False)
     petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
     petCategory = columns.Text(required=False)

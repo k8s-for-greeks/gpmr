@@ -1,4 +1,4 @@
-import cassandra
+from cassandra.cluster import Cluster
 
 
 # how do a I do a callback to shutdown the session gracefully?
@@ -13,17 +13,19 @@ class CassandraDriver(object):
     def __init__(self, arg):
         super()
         self.seeds = arg['cassandra_seeds']
-        self.cluster = cassandra.Cluster(self.seeds)
+        self.cluster = Cluster(self.seeds)
         self.keyspace = arg['keyspace']
         self.session = self.cluster.connect(self.keyspace)
+        print("session: ", self.session)
 
     def shutdown(self):
         self.cluster.shutdown()
 
-    def connect(self, key_space=None):
+    def connect_cass(self, key_space=None):
         if key_space is None:
             key_space = 'system'
-        self.cluster.connect(key_space)
+        return self.cluster.connect(key_space)
+
 
     # TODO
     def save_normal(self, normal, race):
