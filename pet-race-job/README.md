@@ -11,3 +11,9 @@ Still need to architect
 - racer speed at data point
 
 
+## Data Import
+
+`python pet_race_job/data_importer.py -d data`
+
+
+

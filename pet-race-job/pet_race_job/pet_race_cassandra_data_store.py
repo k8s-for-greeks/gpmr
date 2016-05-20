@@ -6,7 +6,7 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.util import uuid_from_time
 
-from .model import race, race_participants, pet_categories, race_normal, pets
+from pet_race_job.model import *
 
 
 class PetRaceCassandraDataStore(object):
@@ -26,21 +26,21 @@ class PetRaceCassandraDataStore(object):
         self.logger = logging.getLogger('pet_race_job')
 
     def get_pets_by_name(self, pet_name):
-        q = pets.Pets.objects.find(name=pet_name)
+        q = Pets.objects.find(name=pet_name)
         if len(q) is not 1:
             raise ValueError('pets not found, name: ', pet_name)
         self.logger("loaded pet", q)
         return q
 
     def get_pets_by_category_name(self, pet_cat_name):
-        q = pets.Pets.objects.find(name=pet_cat_name)
+        q = Pets.objects.find(name=pet_cat_name)
         if len(q) is not 1:
             raise ValueError('pets not found cat: ', pet_cat_name)
         self.logger("loaded pet", q)
         return q
 
     def get_pet_category_by_name(self, category_name):
-        q = pet_categories.PetCategories.objects.filter(name=category_name)
+        q = PetCategories.objects.filter(name=category_name)
         if len(q) is not 1:
             raise ValueError('category not found: ', category_name)
         pet_cat = q.first()
@@ -59,7 +59,7 @@ class PetRaceCassandraDataStore(object):
         for _pet in race_pets:
             pet_ids.append(_pet["petId"])
 
-        saved_race = race.Race.create(
+        saved_race = Race.create(
             raceId=uuid,
             numOfPets=len(race_pets),
             length=length,
@@ -74,7 +74,7 @@ class PetRaceCassandraDataStore(object):
         participants = {}
         for _pet in race_pets:
             p_id = uuid_from_time(datetime.utcnow())
-            participant = race_participants.RaceParticipants.create(
+            participant = RaceParticipants.create(
                 raceParticipantsId=uuid_from_time(datetime.utcnow()),
                 petId=_pet["petId"],
                 raceId=uuid,
@@ -110,7 +110,7 @@ class PetRaceCassandraDataStore(object):
         dt = datetime.utcnow()
         uuid = uuid_from_time(datetime.utcnow())
 
-        race_normal.RaceNormal.create(
+        RaceNormal.create(
             raceNormalId=uuid,
             raceId=race_obj['raceId'],
             petCategoryName=race_obj['petCategoryName'],

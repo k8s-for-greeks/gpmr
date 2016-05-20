@@ -28,7 +28,7 @@ class Race(Model):
     winnerPetCategory = columns.Text(required=False)
     startTime = columns.DateTime(required=True)
     endTime = columns.DateTime(),
-    racersIds = columns.List(required=True)
+    racersIds = columns.List(required=True, value_type=columns.UUID())
     baseSpeed = columns.Float(required=True)
 
     __keyspace__ = 'gpmr'

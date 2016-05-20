@@ -25,9 +25,9 @@ class RaceNormal(Model):
     petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
     currentTime = columns.DateTime()
-    normals = columns.List()
+    normals = columns.List(value_type=columns.Float())
     normalLoc = columns.Float()
     normalScale = columns.Float()
-    normalSize = columns.Tuple()
+    normalSize = columns.Integer()
 
     __keyspace__ = 'gpmr'

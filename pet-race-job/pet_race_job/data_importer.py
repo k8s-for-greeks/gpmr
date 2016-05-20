@@ -11,7 +11,7 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
-from model import pet_categories, pets, race_data, race_participants, race
+from model import *
 
 
 class DataImporter(object):
@@ -30,7 +30,7 @@ class DataImporter(object):
         self.keyspace = kwargs.get('keyspace')
         setup_cass(self.seeds, 'system')
         self.session = get_session()
-        self.logger = logging.getLogger('pet_race_job')
+        self.logger = logging.getLogger('pet_race_job.logger')
         super()
 
     def connect_cass(self):
@@ -46,24 +46,24 @@ class DataImporter(object):
 
     def create_tables(self):
         self.connect_cass()
-        sync_table(pet_categories.PetCategories)
-        sync_table(pets.Pets)
-        sync_table(race_data.RaceData)
-        sync_table(race_participants.RaceParticipants)
-        sync_table(race.Race)
+        sync_table(PetCategories)
+        sync_table(Pets)
+        sync_table(RaceData)
+        sync_table(RaceParticipants)
+        sync_table(Race)
         self.logger.debug("tables created")
 
     def save_pets(self, pets_create, category_name):
 
         self.connect_cass()
 
-        q = pet_categories.PetCategories.objects.filter(name=category_name)
+        q = PetCategories.objects.filter(name=category_name)
         if len(q) is not 1:
             raise ValueError('category not found: ', category_name)
         pet_cat = q.first()
 
         for _p in pets_create:
-            pets.Pets.create(
+            Pets.create(
                 petId=uuid_from_time(datetime.utcnow()),
                 name=_p['name'],
                 description=_p['description'],
@@ -80,7 +80,7 @@ class DataImporter(object):
         for cat in categories:
             speed = float(cat['speed'])
 
-            pet_categories.PetCategories.create(
+            PetCategories.create(
                 petCategoryId=uuid_from_time(datetime.utcnow()),
                 name=cat['name'],
                 speed=speed
