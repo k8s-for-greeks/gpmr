@@ -17,5 +17,4 @@ class PetCategories(Model):
     name = columns.Text(required=True, index=True)
     speed = columns.Float(required=False)
 
-
-__keyspace__ = 'gpmr'
+    __keyspace__ = 'gpmr'

@@ -23,8 +23,7 @@ class Pets(Model):
     petCategoryId = columns.UUID(required=True, index=True)
     petSpeed = columns.Float(required=True)
 
-
-__keyspace__ = 'gpmr'
+    __keyspace__ = 'gpmr'
 
 # TODO
 # __options__ = {'compaction': {'class': 'LeveledCompactionStrategy',

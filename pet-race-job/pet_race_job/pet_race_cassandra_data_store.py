@@ -90,7 +90,7 @@ class PetRaceCassandraDataStore(object):
         self.logger("race created")
         print(saved_race)
         print(participants)
-       
+
         return saved_race, participants
 
     def save_normal(self, normals, loc, scale, size, race_obj):

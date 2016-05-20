@@ -26,7 +26,6 @@ class CassandraDriver(object):
             key_space = 'system'
         return self.cluster.connect(key_space)
 
-
     # TODO
     def save_normal(self, normal, race):
         return

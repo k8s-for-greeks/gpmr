@@ -1,17 +1,21 @@
+from __future__ import absolute_import
+
 import csv
 import glob
 import logging
 import os
-import sys
-import getopt
 
 from datetime import datetime
+
 from cassandra.cqlengine.connection import get_session
 from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
-from model import *
+
+os.environ["CQLENG_ALLOW_SCHEMA_MANAGEMENT"] = "1"
+
+from pet_race_job.model import *
 
 
 class DataImporter(object):
@@ -49,6 +53,8 @@ class DataImporter(object):
         sync_table(PetCategories)
         sync_table(Pets)
         sync_table(RaceData)
+        sync_table(RaceNormal)
+        sync_table(RaceResults)
         sync_table(RaceParticipants)
         sync_table(Race)
         self.logger.debug("tables created")
@@ -115,38 +121,3 @@ class DataImporter(object):
             for row in reader:
                 data.append(row)
         return data
-
-
-if __name__ == '__main__':
-
-    options, remainder = getopt.getopt(sys.argv[1:], 'd:h', ['directory=','help'])
-
-    # if options.d is None: # where foo is obviously your required option
-    #    parser.print_help()
-    #    sys.exit(1)
-
-    for opt, arg in options:
-        if opt in ('-d', '--directory'):
-            data_dir = arg
-        if opt in ('-h', '--help'):
-            print("usage: --directory=data_directory")
-            exit(0)
-
-    if data_dir is None:
-        exit("no parameter found")
-
-    os.environ["CQLENG_ALLOW_SCHEMA_MANAGEMENT"] = "1"
-    # TODO move this to config files
-    loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local',
-                                 'cassandra-1.cassandra.default.svc.cluster.local'], keyspace='gpmr')
-    loader.create_keyspace()
-    loader.create_tables()
-
-    # todo move path to config files
-    pet_cats = loader.parse_pet_categories(data_dir + '/pet_categories.csv')
-    loader.save_pet_categories(pet_cats)
-
-    pets_data = loader.parse_pet_files(data_dir + '/pets/*.csv')
-
-    for p in pets_data:
-        loader.save_pets(p['pet'], p['cat'])

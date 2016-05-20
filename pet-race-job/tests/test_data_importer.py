@@ -2,7 +2,7 @@
 
 import unittest
 
-from .context import data_importer as DataImporter
+from pet_race_job.data_importer import DataImporter
 
 
 class DataImporterTestSuite(unittest.TestCase):
@@ -22,6 +22,7 @@ class DataImporterTestSuite(unittest.TestCase):
     def test_data_importer_parse_pets_dir(self):
         di = DataImporter()
         pets = di.parse_pet_files('data/pets/*.csv')
+
 
 if __name__ == '__main__':
     unittest.main()

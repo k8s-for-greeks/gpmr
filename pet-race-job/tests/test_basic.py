@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
 
-from .context import pet_race
-
 import unittest
 
 
