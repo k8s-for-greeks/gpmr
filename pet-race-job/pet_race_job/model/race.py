@@ -25,7 +25,6 @@ class Race(Model):
     length = columns.Integer(required=True)
     description = columns.Text(required=False)
     winnerId = columns.UUID(index=True)
-    winnerPetCategory = columns.Text(required=False)
     startTime = columns.DateTime(required=True)
     endTime = columns.DateTime(),
     racersIds = columns.List(required=True, value_type=columns.UUID())

@@ -22,17 +22,18 @@ from cassandra.cqlengine.models import Model
 # first, define a model
 class RaceData(Model):
     raceDataId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petId = columns.UUID(index=True, default=uuid.uuid4)
+    petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(index=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
     petColor = columns.UUID(index=True, default=uuid.uuid4)
-    petCategory = columns.Text(required=False)
+    petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
-    interval = columns.Float()
+    interval = columns.Integer()
     runnerPosition = columns.Integer()
-    runnerDistance = columns.Float()
-    time = columns.DateTime()
+    runnerDistance = columns.Decimal()
     startTime = columns.DateTime()
+    finished = columns.Boolean()
+    runnerPreviousDistance = columns.Decimal()
 
     __keyspace__ = 'gpmr'
     __options__ = {'compaction': {'class': 'SizeTieredCompactionStrategy',

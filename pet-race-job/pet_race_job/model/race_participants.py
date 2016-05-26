@@ -21,12 +21,14 @@ from cassandra.cqlengine.models import Model
 class RaceParticipants(Model):
     raceParticipantsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    raceId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    raceId = columns.UUID(index=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
-    petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
+    petColor = columns.UUID(index=True, default=uuid.uuid4)
     petCategoryName = columns.Text(required=False)
-    petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
     startTime = columns.DateTime()
-    endTime = columns.DateTime()
+    finishTime = columns.Decimal()
+    finishPosition = columns.Integer()
+    finished = columns.Boolean(index=True)
 
     __keyspace__ = 'gpmr'

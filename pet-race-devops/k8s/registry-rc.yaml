@@ -25,11 +25,11 @@ spec:
         resources:
           # keep request = limit to keep this container in guaranteed class
           limits:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 200m
+            memory: 400Mi
           requests:
-            cpu: 100m
-            memory: 200Mi
+            cpu: 200m
+            memory: 400Mi
         env:
         - name: REGISTRY_HTTP_ADDR
           value: :5000

@@ -1,10 +1,7 @@
-from __future__ import absolute_import
-
 import csv
 import glob
 import logging
 import os
-
 from datetime import datetime
 
 from cassandra.cqlengine.connection import get_session
@@ -32,8 +29,6 @@ class DataImporter(object):
         # if kwargs is None:
         self.seeds = kwargs.get('seeds')
         self.keyspace = kwargs.get('keyspace')
-        setup_cass(self.seeds, 'system')
-        self.session = get_session()
         self.logger = logging.getLogger('pet_race_job.logger')
         super()
 
@@ -43,6 +38,8 @@ class DataImporter(object):
         set_session(self.session)
 
     def create_keyspace(self):
+        setup_cass(self.seeds, 'system')
+        self.session = get_session()
         set_session(self.session)
         drop_keyspace(self.keyspace)
         create_keyspace_simple(name=self.keyspace, replication_factor=3)

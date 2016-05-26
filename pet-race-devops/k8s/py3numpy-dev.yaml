@@ -7,9 +7,9 @@ spec:
     storage: 5Gi
   accessModes:
     - ReadWriteMany
-  persistentVolumeReclaimPolicy: Recycle
+  persistentVolumeReclaimPolicy: Retain
   nfs:
-    path: /Users/clove/Workspace
+    path: /Users/clove/Workspace/src/github.com/k8s-for-greeks/gpmr
     server: 192.168.64.1
 ---
 apiVersion: v1

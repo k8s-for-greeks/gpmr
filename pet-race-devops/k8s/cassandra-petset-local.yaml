@@ -4,7 +4,7 @@ metadata:
   name: cassandra
 spec:
   serviceName: cassandra
-  replicas: 1
+  replicas: 2
   template:
     metadata:
       annotations:
@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: 10.100.179.231:5000/cassandra:v11
+        image: 10.100.179.231:5000/cassandra
+        #image: gcr.io/google-samples/cassandra:v10
         imagePullPolicy: Always
         command:
           - /run.sh

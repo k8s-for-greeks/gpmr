@@ -19,7 +19,7 @@ class Pets(Model):
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     name = columns.Text(required=True, index=True)
     description = columns.Text(required=False)
-    petCategoryName = columns.Text(required=True)
+    petCategoryName = columns.Text(required=True, index=True)
     petCategoryId = columns.UUID(required=True, index=True)
     petSpeed = columns.Float(required=True)
 

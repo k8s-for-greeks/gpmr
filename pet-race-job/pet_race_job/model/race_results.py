@@ -7,7 +7,8 @@ entity RaceResults {
   petCategoryId UUID,
   place Sting,
   startTime Date,
-  endTime   Date
+  finishTime Decimal,
+  position Integer
 }
 '''
 
@@ -21,12 +22,14 @@ from cassandra.cqlengine.models import Model
 class RaceResults(Model):
     raceResultsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    raceParticipantsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
     petType = columns.Text(required=False)
     petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petCategory = columns.Text(required=False)
+    petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    endTime = columns.DateTime()
+    finishPosition = columns.Integer()
+    finishTime = columns.Decimal()
+    startTime = columns.DateTime()
 
     __keyspace__ = 'gpmr'

@@ -26,21 +26,17 @@ class CassandraDriver(object):
             key_space = 'system'
         return self.cluster.connect(key_space)
 
-    # TODO
-    def save_normal(self, normal, race):
-        return
+        # def save_normal(self, normal, race):
+        #    return
 
-    # TODO
-    def save_racer_current(self, racer, finished):
-        return
+        # def save_racer_current(self, racer, finished):
+        #    return
 
-    # TODO
-    def save_racer_finish(self, racer):
-        return
+        # def save_racer_finish(self, racer):
+        #    return
 
-    # TODO
-    def save_racer_current_point(self, racer):
-        return
+        # def save_racer_current_point(self, racer):
+        #    return
 
-    def save_race(self, race, racers):
-        return
+        # def save_race(self, race, racers):
+        #    return
