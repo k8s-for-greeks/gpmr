@@ -1,8 +1,9 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.PetCategory;
-
-import com.datastax.driver.core.*;
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,7 @@ public class PetCategoryRepository {
 
     public List<PetCategory> findAll() {
         List<PetCategory> petCategories = new ArrayList<>();
-        BoundStatement stmt =  findAllStmt.bind();
+        BoundStatement stmt = findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
                 PetCategory petCategory = new PetCategory();
@@ -66,7 +67,7 @@ public class PetCategoryRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt =  truncateStmt.bind();
+        BoundStatement stmt = truncateStmt.bind();
         session.execute(stmt);
     }
 }

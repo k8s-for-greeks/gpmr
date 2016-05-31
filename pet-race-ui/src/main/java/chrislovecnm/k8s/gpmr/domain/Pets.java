@@ -1,6 +1,7 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.*;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -95,7 +96,7 @@ public class Pets implements Serializable {
             return false;
         }
         Pets pets = (Pets) o;
-        if(pets.id == null || id == null) {
+        if (pets.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, pets.id);

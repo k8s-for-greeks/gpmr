@@ -1,12 +1,11 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
 import chrislovecnm.k8s.gpmr.repository.RaceParticipantRepository;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -27,10 +26,10 @@ import java.util.UUID;
 public class RaceParticipantResource {
 
     private final Logger log = LoggerFactory.getLogger(RaceParticipantResource.class);
-        
+
     @Inject
     private RaceParticipantRepository raceParticipantRepository;
-    
+
     /**
      * POST  /race-participants : Create a new raceParticipant.
      *

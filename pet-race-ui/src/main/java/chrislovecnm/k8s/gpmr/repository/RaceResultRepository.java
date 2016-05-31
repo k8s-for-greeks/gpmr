@@ -1,8 +1,9 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.RaceResult;
-
-import com.datastax.driver.core.*;
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -37,7 +38,7 @@ public class RaceResultRepository {
 
     public List<RaceResult> findAll() {
         List<RaceResult> raceResults = new ArrayList<>();
-        BoundStatement stmt =  findAllStmt.bind();
+        BoundStatement stmt = findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
                 RaceResult raceResult = new RaceResult();
@@ -71,7 +72,7 @@ public class RaceResultRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt =  truncateStmt.bind();
+        BoundStatement stmt = truncateStmt.bind();
         session.execute(stmt);
     }
 }

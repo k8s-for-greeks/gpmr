@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.aop.logging;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
-
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.AfterThrowing;
@@ -56,7 +55,7 @@ public class LoggingAspect {
             return result;
         } catch (IllegalArgumentException e) {
             log.error("Illegal argument: {} in {}.{}()", Arrays.toString(joinPoint.getArgs()),
-                    joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
+                joinPoint.getSignature().getDeclaringTypeName(), joinPoint.getSignature().getName());
 
             throw e;
         }

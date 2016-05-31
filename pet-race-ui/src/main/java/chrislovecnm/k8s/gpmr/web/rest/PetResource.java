@@ -1,12 +1,11 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
-import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.Pet;
 import chrislovecnm.k8s.gpmr.service.PetService;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +16,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 /**
  * REST controller for managing Pet.
@@ -27,10 +25,10 @@ import java.util.UUID;
 public class PetResource {
 
     private final Logger log = LoggerFactory.getLogger(PetResource.class);
-        
+
     @Inject
     private PetService petService;
-    
+
     /**
      * POST  /pets : Create a new pet.
      *

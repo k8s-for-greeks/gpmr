@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.config;
 
 import chrislovecnm.k8s.gpmr.config.locale.AngularCookieLocaleResolver;
-
 import org.springframework.boot.bind.RelaxedPropertyResolver;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.annotation.Bean;

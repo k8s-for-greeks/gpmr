@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.builder.SpringApplicationBuilder;

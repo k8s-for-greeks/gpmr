@@ -1,21 +1,14 @@
 package chrislovecnm.k8s.gpmr.repository;
 
+import chrislovecnm.k8s.gpmr.domain.User;
 import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
-import chrislovecnm.k8s.gpmr.domain.User;
-
-import java.time.ZonedDateTime;
-
-import java.util.List;
-import java.util.Optional;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -64,34 +57,34 @@ public class UserRepository {
 
         findOneByActivationKeyStmt = session.prepare(
             "SELECT id " +
-            "FROM user_by_activation_key " +
-            "WHERE activation_key = :activation_key");
+                "FROM user_by_activation_key " +
+                "WHERE activation_key = :activation_key");
 
         findOneByResetKeyStmt = session.prepare(
             "SELECT id " +
-            "FROM user_by_reset_key " +
-            "WHERE reset_key = :reset_key");
+                "FROM user_by_reset_key " +
+                "WHERE reset_key = :reset_key");
 
         insertByActivationKeyStmt = session.prepare(
             "INSERT INTO user_by_activation_key (activation_key, id) " +
-            "VALUES (:activation_key, :id)");
+                "VALUES (:activation_key, :id)");
 
         insertByResetKeyStmt = session.prepare(
             "INSERT INTO user_by_reset_key (reset_key, id) " +
-            "VALUES (:reset_key, :id)");
+                "VALUES (:reset_key, :id)");
 
         deleteByActivationKeyStmt = session.prepare(
             "DELETE FROM user_by_activation_key " +
-            "WHERE activation_key = :activation_key");
+                "WHERE activation_key = :activation_key");
 
         deleteByResetKeyStmt = session.prepare(
             "DELETE FROM user_by_reset_key " +
-            "WHERE reset_key = :reset_key");
+                "WHERE reset_key = :reset_key");
 
         findOneByLoginStmt = session.prepare(
             "SELECT id " +
-            "FROM user_by_login " +
-            "WHERE login = :login");
+                "FROM user_by_login " +
+                "WHERE login = :login");
 
         insertByLoginStmt = session.prepare(
             "INSERT INTO user_by_login (login, id) " +
@@ -103,8 +96,8 @@ public class UserRepository {
 
         findOneByEmailStmt = session.prepare(
             "SELECT id " +
-            "FROM user_by_email " +
-            "WHERE email     = :email");
+                "FROM user_by_email " +
+                "WHERE email     = :email");
 
         insertByEmailStmt = session.prepare(
             "INSERT INTO user_by_email (email, id) " +
@@ -175,9 +168,9 @@ public class UserRepository {
                 .setString("id", user.getId()));
         }
         if (!StringUtils.isEmpty(user.getResetKey())) {
-          batch.add(insertByResetKeyStmt.bind()
-              .setString("reset_key", user.getResetKey())
-              .setString("id", user.getId()));
+            batch.add(insertByResetKeyStmt.bind()
+                .setString("reset_key", user.getResetKey())
+                .setString("id", user.getId()));
         }
         batch.add(insertByLoginStmt.bind()
             .setString("login", user.getLogin())

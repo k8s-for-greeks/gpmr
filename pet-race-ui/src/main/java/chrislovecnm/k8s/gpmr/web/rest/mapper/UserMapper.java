@@ -2,11 +2,10 @@ package chrislovecnm.k8s.gpmr.web.rest.mapper;
 
 import chrislovecnm.k8s.gpmr.domain.User;
 import chrislovecnm.k8s.gpmr.web.rest.dto.UserDTO;
-import org.mapstruct.*;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * Mapper for the entity User and its DTO UserDTO.
@@ -17,7 +16,7 @@ public interface UserMapper {
     UserDTO userToUserDTO(User user);
 
     List<UserDTO> usersToUserDTOs(List<User> users);
-    
+
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "activationKey", ignore = true)
     @Mapping(target = "resetKey", ignore = true)

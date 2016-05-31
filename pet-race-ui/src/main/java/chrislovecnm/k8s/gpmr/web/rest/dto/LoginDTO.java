@@ -1,6 +1,7 @@
 package chrislovecnm.k8s.gpmr.web.rest.dto;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;

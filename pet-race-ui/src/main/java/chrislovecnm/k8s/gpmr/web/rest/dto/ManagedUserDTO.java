@@ -1,11 +1,11 @@
 package chrislovecnm.k8s.gpmr.web.rest.dto;
 
 
-import java.util.Set;
-
 import chrislovecnm.k8s.gpmr.domain.User;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 /**
  * A DTO extending the UserDTO, which is meant to be used in the user management UI.
@@ -31,7 +31,7 @@ public class ManagedUserDTO extends UserDTO {
     }
 
     public ManagedUserDTO(String id, String login, String password, String firstName, String lastName,
-                          String email, boolean activated, String langKey, Set<String> authorities ) {
+                          String email, boolean activated, String langKey, Set<String> authorities) {
         super(login, firstName, lastName, email, activated, langKey, authorities);
         this.id = id;
         this.password = password;

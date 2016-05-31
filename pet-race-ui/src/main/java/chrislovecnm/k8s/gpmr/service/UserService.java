@@ -8,13 +8,11 @@ import chrislovecnm.k8s.gpmr.service.util.RandomUtil;
 import chrislovecnm.k8s.gpmr.web.rest.dto.ManagedUserDTO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
-import java.time.ZonedDateTime;
 import javax.inject.Inject;
+import java.time.ZonedDateTime;
 import java.util.*;
 
 /**
@@ -47,20 +45,20 @@ public class UserService {
     }
 
     public Optional<User> completePasswordReset(String newPassword, String key) {
-       log.debug("Reset user password for reset key {}", key);
+        log.debug("Reset user password for reset key {}", key);
 
-       return userRepository.findOneByResetKey(key)
+        return userRepository.findOneByResetKey(key)
             .filter(user -> {
                 ZonedDateTime oneDayAgo = ZonedDateTime.now().minusHours(24);
                 return user.getResetDate().after(Date.from(oneDayAgo.toInstant()));
-           })
-           .map(user -> {
+            })
+            .map(user -> {
                 user.setPassword(passwordEncoder.encode(newPassword));
                 user.setResetKey(null);
                 user.setResetDate(null);
                 userRepository.save(user);
                 return user;
-           });
+            });
     }
 
     public Optional<User> requestPasswordReset(String mail) {
@@ -75,7 +73,7 @@ public class UserService {
     }
 
     public User createUserInformation(String login, String password, String firstName, String lastName, String email,
-        String langKey) {
+                                      String langKey) {
 
         User newUser = new User();
         newUser.setId(UUID.randomUUID().toString());
