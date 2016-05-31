@@ -9,8 +9,9 @@ entity Race {
     winnerId UUID,
     startTime DateTime,
     endTime DateTime,
-    racersIds List<UUID>,
+    racersIds List,
     baseSpeed Float
+}
 '''
 
 import uuid

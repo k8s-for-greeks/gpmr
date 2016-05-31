@@ -19,17 +19,27 @@ public class RaceResults implements Serializable {
     @PartitionKey
     private UUID id;
 
-    private UUID petId;
+    private UUID raceResultsId;
 
-    private String petName;
-
-    private String petCategory;
+    private UUID raceId;
 
     private UUID petCategoryId;
 
-    private Integer place;
+    private UUID raceParticipantsId;
 
-    private Date time;
+    private String petName;
+
+    private String petType;
+
+    private UUID petColor;
+
+    private String petCategoryName;
+
+    private Integer finishPosition;
+
+    private Double finishTime;
+
+    private Date startTime;
 
     public UUID getId() {
         return id;
@@ -39,28 +49,20 @@ public class RaceResults implements Serializable {
         this.id = id;
     }
 
-    public UUID getPetId() {
-        return petId;
+    public UUID getRaceResultsId() {
+        return raceResultsId;
     }
 
-    public void setPetId(UUID petId) {
-        this.petId = petId;
+    public void setRaceResultsId(UUID raceResultsId) {
+        this.raceResultsId = raceResultsId;
     }
 
-    public String getPetName() {
-        return petName;
+    public UUID getRaceId() {
+        return raceId;
     }
 
-    public void setPetName(String petName) {
-        this.petName = petName;
-    }
-
-    public String getPetCategory() {
-        return petCategory;
-    }
-
-    public void setPetCategory(String petCategory) {
-        this.petCategory = petCategory;
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
     }
 
     public UUID getPetCategoryId() {
@@ -71,20 +73,68 @@ public class RaceResults implements Serializable {
         this.petCategoryId = petCategoryId;
     }
 
-    public Integer getPlace() {
-        return place;
+    public UUID getRaceParticipantsId() {
+        return raceParticipantsId;
     }
 
-    public void setPlace(Integer place) {
-        this.place = place;
+    public void setRaceParticipantsId(UUID raceParticipantsId) {
+        this.raceParticipantsId = raceParticipantsId;
     }
 
-    public Date getTime() {
-        return time;
+    public String getPetName() {
+        return petName;
     }
 
-    public void setTime(Date time) {
-        this.time = time;
+    public void setPetName(String petName) {
+        this.petName = petName;
+    }
+
+    public String getPetType() {
+        return petType;
+    }
+
+    public void setPetType(String petType) {
+        this.petType = petType;
+    }
+
+    public UUID getPetColor() {
+        return petColor;
+    }
+
+    public void setPetColor(UUID petColor) {
+        this.petColor = petColor;
+    }
+
+    public String getPetCategoryName() {
+        return petCategoryName;
+    }
+
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
+    }
+
+    public Integer getFinishPosition() {
+        return finishPosition;
+    }
+
+    public void setFinishPosition(Integer finishPosition) {
+        this.finishPosition = finishPosition;
+    }
+
+    public Double getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Double finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
     @Override
@@ -111,12 +161,17 @@ public class RaceResults implements Serializable {
     public String toString() {
         return "RaceResults{" +
             "id=" + id +
-            ", petId='" + petId + "'" +
-            ", petName='" + petName + "'" +
-            ", petCategory='" + petCategory + "'" +
+            ", raceResultsId='" + raceResultsId + "'" +
+            ", raceId='" + raceId + "'" +
             ", petCategoryId='" + petCategoryId + "'" +
-            ", place='" + place + "'" +
-            ", time='" + time + "'" +
+            ", raceParticipantsId='" + raceParticipantsId + "'" +
+            ", petName='" + petName + "'" +
+            ", petType='" + petType + "'" +
+            ", petColor='" + petColor + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
+            ", finishPosition='" + finishPosition + "'" +
+            ", finishTime='" + finishTime + "'" +
+            ", startTime='" + startTime + "'" +
             '}';
     }
 }

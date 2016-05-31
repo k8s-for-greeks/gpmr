@@ -40,13 +40,15 @@ public class PetsRepository {
         BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
-                Pets pets = new Pets();
-                pets.setId(row.getUUID("id"));
-                pets.setName(row.getString("name"));
-                pets.setPetCategory(row.getString("petCategory"));
-                pets.setPetCategoryId(row.getUUID("petCategoryId"));
-                pets.setPetSpeed(row.getDecimal("petSpeed"));
-                return pets;
+                Pets pet = new Pets();
+                pet.setId(row.getUUID("id"));
+                pet.setPetId(row.getUUID("petId"));
+                pet.setName(row.getString("name"));
+                pet.setDescription(row.getString("description"));
+                pet.setPetCategoryName(row.getString("petCategoryName"));
+                pet.setPetCategoryId(row.getUUID("petCategoryId"));
+                pet.setPetSpeed(row.getFloat("petSpeed"));
+                return pet;
             }
         ).forEach(pets::add);
         return pets;
