@@ -1,8 +1,10 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.*;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,19 +20,27 @@ public class RaceParticipants implements Serializable {
     @PartitionKey
     private UUID id;
 
+    private UUID raceParticipantsId;
+
     private UUID petId;
+
+    private UUID raceId;
 
     private String petName;
 
-    private String petType;
+    private UUID petColor;
 
-    private String petColor;
+    private String petCategoryName;
 
-    private String petCategory;
+    private UUID petCategoryId;
 
-    private String petCategoryId;
+    private Date startTime;
 
-    private UUID raceId;
+    private Double finishTime;
+
+    private Integer finishPosition;
+
+    private Boolean finished;
 
     public UUID getId() {
         return id;
@@ -38,6 +48,14 @@ public class RaceParticipants implements Serializable {
 
     public void setId(UUID id) {
         this.id = id;
+    }
+
+    public UUID getRaceParticipantsId() {
+        return raceParticipantsId;
+    }
+
+    public void setRaceParticipantsId(UUID raceParticipantsId) {
+        this.raceParticipantsId = raceParticipantsId;
     }
 
     public UUID getPetId() {
@@ -48,6 +66,14 @@ public class RaceParticipants implements Serializable {
         this.petId = petId;
     }
 
+    public UUID getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
+    }
+
     public String getPetName() {
         return petName;
     }
@@ -56,44 +82,60 @@ public class RaceParticipants implements Serializable {
         this.petName = petName;
     }
 
-    public String getPetType() {
-        return petType;
-    }
-
-    public void setPetType(String petType) {
-        this.petType = petType;
-    }
-
-    public String getPetColor() {
+    public UUID getPetColor() {
         return petColor;
     }
 
-    public void setPetColor(String petColor) {
+    public void setPetColor(UUID petColor) {
         this.petColor = petColor;
     }
 
-    public String getPetCategory() {
-        return petCategory;
+    public String getPetCategoryName() {
+        return petCategoryName;
     }
 
-    public void setPetCategory(String petCategory) {
-        this.petCategory = petCategory;
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
-    public String getPetCategoryId() {
+    public UUID getPetCategoryId() {
         return petCategoryId;
     }
 
-    public void setPetCategoryId(String petCategoryId) {
+    public void setPetCategoryId(UUID petCategoryId) {
         this.petCategoryId = petCategoryId;
     }
 
-    public UUID getRaceId() {
-        return raceId;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setRaceId(UUID raceId) {
-        this.raceId = raceId;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Double getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(Double finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Integer getFinishPosition() {
+        return finishPosition;
+    }
+
+    public void setFinishPosition(Integer finishPosition) {
+        this.finishPosition = finishPosition;
+    }
+
+    public Boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     @Override
@@ -105,7 +147,7 @@ public class RaceParticipants implements Serializable {
             return false;
         }
         RaceParticipants raceParticipants = (RaceParticipants) o;
-        if(raceParticipants.id == null || id == null) {
+        if (raceParticipants.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, raceParticipants.id);
@@ -120,13 +162,17 @@ public class RaceParticipants implements Serializable {
     public String toString() {
         return "RaceParticipants{" +
             "id=" + id +
+            ", raceParticipantsId='" + raceParticipantsId + "'" +
             ", petId='" + petId + "'" +
-            ", petName='" + petName + "'" +
-            ", petType='" + petType + "'" +
-            ", petColor='" + petColor + "'" +
-            ", petCategory='" + petCategory + "'" +
-            ", petCategoryId='" + petCategoryId + "'" +
             ", raceId='" + raceId + "'" +
+            ", petName='" + petName + "'" +
+            ", petColor='" + petColor + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
+            ", petCategoryId='" + petCategoryId + "'" +
+            ", startTime='" + startTime + "'" +
+            ", finishTime='" + finishTime + "'" +
+            ", finishPosition='" + finishPosition + "'" +
+            ", finished='" + finished + "'" +
             '}';
     }
 }

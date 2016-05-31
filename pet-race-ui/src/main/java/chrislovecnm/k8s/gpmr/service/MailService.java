@@ -2,7 +2,6 @@ package chrislovecnm.k8s.gpmr.service;
 
 import chrislovecnm.k8s.gpmr.config.JHipsterProperties;
 import chrislovecnm.k8s.gpmr.domain.User;
-
 import org.apache.commons.lang.CharEncoding;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +12,6 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring4.SpringTemplateEngine;
-
-
 
 import javax.inject.Inject;
 import javax.mail.internet.MimeMessage;
@@ -29,11 +26,9 @@ import java.util.Locale;
 @Service
 public class MailService {
 
-    private final Logger log = LoggerFactory.getLogger(MailService.class);
-    
     private static final String USER = "user";
     private static final String BASE_URL = "baseUrl";
-
+    private final Logger log = LoggerFactory.getLogger(MailService.class);
     @Inject
     private JHipsterProperties jHipsterProperties;
 
@@ -101,5 +96,5 @@ public class MailService {
         String subject = messageSource.getMessage("email.reset.title", null, locale);
         sendEmail(user.getEmail(), subject, content, false, true);
     }
-    
+
 }

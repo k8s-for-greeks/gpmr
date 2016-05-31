@@ -1,6 +1,7 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.*;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -116,7 +117,7 @@ public class Race implements Serializable {
             return false;
         }
         Race race = (Race) o;
-        if(race.id == null || id == null) {
+        if (race.id == null || id == null) {
             return false;
         }
         return Objects.equals(id, race.id);

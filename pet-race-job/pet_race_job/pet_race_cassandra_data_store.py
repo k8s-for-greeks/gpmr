@@ -26,27 +26,27 @@ class PetRaceCassandraDataStore(object):
         super()
 
     def get_pets_by_name(self, pet_name):
-        q = Pets.objects.filter(name=pet_name)
+        q = Pet.objects.filter(name=pet_name)
 
         try:
             pet_objs = q.get()
-        except Pets.DoesNotExist:
+        except Pet.DoesNotExist:
             raise ValueError('pet not found: ', pet_name)
 
         self.logger.debug("loaded pet", pet_objs)
         return pet_objs
 
     def get_pets_by_category_name(self, pet_cat_name):
-        q = Pets.objects(petCategoryName=pet_cat_name)
+        q = Pet.objects(petCategoryName=pet_cat_name)
         self.logger.debug("loaded pets")
         return q
 
     def get_pet_category_by_name(self, category_name):
-        q = PetCategories.objects.filter(name=category_name)
+        q = PetCategory.objects.filter(name=category_name)
 
         try:
             pet_cat = q.get()
-        except PetCategories.DoesNotExist:
+        except PetCategory.DoesNotExist:
             raise ValueError('category not found: ', category_name)
 
         self.logger.debug("loaded cat")
@@ -94,7 +94,7 @@ class PetRaceCassandraDataStore(object):
             p_id = uuid_from_time(datetime.utcnow())
 
             participant = {
-                'raceParticipantsId': str(p_id),
+                'raceParticipantId': str(p_id),
                 'petId': str(pet["petId"]),
                 'raceId': str(uuid),
                 'petName': pet["name"],
@@ -111,8 +111,8 @@ class PetRaceCassandraDataStore(object):
 
             participants[str(p_id)] = participant
 
-            RaceParticipants.create(
-                raceParticipantsId=p_id,
+            RaceParticipant.create(
+                raceParticipantId=p_id,
                 petId=_pet["petId"],
                 raceId=uuid,
                 petName=_pet["name"],
@@ -165,8 +165,8 @@ class PetRaceCassandraDataStore(object):
 
     @staticmethod
     def save_racer_finish(racer):
-        RaceParticipants.objects(
-            raceParticipantsId=racer['raceParticipantsId'],
+        RaceParticipant.objects(
+            raceParticipantId=racer['raceParticipantId'],
             petId=racer['petId']
         ).update(
             finished=True,
@@ -199,10 +199,10 @@ class PetRaceCassandraDataStore(object):
     def update_race(current_race, current_racers):
         for key, value in current_racers.items():
             uuid = uuid_from_time(datetime.utcnow())
-            RaceResults.create(
-                raceResultsId=uuid,
+            RaceResult.create(
+                raceResultId=uuid,
                 raceId=current_race['raceId'],
-                raceParticipantsId=key,
+                raceParticipantId=key,
                 petName=value['petName'],
                 petCategoryName=current_race['petCategoryName'],
                 finishPosition=value['finish_position'],

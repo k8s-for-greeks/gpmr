@@ -1,0 +1,29 @@
+
+<div>
+    <h2><span>Pet</span> {{vm.pet.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Name</span></dt>
+        <dd>
+            <span>{{vm.pet.name}}</span>
+        </dd>
+        <dt><span>Pet Category</span></dt>
+        <dd>
+            <span>{{vm.pet.petCategory}}</span>
+        </dd>
+        <dt><span>Pet Category Id</span></dt>
+        <dd>
+            <span>{{vm.pet.petCategoryId}}</span>
+        </dd>
+        <dt><span>Pet Speed</span></dt>
+        <dd>
+            <span>{{vm.pet.petSpeed}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

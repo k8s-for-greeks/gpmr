@@ -1,8 +1,9 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.Pets;
-
-import com.datastax.driver.core.*;
+import com.datastax.driver.core.BoundStatement;
+import com.datastax.driver.core.PreparedStatement;
+import com.datastax.driver.core.Session;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -37,16 +38,18 @@ public class PetsRepository {
 
     public List<Pets> findAll() {
         List<Pets> pets = new ArrayList<>();
-        BoundStatement stmt =  findAllStmt.bind();
+        BoundStatement stmt = findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
-                Pets pets = new Pets();
-                pets.setId(row.getUUID("id"));
-                pets.setName(row.getString("name"));
-                pets.setPetCategory(row.getString("petCategory"));
-                pets.setPetCategoryId(row.getUUID("petCategoryId"));
-                pets.setPetSpeed(row.getDecimal("petSpeed"));
-                return pets;
+                Pets pet = new Pets();
+                pet.setId(row.getUUID("id"));
+                pet.setPetId(row.getUUID("petId"));
+                pet.setName(row.getString("name"));
+                pet.setDescription(row.getString("description"));
+                pet.setPetCategoryName(row.getString("petCategoryName"));
+                pet.setPetCategoryId(row.getUUID("petCategoryId"));
+                pet.setPetSpeed(row.getFloat("petSpeed"));
+                return pet;
             }
         ).forEach(pets::add);
         return pets;
@@ -69,7 +72,7 @@ public class PetsRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt =  truncateStmt.bind();
+        BoundStatement stmt = truncateStmt.bind();
         session.execute(stmt);
     }
 }

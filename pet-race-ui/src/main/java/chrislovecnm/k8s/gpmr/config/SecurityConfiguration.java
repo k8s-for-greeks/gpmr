@@ -1,12 +1,12 @@
 package chrislovecnm.k8s.gpmr.config;
 
-import chrislovecnm.k8s.gpmr.security.*;
-import chrislovecnm.k8s.gpmr.security.jwt.*;
-
+import chrislovecnm.k8s.gpmr.security.AuthoritiesConstants;
+import chrislovecnm.k8s.gpmr.security.Http401UnauthorizedEntryPoint;
+import chrislovecnm.k8s.gpmr.security.jwt.JWTConfigurer;
+import chrislovecnm.k8s.gpmr.security.jwt.TokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -15,10 +15,9 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.data.repository.query.SecurityEvaluationContextExtension;
-
 
 import javax.inject.Inject;
 
@@ -45,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth
             .userDetailsService(userDetailsService)
-                .passwordEncoder(passwordEncoder());
+            .passwordEncoder(passwordEncoder());
     }
 
     @Override
@@ -65,16 +64,16 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         http
             .exceptionHandling()
             .authenticationEntryPoint(authenticationEntryPoint)
-        .and()
+            .and()
             .csrf()
             .disable()
             .headers()
             .frameOptions()
             .disable()
-        .and()
+            .and()
             .sessionManagement()
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
+            .and()
             .authorizeRequests()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
@@ -89,9 +88,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/v2/api-docs/**").permitAll()
             .antMatchers("/configuration/ui").permitAll()
             .antMatchers("/swagger-ui/index.html").hasAuthority(AuthoritiesConstants.ADMIN)
-            .antMatchers("/protected/**").authenticated() 
+            .antMatchers("/protected/**").authenticated()
 
-        .and()
+            .and()
             .apply(securityConfigurerAdapter());
 
     }

@@ -1,9 +1,9 @@
 package chrislovecnm.k8s.gpmr.domain;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
-
-import java.util.Date;
-import com.datastax.driver.mapping.annotations.*;
+import com.datastax.driver.mapping.annotations.Column;
+import com.datastax.driver.mapping.annotations.PartitionKey;
+import com.datastax.driver.mapping.annotations.Table;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.validator.constraints.Email;
 
@@ -11,6 +11,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
@@ -33,7 +34,7 @@ public class User implements Serializable {
 
     @JsonIgnore
     @NotNull
-    @Size(min = 60, max = 60) 
+    @Size(min = 60, max = 60)
     private String password;
 
     @Size(max = 50)

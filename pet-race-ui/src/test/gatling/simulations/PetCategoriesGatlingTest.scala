@@ -68,7 +68,7 @@ class PetCategoriesGatlingTest extends Simulation {
             .exec(http("Create new petCategories")
             .post("/api/pet-categories")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "name":"SAMPLE_TEXT"}""")).asJSON
+            .body(StringBody("""{"id":null, "petCategoryId":null, "name":"SAMPLE_TEXT", "speed":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_petCategories_url"))).exitHereIfFailed
             .pause(10)

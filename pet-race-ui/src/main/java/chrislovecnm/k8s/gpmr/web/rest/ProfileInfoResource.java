@@ -1,16 +1,14 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import javax.inject.Inject;
-
+import chrislovecnm.k8s.gpmr.config.JHipsterProperties;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import chrislovecnm.k8s.gpmr.config.JHipsterProperties;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api")
@@ -50,9 +48,9 @@ public class ProfileInfoResource {
         public String[] activeProfiles;
         public String ribbonEnv;
 
-        ProfileInfoResponse(String[] activeProfiles,String ribbonEnv) {
-            this.activeProfiles=activeProfiles;
-            this.ribbonEnv=ribbonEnv;
+        ProfileInfoResponse(String[] activeProfiles, String ribbonEnv) {
+            this.activeProfiles = activeProfiles;
+            this.ribbonEnv = ribbonEnv;
         }
     }
 }

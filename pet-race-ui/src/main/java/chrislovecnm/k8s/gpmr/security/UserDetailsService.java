@@ -1,4 +1,5 @@
 package chrislovecnm.k8s.gpmr.security;
+
 import chrislovecnm.k8s.gpmr.domain.User;
 import chrislovecnm.k8s.gpmr.repository.UserRepository;
 import org.slf4j.Logger;
@@ -11,7 +12,9 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.inject.Inject;
-import java.util.*;
+import java.util.List;
+import java.util.Locale;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -42,6 +45,6 @@ public class UserDetailsService implements org.springframework.security.core.use
                 user.getPassword(),
                 grantedAuthorities);
         }).orElseThrow(() -> new UsernameNotFoundException("User " + lowercaseLogin + " was not found in the " +
-        "database"));
+            "database"));
     }
 }

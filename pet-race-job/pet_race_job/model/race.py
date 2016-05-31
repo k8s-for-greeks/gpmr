@@ -1,13 +1,17 @@
 '''
 entity Race {
-  id UUID,
-  numOfPets Integer,
-  length Integer,
-  winnerId UUID,
-  winnerName String,
-  winnnerPetCategory String,
-  startTime Date,
-  endTime Date
+    raceId UUID,
+    petCategoryId UUID,
+    petCategoryName String,
+    numOfPets Integer,
+    length Integer,
+    description String,
+    winnerId UUID,
+    startTime DateTime,
+    endTime DateTime,
+    racersIds List,
+    baseSpeed Float
+}
 '''
 
 import uuid

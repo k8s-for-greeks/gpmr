@@ -46,12 +46,12 @@ class DataImporter(object):
 
     def create_tables(self):
         self.connect_cass()
-        sync_table(PetCategories)
-        sync_table(Pets)
+        sync_table(PetCategory)
+        sync_table(Pet)
         sync_table(RaceData)
         sync_table(RaceNormal)
-        sync_table(RaceResults)
-        sync_table(RaceParticipants)
+        sync_table(RaceResult)
+        sync_table(RaceParticipant)
         sync_table(Race)
         self.logger.debug("tables created")
 
@@ -59,13 +59,13 @@ class DataImporter(object):
 
         self.connect_cass()
 
-        q = PetCategories.objects.filter(name=category_name)
+        q = PetCategory.objects.filter(name=category_name)
         if len(q) is not 1:
             raise ValueError('category not found: ', category_name)
         pet_cat = q.first()
 
         for _p in pets_create:
-            Pets.create(
+            Pet.create(
                 petId=uuid_from_time(datetime.utcnow()),
                 name=_p['name'],
                 description=_p['description'],
@@ -82,7 +82,7 @@ class DataImporter(object):
         for cat in categories:
             speed = float(cat['speed'])
 
-            PetCategories.create(
+            PetCategory.create(
                 petCategoryId=uuid_from_time(datetime.utcnow()),
                 name=cat['name'],
                 speed=speed

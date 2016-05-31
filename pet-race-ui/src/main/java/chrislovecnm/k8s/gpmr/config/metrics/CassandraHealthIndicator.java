@@ -1,4 +1,4 @@
-package  chrislovecnm.k8s.gpmr.config.metrics;
+package chrislovecnm.k8s.gpmr.config.metrics;
 
 import com.datastax.driver.core.PreparedStatement;
 import com.datastax.driver.core.ResultSet;

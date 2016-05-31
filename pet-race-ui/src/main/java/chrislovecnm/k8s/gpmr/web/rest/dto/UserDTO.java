@@ -1,14 +1,14 @@
 package chrislovecnm.k8s.gpmr.web.rest.dto;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
-
 import chrislovecnm.k8s.gpmr.domain.User;
-
 import org.hibernate.validator.constraints.Email;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.util.Set;
-import java.util.stream.Collectors;
+
 /**
  * A DTO representing a user, with his authorities.
  */
@@ -46,7 +46,7 @@ public class UserDTO {
     }
 
     public UserDTO(String login, String firstName, String lastName,
-        String email, boolean activated, String langKey, Set<String> authorities) {
+                   String email, boolean activated, String langKey, Set<String> authorities) {
 
         this.login = login;
         this.firstName = firstName;

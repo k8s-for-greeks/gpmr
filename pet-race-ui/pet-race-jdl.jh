@@ -1,67 +1,83 @@
-
-entity Race {
-	raceId UUID,
-  numOfPets Integer,
-  length Integer,
-	winnerId UUID,
-  winnerName String,
-  winnnerPetCategory String,
-	startTime Date,
-	endTime Date
+entity PetCategory {
+    petCategoryId UUID,
+    name String,
+    speed Float
 }
-
-entity RaceParticipants {
-		raceParticipantsId UUID,
+entity Pet {
     petId UUID,
-    raceId UUID
-    petName String,
-    petType String,
-    petColor String,
-    petCategory String,
-    petCategoryId String,
+    name String,
+    description String,
+    petCategoryName String,
+    petCategoryId UUID,
+    petSpeed Float
 }
-
-entity RaceResults {
-	raceResultsId UUID,
-	raceId UUID,
-  petId UUID,
-  petName String,
-  petCategory String,
-  petCategoryId UUID,
-  place String,
-  time Date
+entity Race {
+    raceId UUID,
+    petCategoryId UUID,
+    petCategoryName String,
+    numOfPets Integer,
+    length Integer,
+    description String,
+    winnerId UUID,
+    startTime Date,
+    endTime Date,
+    baseSpeed Float
 }
-
 entity RaceData {
-	raceDataId UUID,
-  petId UUID,
+    raceDataId UUID,
+    petId UUID,
+    raceId UUID,
+    petName String,
+    petCategoryName String,
+    petCategoryId UUID,
+    interval Integer,
+    runnerPosition Integer,
+    runnerDistance Double,
+    startTime Date,
+    finished Boolean,
+    runnerPreviousDistance Double
+}
+entity RaceNormal {
+    raceNormalId UUID,
+    raceId UUID,
+    petCategoryId UUID,
+    petCategoryName String,
+    currentTime Date,
+    normalLoc Float,
+    normalScale Float,
+    normalSize Integer
+}
+entity RaceParticipant {
+    raceParticipantId UUID,
+    petId UUID,
+    raceId UUID,
+    petName String,
+    petColor UUID,
+    petCategoryName String,
+    petCategoryId UUID,
+    startTime Date,
+    finishTime Double,
+    finishPosition Integer,
+    finished Boolean
+}
+entity RaceResult {
+  raceResultId UUID,
+  raceId UUID,
+  petCategoryId UUID,
+  raceParticipantId UUID,
   petName String,
-  petCategory String,
-  petCategoryId UUID,
-  runnerPosition Integer,
-  runnerSashColor String,
-  interval Integer,
-  RunnerDistance BigDecimal,
-  startTime Date,
+  petType String,
+  petColor UUID,
+  petCategoryName String,
+  finishPosition Integer,
+  finishTime Double,
+  startTime Date
 }
 
-entity Pets {
-	petId UUID,
-  name String,
-  petCategory String,
-  petCategoryId UUID,
-  petSpeed BigDecimal
-}
-
-entity PetCategories {
-	petCategoryId UUID,
-  name String
-}
-
-//paginate RaceResults, RaceData with infinite-scroll
+paginate RaceResult, RaceData, Race, RaceNormal, RaceParticipants with infinite-scroll
 //paginate Race with pagination
 service PetCategories, Pets, PetCategories with serviceImpl
 
 //dto Employee with mapstruct
 
-//service Employee with serviceClass
+//service RaceNormal with serviceClass

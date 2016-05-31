@@ -10,7 +10,6 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.web.socket.WebSocketHandler;
 import org.springframework.web.socket.config.annotation.AbstractWebSocketMessageBrokerConfigurer;
@@ -28,9 +27,8 @@ import java.util.Map;
 @EnableWebSocketMessageBroker
 public class WebsocketConfiguration extends AbstractWebSocketMessageBrokerConfigurer {
 
-    private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
-
     public static final String IP_ADDRESS = "IP_ADDRESS";
+    private final Logger log = LoggerFactory.getLogger(WebsocketConfiguration.class);
 
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {

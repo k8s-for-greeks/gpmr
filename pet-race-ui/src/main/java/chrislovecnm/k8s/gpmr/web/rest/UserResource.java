@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
 import chrislovecnm.k8s.gpmr.config.Constants;
-import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.User;
 import chrislovecnm.k8s.gpmr.repository.UserRepository;
 import chrislovecnm.k8s.gpmr.security.AuthoritiesConstants;
@@ -9,6 +8,7 @@ import chrislovecnm.k8s.gpmr.service.MailService;
 import chrislovecnm.k8s.gpmr.service.UserService;
 import chrislovecnm.k8s.gpmr.web.rest.dto.ManagedUserDTO;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
+import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -18,15 +18,16 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 import java.net.URISyntaxException;
-import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
  * REST controller for managing users.
- *
+ * <p>
  * <p>This class accesses the User entity, and needs to fetch its collection of authorities.</p>
  * <p>
  * For a normal use-case, it would be better to have an eager relationship between User and Authority,
@@ -61,7 +62,6 @@ public class UserResource {
     private MailService mailService;
 
 
-
     @Inject
     private UserService userService;
 
@@ -74,7 +74,7 @@ public class UserResource {
      * </p>
      *
      * @param managedUserDTO the user to create
-     * @param request the HTTP request
+     * @param request        the HTTP request
      * @return the ResponseEntity with status 201 (Created) and with body the new user, or with status 400 (Bad Request) if the login or email is already in use
      * @throws URISyntaxException if the Location URI syntaxt is incorrect
      */
@@ -98,14 +98,14 @@ public class UserResource {
         } else {
             User newUser = userService.createUser(managedUserDTO);
             String baseUrl = request.getScheme() + // "http"
-            "://" +                                // "://"
-            request.getServerName() +              // "myhost"
-            ":" +                                  // ":"
-            request.getServerPort() +              // "80"
-            request.getContextPath();              // "/myContextPath" or "" if deployed in root context
+                "://" +                                // "://"
+                request.getServerName() +              // "myhost"
+                ":" +                                  // ":"
+                request.getServerPort() +              // "80"
+                request.getContextPath();              // "/myContextPath" or "" if deployed in root context
             mailService.sendCreationEmail(newUser, baseUrl);
             return ResponseEntity.created(new URI("/api/users/" + newUser.getLogin()))
-                .headers(HeaderUtil.createAlert( "A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
+                .headers(HeaderUtil.createAlert("A user is created with identifier " + newUser.getLogin(), newUser.getLogin()))
                 .body(newUser);
         }
     }
@@ -145,7 +145,7 @@ public class UserResource {
                 user.setAuthorities(managedUserDTO.getAuthorities());
                 userRepository.save(user);
                 return ResponseEntity.ok()
-                    .headers(HeaderUtil.createAlert( "A user is updated with identifier " + managedUserDTO.getLogin(), managedUserDTO.getLogin()))
+                    .headers(HeaderUtil.createAlert("A user is updated with identifier " + managedUserDTO.getLogin(), managedUserDTO.getLogin()))
                     .body(new ManagedUserDTO(userRepository
                         .findOne(managedUserDTO.getId())));
             })
@@ -155,7 +155,7 @@ public class UserResource {
 
     /**
      * GET  /users : get all users.
-     * 
+     *
      * @return the ResponseEntity with status 200 (OK) and with body all users
      * @throws URISyntaxException if the pagination headers couldnt be generated
      */
@@ -185,10 +185,11 @@ public class UserResource {
     public ResponseEntity<ManagedUserDTO> getUser(@PathVariable String login) {
         log.debug("REST request to get User : {}", login);
         return userService.getUserWithAuthoritiesByLogin(login)
-                .map(ManagedUserDTO::new)
-                .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+            .map(ManagedUserDTO::new)
+            .map(managedUserDTO -> new ResponseEntity<>(managedUserDTO, HttpStatus.OK))
+            .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     /**
      * DELETE  USER :login : delete the "login" User.
      *
@@ -203,6 +204,6 @@ public class UserResource {
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUserInformation(login);
-        return ResponseEntity.ok().headers(HeaderUtil.createAlert( "A user is deleted with identifier " + login, login)).build();
+        return ResponseEntity.ok().headers(HeaderUtil.createAlert("A user is deleted with identifier " + login, login)).build();
     }
 }

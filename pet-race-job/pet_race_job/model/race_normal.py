@@ -1,15 +1,14 @@
 '''
 entity RaceNormal {
-  raceNormalId UUID,
-  raceId UUID,
-  petCategoryName String,
-  petCategoryId UUID,
-  currentTime Date,
-  normals = List,
-  normalLoc = Float,
-  normalScale = Float,
-  normalSize = Set,
-  endTime   Date
+ raceNormalId UUID,
+ raceId UUID,
+ petCategoryId UUID,
+ petCategoryName String,
+ currentTime DateTime,
+ normals List<Float>,
+ normalLoc Float,
+ normalScale Float,
+ normalSize Integer
 }
 '''
 
