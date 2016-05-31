@@ -182,4 +182,3 @@ class PetRace(object):
 
         self.update_race(self.race, self.racers)
         self.logger.debug("completed")
-
