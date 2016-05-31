@@ -1,13 +1,16 @@
 '''
 entity RaceParticipants {
-  id UUID,
-  petId UUID,
-  petName String,
-  petType String,
-  petColor String,
-  petCategory String,
-  petCategoryId String,
-  raceId UUID
+ raceParticipantsId UUID,
+ petId UUID,
+ raceId UUID,
+ petName String,
+ petColor UUID,
+ petCategoryName String,
+ petCategoryId UUID,
+ startTime DateTime,
+ finishTime Decimal,
+ finishPosition Integer,
+ finished Boolean
 }
 '''
 

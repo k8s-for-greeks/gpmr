@@ -1,7 +1,8 @@
 '''
 entity PetCategories {
   petCategoryId UUID,
-  name String
+  name String,
+  speed Float
 }
 '''
 

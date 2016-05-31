@@ -1,14 +1,16 @@
 '''
 entity RaceResults {
   raceResultsId UUID,
-  petId UUID,
-  petName String,
-  petCategory String,
+  raceId UUID,
   petCategoryId UUID,
-  place Sting,
-  startTime Date,
+  raceParticipantsId UUID,
+  petName String,
+  petType String,
+  petColor UUID,
+  petCategoryName String,
+  finishPosition Integer,
   finishTime Decimal,
-  position Integer
+  startTime DateTime
 }
 '''
 
@@ -25,7 +27,7 @@ class RaceResults(Model):
     raceParticipantsId = columns.UUID(primary_key=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
     petType = columns.Text(required=False)
-    petColor = columns.UUID(primary_key=True, default=uuid.uuid4)
+    petColorId = columns.UUID(index=True, default=uuid.uuid4)
     petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
     finishPosition = columns.Integer()

@@ -2,9 +2,10 @@
 entity Pets {
   petId UUID,
   name String,
-  petCategory String,
+  description String,
+  petCategoryName String,
   petCategoryId UUID,
-  petSpeed BigDecimal
+  petSpeed Float
 }
 '''
 

@@ -1,15 +1,17 @@
 '''
 entity RaceData {
-  raceDataId UUID,
-  petId UUID,
-  petName String,
-  petCategory String,
-  petCategoryId UUID,
-  runnerPosition Integer,
-  runnerSashColor String,
-  interval Integer,
-  RunnerDistance BigDecimal,
-  startTime Date,
+    raceDataId UUID,
+    petId UUID,
+    raceId UUID,
+    petName String,
+    petCategoryName String,
+    petCategoryId UUID,
+    interval Integer,
+    runnerPosition Integer,
+    runnerDistance Decimal,
+    startTime DateTime,
+    finished Boolean,
+    runnerPreviousDistance Decimal
 }
 '''
 
@@ -25,7 +27,6 @@ class RaceData(Model):
     petId = columns.UUID(primary_key=True, default=uuid.uuid4)
     raceId = columns.UUID(index=True, default=uuid.uuid4)
     petName = columns.Text(index=True)
-    petColor = columns.UUID(index=True, default=uuid.uuid4)
     petCategoryName = columns.Text(required=False)
     petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
     interval = columns.Integer()
