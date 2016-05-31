@@ -9,10 +9,9 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
+from pet_race_job.model import *
 
 os.environ["CQLENG_ALLOW_SCHEMA_MANAGEMENT"] = "1"
-
-from pet_race_job.model import *
 
 
 class DataImporter(object):

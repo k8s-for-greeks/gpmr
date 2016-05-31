@@ -16,8 +16,6 @@ class PetRaceCassandraDataStore(object):
     logger = None
 
     def __init__(self, seeds, keyspace):
-        super()
-        # if kwargs is None:
         self.seeds = seeds
         self.keyspace = keyspace
         setup_cass(self.seeds, self.keyspace)
@@ -25,13 +23,16 @@ class PetRaceCassandraDataStore(object):
         set_session(self.session)
         self.logger = logging.getLogger('pet_race_job')
         self.logger.debug("session created")
+        super()
 
     def get_pets_by_name(self, pet_name):
         q = Pets.objects.filter(name=pet_name)
-        # may be q.first()
-        pet_objs = q.get()
-        if len(pet_objs) > 1:
-            raise ValueError('pets not found, name: ', pet_name)
+
+        try:
+            pet_objs = q.get()
+        except Pets.DoesNotExist:
+            raise ValueError('pet not found: ', pet_name)
+
         self.logger.debug("loaded pet", pet_objs)
         return pet_objs
 
@@ -42,9 +43,12 @@ class PetRaceCassandraDataStore(object):
 
     def get_pet_category_by_name(self, category_name):
         q = PetCategories.objects.filter(name=category_name)
-        pet_cat = q.get()
-        if pet_cat is None:
+
+        try:
+            pet_cat = q.get()
+        except PetCategories.DoesNotExist:
             raise ValueError('category not found: ', category_name)
+
         self.logger.debug("loaded cat")
         return pet_cat
 

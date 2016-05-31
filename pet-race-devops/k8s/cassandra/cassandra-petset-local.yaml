@@ -16,8 +16,8 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: 10.100.179.231:5000/cassandra
-        #image: gcr.io/google-samples/cassandra:v10
+        image: gcr.io/google-samples/cassandra:v9
+        #image: 10.100.179.231:5000/cassandra
         imagePullPolicy: Always
         command:
           - /run.sh

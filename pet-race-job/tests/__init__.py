@@ -1,6 +1,4 @@
 import logging
-import sys
-import socket
 
 log = logging.getLogger()
 log.setLevel('DEBUG')

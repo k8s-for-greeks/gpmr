@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: py3numpy-job-pod
+spec:
+  containers:
+  - command: ["pet-race-job", "--description=A_pet_race", "--length=100", "--pet=Giants", "--scale=3"]
+    image: 10.100.179.231:5000/py3numpy-job:v1.0
+    imagePullPolicy: IfNotPresent
+    name: py3numpy-job-pod
+    resources:
+      limits:
+        cpu: ".5"
+      requests:
+        cpu: ".5"

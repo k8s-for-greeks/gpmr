@@ -35,10 +35,10 @@ class PetRace(object):
     race_length = None
 
     def __init__(self, seeds, keyspace):
+        super()
         self.logger = logging.getLogger('pet_race_job')
         self.data_source = PetRaceCassandraDataStore(seeds, keyspace)
         self.logger.debug("race __init__")
-        super()
 
     def create_race(self, length, description, pet_category_name, normal_scale):
         self.normal_scale = normal_scale
@@ -109,10 +109,10 @@ class PetRace(object):
         return finish_time
 
     def run_race(self):
-        logging.debug("Starting a race")
+        logging.debug("Starting the race")
         n = 1
+        position = 1
         racers_finished_times = []
-        position = 0
         while True:
 
             racers_finished_this_iteration = []
@@ -137,14 +137,12 @@ class PetRace(object):
                     'current_distance_all': current_racer_distance,
                     'previous_distance': previous_distance,
                     'distance_this_sample': distance_this_sample,
-                    'sample_iteration': n,
-                    'finished': False
+                    'sample_iteration': n
                 }
 
                 if finished:
                     finish_time = self.calc_finish_time(previous_distance, distance_this_sample, n, self.race_length)
                     racers_finished_this_iteration.append(racer)
-                    race_sample['finished'] = True
                     race_sample['finish_time'] = finish_time
                     self.racers[racer]['finish_time'] = finish_time
                     self.racers[racer]['total_distance'] = current_racer_distance
@@ -162,7 +160,6 @@ class PetRace(object):
             positions = sorted(racers_finished_times, key=itemgetter('finish_time'))
 
             for idx, r in enumerate(positions):
-                position += 1
                 racer_id = r['racerId']
                 self.racers[racer_id]['finish_position'] = position
 
@@ -171,8 +168,9 @@ class PetRace(object):
                     self.update_race_winner()
 
                 self.logger.debug("current position %s, time: %s", position, r['finish_time'])
-
                 self.save_racer_finish(racer_id)
+
+                position += 1
 
             racers_finished_times = []
 
@@ -181,8 +179,7 @@ class PetRace(object):
             if len(self.racers_still_running) == 0:
                 break
         # end while
-        # self.logger.debug("saving race")
 
         self.update_race(self.race, self.racers)
+        self.logger.debug("completed")
 
-        # TODO save race data
