@@ -3,23 +3,33 @@
   "fields": [
     {
       "fieldId": 1,
+      "fieldName": "petId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
       "fieldName": "name",
       "fieldType": "String"
     },
     {
-      "fieldId": 2,
-      "fieldName": "petCategory",
+      "fieldId": 3,
+      "fieldName": "description",
       "fieldType": "String"
     },
     {
-      "fieldId": 3,
+      "fieldId": 4,
+      "fieldName": "petCategoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 5,
       "fieldName": "petCategoryId",
       "fieldType": "UUID"
     },
     {
-      "fieldId": 4,
+      "fieldId": 6,
       "fieldName": "petSpeed",
-      "fieldType": "BigDecimal"
+      "fieldType": "Float"
     }
   ],
   "changelogDate": "20160509045154",

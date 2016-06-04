@@ -14,21 +14,15 @@
                     ng-model="vm.raceResult.id" readonly />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petId">Pet Id</label>
-            <input type="text" class="form-control" name="petId" id="field_petId"
-                    ng-model="vm.raceResult.petId"
+            <label class="control-label" for="field_raceResultId">Race Result Id</label>
+            <input type="text" class="form-control" name="raceResultId" id="field_raceResultId"
+                    ng-model="vm.raceResult.raceResultId"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petName">Pet Name</label>
-            <input type="text" class="form-control" name="petName" id="field_petName"
-                    ng-model="vm.raceResult.petName"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_petCategory">Pet Category</label>
-            <input type="text" class="form-control" name="petCategory" id="field_petCategory"
-                    ng-model="vm.raceResult.petCategory"
+            <label class="control-label" for="field_raceId">Race Id</label>
+            <input type="text" class="form-control" name="raceId" id="field_raceId"
+                    ng-model="vm.raceResult.raceId"
                      />
         </div>
         <div class="form-group">
@@ -38,18 +32,54 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_place">Place</label>
-            <input type="number" class="form-control" name="place" id="field_place"
-                    ng-model="vm.raceResult.place"
+            <label class="control-label" for="field_raceParticipantId">Race Participant Id</label>
+            <input type="text" class="form-control" name="raceParticipantId" id="field_raceParticipantId"
+                    ng-model="vm.raceResult.raceParticipantId"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_time">Time</label>
+            <label class="control-label" for="field_petName">Pet Name</label>
+            <input type="text" class="form-control" name="petName" id="field_petName"
+                    ng-model="vm.raceResult.petName"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petType">Pet Type</label>
+            <input type="text" class="form-control" name="petType" id="field_petType"
+                    ng-model="vm.raceResult.petType"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petColor">Pet Color</label>
+            <input type="text" class="form-control" name="petColor" id="field_petColor"
+                    ng-model="vm.raceResult.petColor"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.raceResult.petCategoryName"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finishPosition">Finish Position</label>
+            <input type="number" class="form-control" name="finishPosition" id="field_finishPosition"
+                    ng-model="vm.raceResult.finishPosition"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finishTime">Finish Time</label>
+            <input type="number" class="form-control" name="finishTime" id="field_finishTime"
+                    ng-model="vm.raceResult.finishTime"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_startTime">Start Time</label>
                 <div class="input-group">
-                    <input id="field_time" type="text" class="form-control" name="time" uib-datepicker-popup="{{dateformat}}" ng-model="vm.raceResult.time" is-open="vm.datePickerOpenStatus.time"
+                    <input id="field_startTime" type="text" class="form-control" name="startTime" uib-datepicker-popup="{{dateformat}}" ng-model="vm.raceResult.startTime" is-open="vm.datePickerOpenStatus.startTime"
                     />
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('time')"><i class="glyphicon glyphicon-calendar"></i></button>
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startTime')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
         </div>

@@ -1,0 +1,49 @@
+{
+  "relationships": [],
+  "fields": [
+    {
+      "fieldId": 1,
+      "fieldName": "raceNormalId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
+      "fieldName": "raceId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "petCategoryId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 4,
+      "fieldName": "petCategoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 5,
+      "fieldName": "currentTime",
+      "fieldType": "Date"
+    },
+    {
+      "fieldId": 6,
+      "fieldName": "normalLoc",
+      "fieldType": "Float"
+    },
+    {
+      "fieldId": 7,
+      "fieldName": "normalScale",
+      "fieldType": "Float"
+    },
+    {
+      "fieldId": 8,
+      "fieldName": "normalSize",
+      "fieldType": "Integer"
+    }
+  ],
+  "changelogDate": "20160531081633",
+  "dto": "no",
+  "pagination": "infinite-scroll",
+  "service": "no"
+}

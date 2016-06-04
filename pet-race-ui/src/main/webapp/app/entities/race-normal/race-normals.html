@@ -1,0 +1,70 @@
+<div>
+    <h2>Race Normals</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="race-normal.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Race Normal
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="raceNormalId"><span>Race Normal Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="raceId"><span>Race Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petCategoryId"><span>Pet Category Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petCategoryName"><span>Pet Category Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="currentTime"><span>Current Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="normalLoc"><span>Normal Loc</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="normalScale"><span>Normal Scale</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="normalSize"><span>Normal Size</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="raceNormal in vm.raceNormals track by raceNormal.id">
+                    <td><a ui-sref="race-normal-detail({id:raceNormal.id})">{{raceNormal.id}}</a></td>
+                    <td>{{raceNormal.raceNormalId}}</td>
+                    <td>{{raceNormal.raceId}}</td>
+                    <td>{{raceNormal.petCategoryId}}</td>
+                    <td>{{raceNormal.petCategoryName}}</td>
+                    <td>{{raceNormal.currentTime | date:'medium'}}</td>
+                    <td>{{raceNormal.normalLoc}}</td>
+                    <td>{{raceNormal.normalScale}}</td>
+                    <td>{{raceNormal.normalSize}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="race-normal-detail({id:raceNormal.id})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="race-normal.edit({id:raceNormal.id})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="race-normal.delete({id:raceNormal.id})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

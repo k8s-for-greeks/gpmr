@@ -16,9 +16,10 @@ def main(arg):
                                         'help'])
 
     # logger = logging.getLogger('pet_race_job')
+    seeds = ['cassandra-0.cassandra.default.svc.cluster.local']
 
-    seeds = ['cassandra-0.cassandra.default.svc.cluster.local',
-             'cassandra-1.cassandra.default.svc.cluster.local']
+    # seeds = ['cassandra-0.cassandra.default.svc.cluster.local',
+    #         'cassandra-1.cassandra.default.svc.cluster.local']
 
     keyspace = 'gpmr'
 

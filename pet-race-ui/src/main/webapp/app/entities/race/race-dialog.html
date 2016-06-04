@@ -14,6 +14,24 @@
                     ng-model="vm.race.id" readonly />
         </div>
         <div class="form-group">
+            <label class="control-label" for="field_raceId">Race Id</label>
+            <input type="text" class="form-control" name="raceId" id="field_raceId"
+                    ng-model="vm.race.raceId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryId">Pet Category Id</label>
+            <input type="text" class="form-control" name="petCategoryId" id="field_petCategoryId"
+                    ng-model="vm.race.petCategoryId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.race.petCategoryName"
+                     />
+        </div>
+        <div class="form-group">
             <label class="control-label" for="field_numOfPets">Num Of Pets</label>
             <input type="number" class="form-control" name="numOfPets" id="field_numOfPets"
                     ng-model="vm.race.numOfPets"
@@ -26,27 +44,15 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_numOfSamples">Num Of Samples</label>
-            <input type="number" class="form-control" name="numOfSamples" id="field_numOfSamples"
-                    ng-model="vm.race.numOfSamples"
+            <label class="control-label" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="vm.race.description"
                      />
         </div>
         <div class="form-group">
             <label class="control-label" for="field_winnerId">Winner Id</label>
             <input type="text" class="form-control" name="winnerId" id="field_winnerId"
                     ng-model="vm.race.winnerId"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_winnerName">Winner Name</label>
-            <input type="text" class="form-control" name="winnerName" id="field_winnerName"
-                    ng-model="vm.race.winnerName"
-                     />
-        </div>
-        <div class="form-group">
-            <label class="control-label" for="field_winnnerPetCategory">Winnner Pet Category</label>
-            <input type="text" class="form-control" name="winnnerPetCategory" id="field_winnnerPetCategory"
-                    ng-model="vm.race.winnnerPetCategory"
                      />
         </div>
         <div class="form-group">
@@ -68,6 +74,12 @@
                         <button type="button" class="btn btn-default" ng-click="vm.openCalendar('endTime')"><i class="glyphicon glyphicon-calendar"></i></button>
                     </span>
                 </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_baseSpeed">Base Speed</label>
+            <input type="number" class="form-control" name="baseSpeed" id="field_baseSpeed"
+                    ng-model="vm.race.baseSpeed"
+                     />
         </div>
 
     </div>

@@ -14,9 +14,21 @@
                     ng-model="vm.raceData.id" readonly />
         </div>
         <div class="form-group">
+            <label class="control-label" for="field_raceDataId">Race Data Id</label>
+            <input type="text" class="form-control" name="raceDataId" id="field_raceDataId"
+                    ng-model="vm.raceData.raceDataId"
+                     />
+        </div>
+        <div class="form-group">
             <label class="control-label" for="field_petId">Pet Id</label>
             <input type="text" class="form-control" name="petId" id="field_petId"
                     ng-model="vm.raceData.petId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_raceId">Race Id</label>
+            <input type="text" class="form-control" name="raceId" id="field_raceId"
+                    ng-model="vm.raceData.raceId"
                      />
         </div>
         <div class="form-group">
@@ -26,9 +38,9 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petCategory">Pet Category</label>
-            <input type="text" class="form-control" name="petCategory" id="field_petCategory"
-                    ng-model="vm.raceData.petCategory"
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.raceData.petCategoryName"
                      />
         </div>
         <div class="form-group">
@@ -38,15 +50,43 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_runnerPostion">Runner Postion</label>
-            <input type="number" class="form-control" name="runnerPostion" id="field_runnerPostion"
-                    ng-model="vm.raceData.runnerPostion"
+            <label class="control-label" for="field_interval">Interval</label>
+            <input type="number" class="form-control" name="interval" id="field_interval"
+                    ng-model="vm.raceData.interval"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_runnerSashColor">Runner Sash Color</label>
-            <input type="text" class="form-control" name="runnerSashColor" id="field_runnerSashColor"
-                    ng-model="vm.raceData.runnerSashColor"
+            <label class="control-label" for="field_runnerPosition">Runner Position</label>
+            <input type="number" class="form-control" name="runnerPosition" id="field_runnerPosition"
+                    ng-model="vm.raceData.runnerPosition"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_runnerDistance">Runner Distance</label>
+            <input type="number" class="form-control" name="runnerDistance" id="field_runnerDistance"
+                    ng-model="vm.raceData.runnerDistance"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_startTime">Start Time</label>
+                <div class="input-group">
+                    <input id="field_startTime" type="text" class="form-control" name="startTime" uib-datepicker-popup="{{dateformat}}" ng-model="vm.raceData.startTime" is-open="vm.datePickerOpenStatus.startTime"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finished">Finished</label>
+            <input type="checkbox" class="form-control" name="finished" id="field_finished"
+                    ng-model="vm.raceData.finished"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_runnerPreviousDistance">Runner Previous Distance</label>
+            <input type="number" class="form-control" name="runnerPreviousDistance" id="field_runnerPreviousDistance"
+                    ng-model="vm.raceData.runnerPreviousDistance"
                      />
         </div>
 

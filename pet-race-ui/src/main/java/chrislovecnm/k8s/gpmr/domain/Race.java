@@ -1,12 +1,12 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.List;
 
 /**
  * A Race.
@@ -18,30 +18,57 @@ public class Race implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
+    @Column(caseSensitive = true, name="raceId")
+    private UUID raceId;
 
+    @Column(caseSensitive = true, name="petCategoryId")
+    private UUID petCategoryId;
+
+    @Column(caseSensitive = true, name="petCategoryName")
+    private String petCategoryName;
+
+    @Column(caseSensitive = true, name="numOfPets")
     private Integer numOfPets;
 
     private Integer length;
 
-    private Integer numOfSamples;
+    private String description;
 
+    @Column(caseSensitive = true, name = "winnerId")
     private UUID winnerId;
 
-    private String winnerName;
-
-    private String winnnerPetCategory;
-
+    @Column(caseSensitive = true, name = "startTime")
     private Date startTime;
 
-    private Date endTime;
+    @Column(caseSensitive = true, name = "baseSpeed")
+    private Float baseSpeed;
 
-    public UUID getId() {
-        return id;
+    @Frozen("list<uuid>")
+    @Column(caseSensitive = true, name = "racersIds")
+    private List<UUID> racersIds;
+
+    public UUID getRaceId() {
+        return raceId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
+    }
+
+    public UUID getPetCategoryId() {
+        return petCategoryId;
+    }
+
+    public void setPetCategoryId(UUID petCategoryId) {
+        this.petCategoryId = petCategoryId;
+    }
+
+    public String getPetCategoryName() {
+        return petCategoryName;
+    }
+
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
     public Integer getNumOfPets() {
@@ -60,12 +87,12 @@ public class Race implements Serializable {
         this.length = length;
     }
 
-    public Integer getNumOfSamples() {
-        return numOfSamples;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNumOfSamples(Integer numOfSamples) {
-        this.numOfSamples = numOfSamples;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public UUID getWinnerId() {
@@ -76,22 +103,6 @@ public class Race implements Serializable {
         this.winnerId = winnerId;
     }
 
-    public String getWinnerName() {
-        return winnerName;
-    }
-
-    public void setWinnerName(String winnerName) {
-        this.winnerName = winnerName;
-    }
-
-    public String getWinnnerPetCategory() {
-        return winnnerPetCategory;
-    }
-
-    public void setWinnnerPetCategory(String winnnerPetCategory) {
-        this.winnnerPetCategory = winnnerPetCategory;
-    }
-
     public Date getStartTime() {
         return startTime;
     }
@@ -100,12 +111,19 @@ public class Race implements Serializable {
         this.startTime = startTime;
     }
 
-    public Date getEndTime() {
-        return endTime;
+    public Float getBaseSpeed() {
+        return baseSpeed;
     }
 
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
+    public void setBaseSpeed(Float baseSpeed) {
+        this.baseSpeed = baseSpeed;
+    }
+
+    public List<UUID> getRacersIds() {
+        return racersIds;
+    }
+    public void setRacersIds(List<UUID> racersIds) {
+        this.racersIds = racersIds;
     }
 
     @Override
@@ -117,29 +135,29 @@ public class Race implements Serializable {
             return false;
         }
         Race race = (Race) o;
-        if (race.id == null || id == null) {
+        if(race.raceId == null || raceId == null) {
             return false;
         }
-        return Objects.equals(id, race.id);
+        return Objects.equals(raceId, race.raceId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceId);
     }
 
     @Override
     public String toString() {
         return "Race{" +
-            "id=" + id +
+            "raceId='" + raceId + "'" +
+            ", petCategoryId='" + petCategoryId + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
             ", numOfPets='" + numOfPets + "'" +
             ", length='" + length + "'" +
-            ", numOfSamples='" + numOfSamples + "'" +
+            ", description='" + description + "'" +
             ", winnerId='" + winnerId + "'" +
-            ", winnerName='" + winnerName + "'" +
-            ", winnnerPetCategory='" + winnnerPetCategory + "'" +
             ", startTime='" + startTime + "'" +
-            ", endTime='" + endTime + "'" +
+            ", baseSpeed='" + baseSpeed + "'" +
             '}';
     }
 }

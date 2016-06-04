@@ -6,6 +6,7 @@ buildscript {
         maven { url "http://repo.spring.io/plugins-release" }
         maven { url "http://repo.spring.io/milestone" }
         maven { url "https://plugins.gradle.org/m2/" }
+        maven {url 'https://repo.spring.io/libs-snapshot'}
     }
     dependencies {
         classpath "org.sonarsource.scanner.gradle:sonarqube-gradle-plugin:1.2"
@@ -18,6 +19,7 @@ buildscript {
         classpath "io.spring.gradle:dependency-management-plugin:0.5.6.RELEASE"
         //jhipster-needle-gradle-buildscript-dependency - JHipster will add additional gradle build script plugins here
     }
+
 }
 
 apply plugin: 'java'
@@ -131,7 +133,7 @@ dependencies {
     compile ("com.ryantenney.metrics:metrics-spring:${metrics_spring_version}") {
         exclude(module: 'metrics-core')
         exclude(module: 'metrics-healthchecks')
-    } 
+    }
     compile "commons-lang:commons-lang:${commons_lang_version}"
     compile "commons-io:commons-io:${commons_io_version}"
     compile "javax.inject:javax.inject:${javax_inject_version}"
@@ -139,7 +141,7 @@ dependencies {
     compile "net.jpountz.lz4:lz4:${lz4_version}"
     compile "org.apache.geronimo.javamail:geronimo-javamail_1.4_mail:${geronimo_javamail_1_4_mail_version}"
     compile "org.hibernate:hibernate-core:${hibernate_entitymanager_version}"
-    
+
     compile "org.hibernate:hibernate-envers"
     compile "org.hibernate:hibernate-validator"
     compile "org.springframework.boot:spring-boot-actuator"
@@ -151,7 +153,8 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-websocket"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
-    compile "org.springframework.data:spring-data-cassandra"
+    compile 'org.springframework.data:spring-data-cassandra:1.5.0.BUILD-SNAPSHOT'
+    compile 'org.springframework.data:spring-cql:1.5.0.BUILD-SNAPSHOT'
     compile("com.datastax.cassandra:cassandra-driver-core:${datastax_driver_version}") {
         exclude module: 'com.codahale.metrics'
     }
@@ -165,13 +168,13 @@ dependencies {
     compile "org.springframework.security:spring-security-config:${spring_security_version}"
     compile "org.springframework.security:spring-security-data:${spring_security_version}"
     compile "org.springframework.security:spring-security-web:${spring_security_version}"
-    compile "org.springframework.security:spring-security-messaging:${spring_security_version}" 
+    compile "org.springframework.security:spring-security-messaging:${spring_security_version}"
     compile "io.jsonwebtoken:jjwt:${jjwt_version}"
 
     compile("io.springfox:springfox-swagger2:${springfox_version}"){
         exclude module: 'mapstruct'
     }
-    
+
     compile "fr.ippon.spark.metrics:metrics-spark-reporter:${metrics_spark_reporter_version}"
     compile "org.mapstruct:mapstruct-jdk8:${mapstruct_version}"
     testCompile "com.jayway.awaitility:awaitility:${awaility_version}"
@@ -186,9 +189,9 @@ dependencies {
     testCompile "junit:junit"
     testCompile "org.mockito:mockito-core"
     testCompile "org.hamcrest:hamcrest-library"
-    
+
     testCompile "io.gatling.highcharts:gatling-charts-highcharts:${gatling_version}"
-    
+
     testCompile "com.h2database:h2"
     optional "org.springframework.boot:spring-boot-configuration-processor:${spring_boot_version}"
     //jhipster-needle-gradle-dependency - JHipster will add additional dependencies here

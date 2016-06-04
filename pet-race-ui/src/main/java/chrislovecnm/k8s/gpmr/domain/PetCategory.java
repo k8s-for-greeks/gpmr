@@ -1,7 +1,6 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -11,22 +10,25 @@ import java.util.UUID;
  * A PetCategory.
  */
 
-@Table(name = "petCategory")
+@Table(name = "pet_category")
 public class PetCategory implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
+    @Column(caseSensitive = true, name="petCategoryId")
+    private UUID petCategoryId;
 
     private String name;
 
-    public UUID getId() {
-        return id;
+    private Float speed;
+
+    public UUID getPetCategoryId() {
+        return petCategoryId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setPetCategoryId(UUID petCategoryId) {
+        this.petCategoryId = petCategoryId;
     }
 
     public String getName() {
@@ -35,6 +37,14 @@ public class PetCategory implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Float getSpeed() {
+        return speed;
+    }
+
+    public void setSpeed(Float speed) {
+        this.speed = speed;
     }
 
     @Override
@@ -46,22 +56,23 @@ public class PetCategory implements Serializable {
             return false;
         }
         PetCategory petCategory = (PetCategory) o;
-        if (petCategory.id == null || id == null) {
+        if(petCategory.petCategoryId == null || petCategoryId == null) {
             return false;
         }
-        return Objects.equals(id, petCategory.id);
+        return Objects.equals(petCategoryId, petCategory.petCategoryId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(petCategoryId);
     }
 
     @Override
     public String toString() {
         return "PetCategory{" +
-            "id=" + id +
+            "petCategoryId='" + petCategoryId + "'" +
             ", name='" + name + "'" +
+            ", speed='" + speed + "'" +
             '}';
     }
 }

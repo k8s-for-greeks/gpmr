@@ -14,7 +14,7 @@
             $uibModalInstance.dismiss('cancel');
         };
         vm.confirmDelete = function (id) {
-            Race.delete({id: id},
+            Race.delete({raceId: id},
                 function () {
                     $uibModalInstance.close(true);
                 });

@@ -1,44 +1,61 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 import java.util.UUID;
+import java.math.BigDecimal;
 
 /**
  * A RaceParticipant.
  */
 
-@Table(name = "raceParticipant")
+@Table(name = "race_participant")
 public class RaceParticipant implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
+    @Column(caseSensitive = true, name = "raceParticipantId")
+    private UUID raceParticipantId;
 
+    @Column(caseSensitive = true, name="petId")
     private UUID petId;
 
-    private String petName;
-
-    private String petType;
-
-    private String petColor;
-
-    private String petCategory;
-
-    private String petCategoryId;
-
+    @Column(caseSensitive = true, name="raceId")
     private UUID raceId;
 
-    public UUID getId() {
-        return id;
+    @Column(caseSensitive = true, name="petName")
+    private String petName;
+
+    @Column(caseSensitive = true, name = "petColor")
+    private String petColor;
+
+    @Column(caseSensitive = true, name="petCategoryName")
+    private String petCategoryName;
+
+    @Column(caseSensitive = true, name="petCategoryId")
+    private UUID petCategoryId;
+
+    @Column(caseSensitive = true, name="startTime")
+    private Date startTime;
+
+    @Column(caseSensitive = true, name="finishTime")
+    private BigDecimal finishTime;
+
+    @Column(caseSensitive = true, name="finishPosition")
+    private Integer finishPosition;
+
+    private Boolean finished;
+
+    public UUID getRaceParticipantId() {
+        return raceParticipantId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setRaceParticipantId(UUID raceParticipantId) {
+        this.raceParticipantId = raceParticipantId;
     }
 
     public UUID getPetId() {
@@ -49,20 +66,20 @@ public class RaceParticipant implements Serializable {
         this.petId = petId;
     }
 
+    public UUID getRaceId() {
+        return raceId;
+    }
+
+    public void setRaceId(UUID raceId) {
+        this.raceId = raceId;
+    }
+
     public String getPetName() {
         return petName;
     }
 
     public void setPetName(String petName) {
         this.petName = petName;
-    }
-
-    public String getPetType() {
-        return petType;
-    }
-
-    public void setPetType(String petType) {
-        this.petType = petType;
     }
 
     public String getPetColor() {
@@ -73,28 +90,52 @@ public class RaceParticipant implements Serializable {
         this.petColor = petColor;
     }
 
-    public String getPetCategory() {
-        return petCategory;
+    public String getPetCategoryName() {
+        return petCategoryName;
     }
 
-    public void setPetCategory(String petCategory) {
-        this.petCategory = petCategory;
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
-    public String getPetCategoryId() {
+    public UUID getPetCategoryId() {
         return petCategoryId;
     }
 
-    public void setPetCategoryId(String petCategoryId) {
+    public void setPetCategoryId(UUID petCategoryId) {
         this.petCategoryId = petCategoryId;
     }
 
-    public UUID getRaceId() {
-        return raceId;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setRaceId(UUID raceId) {
-        this.raceId = raceId;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public BigDecimal getFinishTime() {
+        return finishTime;
+    }
+
+    public void setFinishTime(BigDecimal finishTime) {
+        this.finishTime = finishTime;
+    }
+
+    public Integer getFinishPosition() {
+        return finishPosition;
+    }
+
+    public void setFinishPosition(Integer finishPosition) {
+        this.finishPosition = finishPosition;
+    }
+
+    public Boolean isFinished() {
+        return finished;
+    }
+
+    public void setFinished(Boolean finished) {
+        this.finished = finished;
     }
 
     @Override
@@ -106,28 +147,31 @@ public class RaceParticipant implements Serializable {
             return false;
         }
         RaceParticipant raceParticipant = (RaceParticipant) o;
-        if (raceParticipant.id == null || id == null) {
+        if(raceParticipant.raceParticipantId == null || raceParticipantId == null) {
             return false;
         }
-        return Objects.equals(id, raceParticipant.id);
+        return Objects.equals(raceParticipantId, raceParticipant.raceParticipantId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(raceParticipantId);
     }
 
     @Override
     public String toString() {
         return "RaceParticipant{" +
-            "id=" + id +
+            ", raceParticipantId='" + raceParticipantId + "'" +
             ", petId='" + petId + "'" +
-            ", petName='" + petName + "'" +
-            ", petType='" + petType + "'" +
-            ", petColor='" + petColor + "'" +
-            ", petCategory='" + petCategory + "'" +
-            ", petCategoryId='" + petCategoryId + "'" +
             ", raceId='" + raceId + "'" +
+            ", petName='" + petName + "'" +
+            ", petColor='" + petColor + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
+            ", petCategoryId='" + petCategoryId + "'" +
+            ", startTime='" + startTime + "'" +
+            ", finishTime='" + finishTime + "'" +
+            ", finishPosition='" + finishPosition + "'" +
+            ", finished='" + finished + "'" +
             '}';
     }
 }

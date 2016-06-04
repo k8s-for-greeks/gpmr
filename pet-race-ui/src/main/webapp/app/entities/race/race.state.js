@@ -62,15 +62,15 @@
                     resolve: {
                         entity: function () {
                             return {
+                                raceId: null,
+                                petCategoryId: null,
+                                petCategoryName: null,
                                 numOfPets: null,
                                 length: null,
-                                numOfSamples: null,
+                                description: null,
                                 winnerId: null,
-                                winnerName: null,
-                                winnnerPetCategory: null,
                                 startTime: null,
-                                endTime: null,
-                                id: null
+                                baseSpeed: null,
                             };
                         }
                     }
@@ -96,7 +96,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['Race', function(Race) {
-                            return Race.get({id : $stateParams.id});
+                            return Race.get({raceId : $stateParams.raceId});
                         }]
                     }
                 }).result.then(function() {
@@ -120,7 +120,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['Race', function(Race) {
-                            return Race.get({id : $stateParams.id});
+                            return Race.get({raceId : $stateParams.raceId});
                         }]
                     }
                 }).result.then(function() {

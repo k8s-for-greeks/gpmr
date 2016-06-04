@@ -14,9 +14,21 @@
                     ng-model="vm.raceParticipant.id" readonly />
         </div>
         <div class="form-group">
+            <label class="control-label" for="field_raceParticipantId">Race Participant Id</label>
+            <input type="text" class="form-control" name="raceParticipantId" id="field_raceParticipantId"
+                    ng-model="vm.raceParticipant.raceParticipantId"
+                     />
+        </div>
+        <div class="form-group">
             <label class="control-label" for="field_petId">Pet Id</label>
             <input type="text" class="form-control" name="petId" id="field_petId"
                     ng-model="vm.raceParticipant.petId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_raceId">Race Id</label>
+            <input type="text" class="form-control" name="raceId" id="field_raceId"
+                    ng-model="vm.raceParticipant.raceId"
                      />
         </div>
         <div class="form-group">
@@ -26,21 +38,15 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petType">Pet Type</label>
-            <input type="text" class="form-control" name="petType" id="field_petType"
-                    ng-model="vm.raceParticipant.petType"
-                     />
-        </div>
-        <div class="form-group">
             <label class="control-label" for="field_petColor">Pet Color</label>
             <input type="text" class="form-control" name="petColor" id="field_petColor"
                     ng-model="vm.raceParticipant.petColor"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petCategory">Pet Category</label>
-            <input type="text" class="form-control" name="petCategory" id="field_petCategory"
-                    ng-model="vm.raceParticipant.petCategory"
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.raceParticipant.petCategoryName"
                      />
         </div>
         <div class="form-group">
@@ -50,9 +56,31 @@
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_raceId">Race Id</label>
-            <input type="text" class="form-control" name="raceId" id="field_raceId"
-                    ng-model="vm.raceParticipant.raceId"
+            <label class="control-label" for="field_startTime">Start Time</label>
+                <div class="input-group">
+                    <input id="field_startTime" type="text" class="form-control" name="startTime" uib-datepicker-popup="{{dateformat}}" ng-model="vm.raceParticipant.startTime" is-open="vm.datePickerOpenStatus.startTime"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('startTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finishTime">Finish Time</label>
+            <input type="number" class="form-control" name="finishTime" id="field_finishTime"
+                    ng-model="vm.raceParticipant.finishTime"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finishPosition">Finish Position</label>
+            <input type="number" class="form-control" name="finishPosition" id="field_finishPosition"
+                    ng-model="vm.raceParticipant.finishPosition"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_finished">Finished</label>
+            <input type="checkbox" class="form-control" name="finished" id="field_finished"
+                    ng-model="vm.raceParticipant.finished"
                      />
         </div>
 

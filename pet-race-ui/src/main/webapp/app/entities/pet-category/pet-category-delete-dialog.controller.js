@@ -14,7 +14,7 @@
             $uibModalInstance.dismiss('cancel');
         };
         vm.confirmDelete = function (id) {
-            PetCategory.delete({id: id},
+            PetCategory.delete({petCategory: id},
                 function () {
                     $uibModalInstance.close(true);
                 });

@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the RaceParticipants entity.
+ * Performance test for the RaceNormal entity.
  */
-class RaceParticipantsGatlingTest extends Simulation {
+class RaceNormalGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -42,7 +42,7 @@ class RaceParticipantsGatlingTest extends Simulation {
         "Authorization" -> "${access_token}"
     )
 
-    val scn = scenario("Test the RaceParticipants entity")
+    val scn = scenario("Test the RaceNormal entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -60,26 +60,26 @@ class RaceParticipantsGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all raceParticipants")
-            .get("/api/race-participants")
+            exec(http("Get all raceNormals")
+            .get("/api/race-normals")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new raceParticipants")
-            .post("/api/race-participants")
+            .exec(http("Create new raceNormal")
+            .post("/api/race-normals")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "raceParticipantsId":null, "petId":null, "raceId":null, "petName":"SAMPLE_TEXT", "petColor":null, "petCategoryName":"SAMPLE_TEXT", "petCategoryId":null, "startTime":null, "finishTime":null, "finishPosition":"0", "finished":null}""")).asJSON
+            .body(StringBody("""{"id":null, "raceNormalId":null, "raceId":null, "petCategoryId":null, "petCategoryName":"SAMPLE_TEXT", "currentTime":null, "normalLoc":null, "normalScale":null, "normalSize":"0"}""")).asJSON
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_raceParticipants_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_raceNormal_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created raceParticipants")
-                .get("${new_raceParticipants_url}")
+                exec(http("Get created raceNormal")
+                .get("${new_raceNormal_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created raceParticipants")
-            .delete("${new_raceParticipants_url}")
+            .exec(http("Delete created raceNormal")
+            .delete("${new_raceNormal_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

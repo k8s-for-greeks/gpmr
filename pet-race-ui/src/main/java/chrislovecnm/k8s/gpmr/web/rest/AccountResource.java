@@ -47,7 +47,7 @@ public class AccountResource {
      *
      * @param managedUserDTO the managed user DTO
      * @param request        the HTTP request
-     * @return the ResponseEntity with status 201 (Created) if the user is registred or 400 (Bad Request) if the login or e-mail is already in use
+     * @return the ResponseEntity with status 201 (Created) if the user is registered or 400 (Bad Request) if the login or e-mail is already in use
      */
     @RequestMapping(value = "/register",
         method = RequestMethod.POST,
@@ -68,7 +68,7 @@ public class AccountResource {
                         managedUserDTO.getLangKey());
                     String baseUrl = request.getScheme() + // "http"
                         "://" +                                // "://"
-                        request.getServerName() +              // "myhost"
+                        request.getServerName() +              // "my_host"
                         ":" +                                  // ":"
                         request.getServerPort() +              // "80"
                         request.getContextPath();              // "/myContextPath" or "" if deployed in root context

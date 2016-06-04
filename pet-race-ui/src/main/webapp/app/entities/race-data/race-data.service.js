@@ -4,9 +4,9 @@
         .module('gpmrApp')
         .factory('RaceData', RaceData);
 
-    RaceData.$inject = ['$resource'];
+    RaceData.$inject = ['$resource', 'DateUtils'];
 
-    function RaceData ($resource) {
+    function RaceData ($resource, DateUtils) {
         var resourceUrl =  'api/race-data/:id';
 
         return $resource(resourceUrl, {}, {
@@ -15,6 +15,7 @@
                 method: 'GET',
                 transformResponse: function (data) {
                     data = angular.fromJson(data);
+                    data.startTime = DateUtils.convertDateTimeFromServer(data.startTime);
                     return data;
                 }
             },

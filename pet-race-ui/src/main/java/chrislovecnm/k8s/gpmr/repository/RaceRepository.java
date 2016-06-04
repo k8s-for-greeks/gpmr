@@ -1,15 +1,16 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.Race;
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Session;
+
+import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -18,43 +19,44 @@ import java.util.UUID;
  * Cassandra repository for the Race entity.
  */
 @Repository
-public class RaceRepository {
-
-    @Inject
-    private Session session;
+public class RaceRepository extends CassandraPaging {
 
     private Mapper<Race> mapper;
-
-    private PreparedStatement findAllStmt;
-
-    private PreparedStatement truncateStmt;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Race.class);
-        findAllStmt = session.prepare("SELECT * FROM race");
-        truncateStmt = session.prepare("TRUNCATE race");
+        createPaging(mapper,"gpmr","race");
+    }
+
+    public Page<Race> findAll(Pageable pageable) {
+        List<Race> races = new ArrayList<>();
+
+        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+            row -> rowCall(row)
+        ).forEach(races::add);
+        Page<Race> page = new PageImpl<>(races,pageable,races.size());
+        return page;
+    }
+
+    private Race rowCall(Row row) {
+        Race race = new Race();
+        race.setRaceId(row.getUUID("raceId"));
+        race.setPetCategoryId(row.getUUID("petCategoryId"));
+        race.setPetCategoryName(row.getString("petCategoryName"));
+        race.setNumOfPets(row.getInt("numOfPets"));
+        race.setLength(row.getInt("length"));
+        race.setDescription(row.getString("description"));
+        race.setWinnerId(row.getUUID("winnerId"));
+        race.setStartTime(row.getTimestamp("startTime"));
+        race.setBaseSpeed(row.getFloat("baseSpeed"));
+        race.setRacersIds(row.getList("racersIds", UUID.class));
+        return race;
     }
 
     public List<Race> findAll() {
-        List<Race> races = new ArrayList<>();
-        BoundStatement stmt = findAllStmt.bind();
-        session.execute(stmt).all().stream().map(
-            row -> {
-                Race race = new Race();
-                race.setId(row.getUUID("id"));
-                race.setNumOfPets(row.getInt("numOfPets"));
-                race.setLength(row.getInt("length"));
-                race.setNumOfSamples(row.getInt("numOfSamples"));
-                race.setWinnerId(row.getUUID("winnerId"));
-                race.setWinnerName(row.getString("winnerName"));
-                race.setWinnnerPetCategory(row.getString("winnnerPetCategory"));
-                race.setStartTime(row.getDate("startTime"));
-                race.setEndTime(row.getDate("endTime"));
-                return race;
-            }
-        ).forEach(races::add);
-        return races;
+        ResultSet resultSet = session.execute(findAllStmtPaging);
+        return mapper.map(resultSet).all();
     }
 
     public Race findOne(UUID id) {
@@ -62,8 +64,8 @@ public class RaceRepository {
     }
 
     public Race save(Race race) {
-        if (race.getId() == null) {
-            race.setId(UUID.randomUUID());
+        if (race.getRaceId() == null) {
+            race.setRaceId(UUID.randomUUID());
         }
         mapper.save(race);
         return race;
@@ -74,7 +76,7 @@ public class RaceRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt = truncateStmt.bind();
+        BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
     }
 }

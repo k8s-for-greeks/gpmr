@@ -68,7 +68,7 @@ class RaceResultGatlingTest extends Simulation {
             .exec(http("Create new raceResult")
             .post("/api/race-results")
             .headers(headers_http_authenticated)
-            .body(StringBody("""{"id":null, "petId":null, "petName":"SAMPLE_TEXT", "petCategory":"SAMPLE_TEXT", "petCategoryId":null, "place":"0", "time":null}""")).asJSON
+            .body(StringBody("""{"id":null, "raceResultId":null, "raceId":null, "petCategoryId":null, "raceParticipantId":null, "petName":"SAMPLE_TEXT", "petType":"SAMPLE_TEXT", "petColor":null, "petCategoryName":"SAMPLE_TEXT", "finishPosition":"0", "finishTime":null, "startTime":null}""")).asJSON
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_raceResult_url"))).exitHereIfFailed
             .pause(10)

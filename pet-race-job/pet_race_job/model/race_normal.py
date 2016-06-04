@@ -20,11 +20,11 @@ from cassandra.cqlengine.models import Model
 
 class RaceNormal(Model):
     raceNormalId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    raceId = columns.UUID(primary_key=True, default=uuid.uuid4)
-    petCategoryName = columns.Text(required=False)
-    petCategoryId = columns.UUID(primary_key=True, default=uuid.uuid4)
+    raceId = columns.UUID(index=True, default=uuid.uuid4)
+    petCategoryId = columns.UUID(index=True, default=uuid.uuid4)
+    petCategoryName = columns.Text(index=True,required=False)
     currentTime = columns.DateTime()
-    normals = columns.List(value_type=columns.Float())
+    normals = columns.List(value_type=columns.Decimal())
     normalLoc = columns.Float()
     normalScale = columns.Float()
     normalSize = columns.Integer()

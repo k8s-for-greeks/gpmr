@@ -1,0 +1,45 @@
+
+<div>
+    <h2><span>Race Normal</span> {{vm.raceNormal.id}}</h2>
+    <hr>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Race Normal Id</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.raceNormalId}}</span>
+        </dd>
+        <dt><span>Race Id</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.raceId}}</span>
+        </dd>
+        <dt><span>Pet Category Id</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.petCategoryId}}</span>
+        </dd>
+        <dt><span>Pet Category Name</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.petCategoryName}}</span>
+        </dd>
+        <dt><span>Current Time</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.currentTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Normal Loc</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.normalLoc}}</span>
+        </dd>
+        <dt><span>Normal Scale</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.normalScale}}</span>
+        </dd>
+        <dt><span>Normal Size</span></dt>
+        <dd>
+            <span>{{vm.raceNormal.normalSize}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>

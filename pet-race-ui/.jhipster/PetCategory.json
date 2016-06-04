@@ -3,8 +3,18 @@
   "fields": [
     {
       "fieldId": 1,
+      "fieldName": "petCategoryId",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 2,
       "fieldName": "name",
       "fieldType": "String"
+    },
+    {
+      "fieldId": 3,
+      "fieldName": "speed",
+      "fieldType": "Float"
     }
   ],
   "changelogDate": "20160509045155",

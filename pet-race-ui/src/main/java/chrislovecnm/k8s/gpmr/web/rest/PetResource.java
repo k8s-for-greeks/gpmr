@@ -1,11 +1,12 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.Pet;
 import chrislovecnm.k8s.gpmr.service.PetService;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * REST controller for managing Pet.
@@ -42,12 +44,12 @@ public class PetResource {
     @Timed
     public ResponseEntity<Pet> createPet(@RequestBody Pet pet) throws URISyntaxException {
         log.debug("REST request to save Pet : {}", pet);
-        if (pet.getId() != null) {
+        if (pet.getPetId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("pet", "idexists", "A new pet cannot already have an ID")).body(null);
         }
         Pet result = petService.save(pet);
-        return ResponseEntity.created(new URI("/api/pets/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("pet", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/pets/" + result.getPetId()))
+            .headers(HeaderUtil.createEntityCreationAlert("pet", result.getPetId().toString()))
             .body(result);
     }
 
@@ -66,12 +68,12 @@ public class PetResource {
     @Timed
     public ResponseEntity<Pet> updatePet(@RequestBody Pet pet) throws URISyntaxException {
         log.debug("REST request to update Pet : {}", pet);
-        if (pet.getId() == null) {
+        if (pet.getPetId() == null) {
             return createPet(pet);
         }
         Pet result = petService.save(pet);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("pet", pet.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("pet", pet.getPetId().toString()))
             .body(result);
     }
 

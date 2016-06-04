@@ -23,7 +23,7 @@ import java.nio.file.Paths;
  */
 public class AbstractCassandraTest {
 
-    public static final String CASSANDRA_UNIT_KEYSPACE = "cassandra_unit_keyspace";
+    public static final String CASSANDRA_UNIT_KEYSPACE = "gpmr";
 
     @BeforeClass
     public static void startServer() throws InterruptedException, TTransportException, ConfigurationException, IOException, URISyntaxException  {

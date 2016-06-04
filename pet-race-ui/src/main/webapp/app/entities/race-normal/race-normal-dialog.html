@@ -1,0 +1,78 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myRaceNormalLabel">Create or edit a Race Normal</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" ng-show="vm.raceNormal.id">
+            <label for="id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                    ng-model="vm.raceNormal.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_raceNormalId">Race Normal Id</label>
+            <input type="text" class="form-control" name="raceNormalId" id="field_raceNormalId"
+                    ng-model="vm.raceNormal.raceNormalId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_raceId">Race Id</label>
+            <input type="text" class="form-control" name="raceId" id="field_raceId"
+                    ng-model="vm.raceNormal.raceId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryId">Pet Category Id</label>
+            <input type="text" class="form-control" name="petCategoryId" id="field_petCategoryId"
+                    ng-model="vm.raceNormal.petCategoryId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.raceNormal.petCategoryName"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_currentTime">Current Time</label>
+                <div class="input-group">
+                    <input id="field_currentTime" type="text" class="form-control" name="currentTime" uib-datepicker-popup="{{dateformat}}" ng-model="vm.raceNormal.currentTime" is-open="vm.datePickerOpenStatus.currentTime"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('currentTime')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_normalLoc">Normal Loc</label>
+            <input type="number" class="form-control" name="normalLoc" id="field_normalLoc"
+                    ng-model="vm.raceNormal.normalLoc"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_normalScale">Normal Scale</label>
+            <input type="number" class="form-control" name="normalScale" id="field_normalScale"
+                    ng-model="vm.raceNormal.normalScale"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_normalSize">Normal Size</label>
+            <input type="number" class="form-control" name="normalSize" id="field_normalSize"
+                    ng-model="vm.raceNormal.normalSize"
+                     />
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

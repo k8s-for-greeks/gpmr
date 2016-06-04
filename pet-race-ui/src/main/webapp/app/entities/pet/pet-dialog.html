@@ -14,15 +14,27 @@
                     ng-model="vm.pet.id" readonly />
         </div>
         <div class="form-group">
+            <label class="control-label" for="field_petId">Pet Id</label>
+            <input type="text" class="form-control" name="petId" id="field_petId"
+                    ng-model="vm.pet.petId"
+                     />
+        </div>
+        <div class="form-group">
             <label class="control-label" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.pet.name"
                      />
         </div>
         <div class="form-group">
-            <label class="control-label" for="field_petCategory">Pet Category</label>
-            <input type="text" class="form-control" name="petCategory" id="field_petCategory"
-                    ng-model="vm.pet.petCategory"
+            <label class="control-label" for="field_description">Description</label>
+            <input type="text" class="form-control" name="description" id="field_description"
+                    ng-model="vm.pet.description"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_petCategoryName">Pet Category Name</label>
+            <input type="text" class="form-control" name="petCategoryName" id="field_petCategoryName"
+                    ng-model="vm.pet.petCategoryName"
                      />
         </div>
         <div class="form-group">

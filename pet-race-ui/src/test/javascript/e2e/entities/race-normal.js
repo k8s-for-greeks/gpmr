@@ -1,6 +1,6 @@
 'use strict';
 
-describe('Pets e2e test', function () {
+describe('RaceNormal e2e test', function () {
 
     var username = element(by.id('username'));
     var password = element(by.id('password'));
@@ -20,16 +20,16 @@ describe('Pets e2e test', function () {
         element(by.css('button[type=submit]')).click();
     });
 
-    it('should load Pets', function () {
+    it('should load RaceNormals', function () {
         entityMenu.click();
-        element(by.css('[ui-sref="pets"]')).click().then(function() {
-            expect(element.all(by.css('h2')).first().getText()).toMatch(/Pets/);
+        element(by.css('[ui-sref="race-normal"]')).click().then(function() {
+            expect(element.all(by.css('h2')).first().getText()).toMatch(/Race Normals/);
         });
     });
 
-    it('should load create Pets dialog', function () {
-        element(by.css('[ui-sref="pets.new"]')).click().then(function() {
-            expect(element(by.css('h4.modal-title')).getText()).toMatch(/Create or edit a Pets/);
+    it('should load create RaceNormal dialog', function () {
+        element(by.css('[ui-sref="race-normal.new"]')).click().then(function() {
+            expect(element(by.css('h4.modal-title')).getText()).toMatch(/Create or edit a Race Normal/);
             element(by.css('button.close')).click();
         });
     });

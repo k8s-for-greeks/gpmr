@@ -8,15 +8,16 @@
     </div>
     <div class="modal-body">
         <jhi-alert-error></jhi-alert-error>
-        <div class="form-group" ng-show="vm.petCategory.id">
-            <label for="id">ID</label>
-            <input type="text" class="form-control" id="id" name="id"
-                    ng-model="vm.petCategory.id" readonly />
-        </div>
         <div class="form-group">
             <label class="control-label" for="field_name">Name</label>
             <input type="text" class="form-control" name="name" id="field_name"
                     ng-model="vm.petCategory.name"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_speed">Speed</label>
+            <input type="number" class="form-control" name="speed" id="field_speed"
+                    ng-model="vm.petCategory.speed"
                      />
         </div>
 

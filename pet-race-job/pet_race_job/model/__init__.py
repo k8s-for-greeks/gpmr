@@ -5,3 +5,4 @@ from .race_data import RaceData
 from .race_normal import RaceNormal
 from .race_participant import RaceParticipant
 from .race_result import RaceResult
+from .counter import Counter

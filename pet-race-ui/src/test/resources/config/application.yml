@@ -17,9 +17,9 @@ spring:
         cassandra:
             contactPoints: localhost
             port: 9142
-            protocolVersion: V2
+            protocolVersion: V3
             compression: NONE
-            keyspaceName: cassandra_unit_keyspace
+            keyspaceName: gpmr
     mail:
         host: localhost
     mvc:

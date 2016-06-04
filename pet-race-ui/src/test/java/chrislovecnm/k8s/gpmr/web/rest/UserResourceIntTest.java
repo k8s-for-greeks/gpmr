@@ -5,6 +5,7 @@ import chrislovecnm.k8s.gpmr.GpmrApp;
 import chrislovecnm.k8s.gpmr.domain.User;
 import chrislovecnm.k8s.gpmr.repository.UserRepository;
 import chrislovecnm.k8s.gpmr.service.UserService;
+import chrislovecnm.k8s.gpmr.web.rest.dto.ManagedUserDTO;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -53,6 +54,14 @@ public class UserResourceIntTest extends AbstractCassandraTest {
 
     @Test
     public void testGetExistingUser() throws Exception {
+        User user = new User();
+        user.setEmail("chris.love@apollobit.com");
+        user.setLastName("Administrator");
+        user.setLogin("admin");
+        ManagedUserDTO managedUserDTO = new ManagedUserDTO(user);
+        User newUser = userService.createUser(managedUserDTO);
+
+
         restUserMockMvc.perform(get("/api/users/admin")
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())

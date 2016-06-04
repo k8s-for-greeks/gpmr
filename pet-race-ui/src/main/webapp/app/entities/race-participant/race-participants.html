@@ -17,28 +17,36 @@
     <div class="table-responsive">
         <table class="jh-table table table-striped">
             <thead>
-                <tr>
-                    <th><span>ID</span></th>
-                    <th><span>Pet Id</span></th>
-                    <th><span>Pet Name</span></th>
-                    <th><span>Pet Type</span></th>
-                    <th><span>Pet Color</span></th>
-                    <th><span>Pet Category</span></th>
-                    <th><span>Pet Category Id</span></th>
-                    <th><span>Race Id</span></th>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="raceParticipantId"><span>Race Participant Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petId"><span>Pet Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="raceId"><span>Race Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petName"><span>Pet Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petColor"><span>Pet Color</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petCategoryName"><span>Pet Category Name</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="petCategoryId"><span>Pet Category Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="startTime"><span>Start Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="finishTime"><span>Finish Time</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="finishPosition"><span>Finish Position</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="finished"><span>Finished</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
                 <tr ng-repeat="raceParticipant in vm.raceParticipants track by raceParticipant.id">
                     <td><a ui-sref="race-participant-detail({id:raceParticipant.id})">{{raceParticipant.id}}</a></td>
+                    <td>{{raceParticipant.raceParticipantId}}</td>
                     <td>{{raceParticipant.petId}}</td>
-                    <td>{{raceParticipant.petName}}</td>
-                    <td>{{raceParticipant.petType}}</td>
-                    <td>{{raceParticipant.petColor}}</td>
-                    <td>{{raceParticipant.petCategory}}</td>
-                    <td>{{raceParticipant.petCategoryId}}</td>
                     <td>{{raceParticipant.raceId}}</td>
+                    <td>{{raceParticipant.petName}}</td>
+                    <td>{{raceParticipant.petColor}}</td>
+                    <td>{{raceParticipant.petCategoryName}}</td>
+                    <td>{{raceParticipant.petCategoryId}}</td>
+                    <td>{{raceParticipant.startTime | date:'medium'}}</td>
+                    <td>{{raceParticipant.finishTime}}</td>
+                    <td>{{raceParticipant.finishPosition}}</td>
+                    <td>{{raceParticipant.finished}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"

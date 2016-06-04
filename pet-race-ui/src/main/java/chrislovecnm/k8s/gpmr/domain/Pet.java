@@ -1,10 +1,8 @@
 package chrislovecnm.k8s.gpmr.domain;
 
-import com.datastax.driver.mapping.annotations.PartitionKey;
-import com.datastax.driver.mapping.annotations.Table;
+import com.datastax.driver.mapping.annotations.*;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -18,22 +16,28 @@ public class Pet implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @PartitionKey
-    private UUID id;
+    @Column(caseSensitive = true,name = "petId")
+    private UUID petId;
 
     private String name;
 
-    private String petCategory;
+    private String description;
 
+    @Column(caseSensitive = true, name="petCategoryName")
+    private String petCategoryName;
+
+    @Column(caseSensitive = true, name = "petCategoryId")
     private UUID petCategoryId;
 
-    private BigDecimal petSpeed;
+    @Column(caseSensitive = true, name="petSpeed")
+    private Float petSpeed;
 
-    public UUID getId() {
-        return id;
+    public UUID getPetId() {
+        return petId;
     }
 
-    public void setId(UUID id) {
-        this.id = id;
+    public void setPetId(UUID petId) {
+        this.petId = petId;
     }
 
     public String getName() {
@@ -44,12 +48,20 @@ public class Pet implements Serializable {
         this.name = name;
     }
 
-    public String getPetCategory() {
-        return petCategory;
+    public String getDescription() {
+        return description;
     }
 
-    public void setPetCategory(String petCategory) {
-        this.petCategory = petCategory;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getPetCategoryName() {
+        return petCategoryName;
+    }
+
+    public void setPetCategoryName(String petCategoryName) {
+        this.petCategoryName = petCategoryName;
     }
 
     public UUID getPetCategoryId() {
@@ -60,11 +72,11 @@ public class Pet implements Serializable {
         this.petCategoryId = petCategoryId;
     }
 
-    public BigDecimal getPetSpeed() {
+    public Float getPetSpeed() {
         return petSpeed;
     }
 
-    public void setPetSpeed(BigDecimal petSpeed) {
+    public void setPetSpeed(Float petSpeed) {
         this.petSpeed = petSpeed;
     }
 
@@ -77,23 +89,24 @@ public class Pet implements Serializable {
             return false;
         }
         Pet pet = (Pet) o;
-        if (pet.id == null || id == null) {
+        if(pet.petId == null || petId == null) {
             return false;
         }
-        return Objects.equals(id, pet.id);
+        return Objects.equals(petId, pet.petId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(id);
+        return Objects.hashCode(petId);
     }
 
     @Override
     public String toString() {
         return "Pet{" +
-            "id=" + id +
+            ", petId='" + petId + "'" +
             ", name='" + name + "'" +
-            ", petCategory='" + petCategory + "'" +
+            ", description='" + description + "'" +
+            ", petCategoryName='" + petCategoryName + "'" +
             ", petCategoryId='" + petCategoryId + "'" +
             ", petSpeed='" + petSpeed + "'" +
             '}';

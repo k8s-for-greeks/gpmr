@@ -1,11 +1,15 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.RaceResult;
 import chrislovecnm.k8s.gpmr.repository.RaceResultRepository;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
+import chrislovecnm.k8s.gpmr.web.rest.util.PaginationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -43,12 +47,12 @@ public class RaceResultResource {
     @Timed
     public ResponseEntity<RaceResult> createRaceResult(@RequestBody RaceResult raceResult) throws URISyntaxException {
         log.debug("REST request to save RaceResult : {}", raceResult);
-        if (raceResult.getId() != null) {
+        if (raceResult.getRaceResultId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("raceResult", "idexists", "A new raceResult cannot already have an ID")).body(null);
         }
         RaceResult result = raceResultRepository.save(raceResult);
-        return ResponseEntity.created(new URI("/api/race-results/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("raceResult", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/race-results/" + result.getRaceResultId()))
+            .headers(HeaderUtil.createEntityCreationAlert("raceResult", result.getRaceResultId().toString()))
             .body(result);
     }
 
@@ -67,28 +71,32 @@ public class RaceResultResource {
     @Timed
     public ResponseEntity<RaceResult> updateRaceResult(@RequestBody RaceResult raceResult) throws URISyntaxException {
         log.debug("REST request to update RaceResult : {}", raceResult);
-        if (raceResult.getId() == null) {
+        if (raceResult.getRaceResultId() == null) {
             return createRaceResult(raceResult);
         }
         RaceResult result = raceResultRepository.save(raceResult);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("raceResult", raceResult.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("raceResult", raceResult.getRaceResultId().toString()))
             .body(result);
     }
 
     /**
      * GET  /race-results : get all the raceResults.
      *
+     * @param pageable the pagination information
      * @return the ResponseEntity with status 200 (OK) and the list of raceResults in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
      */
     @RequestMapping(value = "/race-results",
         method = RequestMethod.GET,
         produces = MediaType.APPLICATION_JSON_VALUE)
     @Timed
-    public List<RaceResult> getAllRaceResults() {
-        log.debug("REST request to get all RaceResults");
-        List<RaceResult> raceResults = raceResultRepository.findAll();
-        return raceResults;
+    public ResponseEntity<List<RaceResult>> getAllRaceResults(Pageable pageable)
+        throws URISyntaxException {
+        log.debug("REST request to get a page of RaceResults");
+        Page<RaceResult> page = raceResultRepository.findAll(pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(page, "/api/race-results");
+        return new ResponseEntity<>(page.getContent(), headers, HttpStatus.OK);
     }
 
     /**

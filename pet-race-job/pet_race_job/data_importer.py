@@ -9,6 +9,7 @@ from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
 from cassandra.util import uuid_from_time
+
 from pet_race_job.model import *
 
 os.environ["CQLENG_ALLOW_SCHEMA_MANAGEMENT"] = "1"
@@ -46,6 +47,7 @@ class DataImporter(object):
 
     def create_tables(self):
         self.connect_cass()
+        sync_table(Counter)
         sync_table(PetCategory)
         sync_table(Pet)
         sync_table(RaceData)
@@ -88,6 +90,14 @@ class DataImporter(object):
                 speed=speed
             )
             self.logger.debug("pet cat created: %s", cat['name'])
+
+    def save_counters(self):
+        Counter(type='Race').update()
+        Counter(type='RaceData').update()
+        Counter(type='RaceNormal').update()
+        Counter(type='RaceParticipant').update()
+        Counter(type='RaceResult').update()
+        self.logger.debug("counters created")
 
     def parse_pet_files(self, d):
         files = glob.glob(d)

@@ -168,7 +168,7 @@ public class AccountResourceIntTest extends AbstractCassandraTest {
             "funky@example.com",    // e-mail
             true,                   // activated
             "en",               // langKey
-            new HashSet<>(Arrays.asList(AuthoritiesConstants.USER)));
+            new HashSet<>(Collections.singletonList(AuthoritiesConstants.USER)));
 
         restUserMockMvc.perform(
             post("/api/register")

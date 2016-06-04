@@ -23,6 +23,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -44,21 +45,35 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class RaceResultResourceIntTest extends AbstractCassandraTest {
 
 
-    private static final UUID DEFAULT_PET_ID = UUID.randomUUID();
-    private static final UUID UPDATED_PET_ID = UUID.randomUUID();
-    private static final String DEFAULT_PET_NAME = "AAAAA";
-    private static final String UPDATED_PET_NAME = "BBBBB";
-    private static final String DEFAULT_PET_CATEGORY = "AAAAA";
-    private static final String UPDATED_PET_CATEGORY = "BBBBB";
+    private static final UUID DEFAULT_RACE_RESULT_ID = UUID.randomUUID();
+    private static final UUID UPDATED_RACE_RESULT_ID = UUID.randomUUID();
+
+    private static final UUID DEFAULT_RACE_ID = UUID.randomUUID();
+    private static final UUID UPDATED_RACE_ID = UUID.randomUUID();
 
     private static final UUID DEFAULT_PET_CATEGORY_ID = UUID.randomUUID();
     private static final UUID UPDATED_PET_CATEGORY_ID = UUID.randomUUID();
 
-    private static final Integer DEFAULT_PLACE = 1;
-    private static final Integer UPDATED_PLACE = 2;
+    private static final UUID DEFAULT_RACE_PARTICIPANT_ID = UUID.randomUUID();
+    private static final UUID UPDATED_RACE_PARTICIPANT_ID = UUID.randomUUID();
+    private static final String DEFAULT_PET_NAME = "AAAAA";
+    private static final String UPDATED_PET_NAME = "BBBBB";
+    private static final String DEFAULT_PET_TYPE = "AAAAA";
+    private static final String UPDATED_PET_TYPE = "BBBBB";
 
-    private static final Date DEFAULT_TIME = new Date();
-    private static final Date UPDATED_TIME = new Date();
+    private static final String DEFAULT_PET_COLOR = "RED";
+    private static final String UPDATED_PET_COLOR = "BLUE";
+    private static final String DEFAULT_PET_CATEGORY_NAME = "AAAAA";
+    private static final String UPDATED_PET_CATEGORY_NAME = "BBBBB";
+
+    private static final Integer DEFAULT_FINISH_POSITION = 1;
+    private static final Integer UPDATED_FINISH_POSITION = 2;
+
+    private static final BigDecimal DEFAULT_FINISH_TIME = BigDecimal.valueOf(1D);
+    private static final BigDecimal UPDATED_FINISH_TIME = BigDecimal.valueOf(2D);
+
+    private static final Date DEFAULT_START_TIME = new Date();
+    private static final Date UPDATED_START_TIME = new Date();
 
     @Inject
     private RaceResultRepository raceResultRepository;
@@ -87,12 +102,17 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
     public void initTest() {
         raceResultRepository.deleteAll();
         raceResult = new RaceResult();
-        raceResult.setPetId(DEFAULT_PET_ID);
-        raceResult.setPetName(DEFAULT_PET_NAME);
-        raceResult.setPetCategory(DEFAULT_PET_CATEGORY);
+        raceResult.setRaceResultId(DEFAULT_RACE_RESULT_ID);
+        raceResult.setRaceId(DEFAULT_RACE_ID);
         raceResult.setPetCategoryId(DEFAULT_PET_CATEGORY_ID);
-        raceResult.setPlace(DEFAULT_PLACE);
-        raceResult.setTime(DEFAULT_TIME);
+        raceResult.setRaceParticipantId(DEFAULT_RACE_PARTICIPANT_ID);
+        raceResult.setPetName(DEFAULT_PET_NAME);
+        raceResult.setPetType(DEFAULT_PET_TYPE);
+        raceResult.setPetColor(DEFAULT_PET_COLOR);
+        raceResult.setPetCategoryName(DEFAULT_PET_CATEGORY_NAME);
+        raceResult.setFinishPosition(DEFAULT_FINISH_POSITION);
+        raceResult.setFinishTime(DEFAULT_FINISH_TIME);
+        raceResult.setStartTime(DEFAULT_START_TIME);
     }
 
     @Test
@@ -101,6 +121,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
 
         // Create the RaceResult
 
+        raceResult.setRaceResultId(null);
         restRaceResultMockMvc.perform(post("/api/race-results")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
                 .content(TestUtil.convertObjectToJsonBytes(raceResult)))
@@ -110,12 +131,17 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         List<RaceResult> raceResults = raceResultRepository.findAll();
         assertThat(raceResults).hasSize(databaseSizeBeforeCreate + 1);
         RaceResult testRaceResult = raceResults.get(raceResults.size() - 1);
-        assertThat(testRaceResult.getPetId()).isEqualTo(DEFAULT_PET_ID);
-        assertThat(testRaceResult.getPetName()).isEqualTo(DEFAULT_PET_NAME);
-        assertThat(testRaceResult.getPetCategory()).isEqualTo(DEFAULT_PET_CATEGORY);
+        assertThat(testRaceResult.getRaceId()).isEqualTo(DEFAULT_RACE_ID);
         assertThat(testRaceResult.getPetCategoryId()).isEqualTo(DEFAULT_PET_CATEGORY_ID);
-        assertThat(testRaceResult.getPlace()).isEqualTo(DEFAULT_PLACE);
-        assertThat(testRaceResult.getTime()).isEqualTo(DEFAULT_TIME);
+        assertThat(testRaceResult.getRaceParticipantId()).isEqualTo(DEFAULT_RACE_PARTICIPANT_ID);
+        assertThat(testRaceResult.getPetName()).isEqualTo(DEFAULT_PET_NAME);
+        assertThat(testRaceResult.getPetType()).isEqualTo(DEFAULT_PET_TYPE);
+        assertThat(testRaceResult.getPetColor()).isEqualTo(DEFAULT_PET_COLOR);
+        assertThat(testRaceResult.getPetCategoryName()).isEqualTo(DEFAULT_PET_CATEGORY_NAME);
+        assertThat(testRaceResult.getFinishPosition()).isEqualTo(DEFAULT_FINISH_POSITION);
+        assertThat(testRaceResult.getFinishTime()).isEqualTo(DEFAULT_FINISH_TIME);
+        assertThat(testRaceResult.getStartTime()).isEqualTo(DEFAULT_START_TIME);
+        raceResult.setRaceResultId(DEFAULT_RACE_RESULT_ID);
     }
 
     @Test
@@ -127,13 +153,17 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         restRaceResultMockMvc.perform(get("/api/race-results?sort=id,desc"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(jsonPath("$.[*].id").value(hasItem(raceResult.getId().toString())))
-                .andExpect(jsonPath("$.[*].petId").value(hasItem(DEFAULT_PET_ID.toString())))
-                .andExpect(jsonPath("$.[*].petName").value(hasItem(DEFAULT_PET_NAME.toString())))
-                .andExpect(jsonPath("$.[*].petCategory").value(hasItem(DEFAULT_PET_CATEGORY.toString())))
+                .andExpect(jsonPath("$.[*].raceResultId").value(hasItem(raceResult.getRaceResultId().toString())))
+                .andExpect(jsonPath("$.[*].raceId").value(hasItem(DEFAULT_RACE_ID.toString())))
                 .andExpect(jsonPath("$.[*].petCategoryId").value(hasItem(DEFAULT_PET_CATEGORY_ID.toString())))
-                .andExpect(jsonPath("$.[*].place").value(hasItem(DEFAULT_PLACE)))
-                .andExpect(jsonPath("$.[*].time").value(hasItem(DEFAULT_TIME.getTime())));
+                .andExpect(jsonPath("$.[*].raceParticipantId").value(hasItem(DEFAULT_RACE_PARTICIPANT_ID.toString())))
+                .andExpect(jsonPath("$.[*].petName").value(hasItem(DEFAULT_PET_NAME.toString())))
+                .andExpect(jsonPath("$.[*].petType").value(hasItem(DEFAULT_PET_TYPE.toString())))
+                .andExpect(jsonPath("$.[*].petColor").value(hasItem(DEFAULT_PET_COLOR.toString())))
+                .andExpect(jsonPath("$.[*].petCategoryName").value(hasItem(DEFAULT_PET_CATEGORY_NAME.toString())))
+                .andExpect(jsonPath("$.[*].finishPosition").value(hasItem(DEFAULT_FINISH_POSITION)))
+                .andExpect(jsonPath("$.[*].finishTime").value(hasItem(DEFAULT_FINISH_TIME.doubleValue())))
+                .andExpect(jsonPath("$.[*].startTime").value(hasItem(DEFAULT_START_TIME.getTime())));
     }
 
     @Test
@@ -142,16 +172,20 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         raceResultRepository.save(raceResult);
 
         // Get the raceResult
-        restRaceResultMockMvc.perform(get("/api/race-results/{id}", raceResult.getId()))
+        restRaceResultMockMvc.perform(get("/api/race-results/{id}", raceResult.getRaceResultId()))
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(jsonPath("$.id").value(raceResult.getId().toString()))
-            .andExpect(jsonPath("$.petId").value(DEFAULT_PET_ID.toString()))
-            .andExpect(jsonPath("$.petName").value(DEFAULT_PET_NAME.toString()))
-            .andExpect(jsonPath("$.petCategory").value(DEFAULT_PET_CATEGORY.toString()))
+            .andExpect(jsonPath("$.raceResultId").value(raceResult.getRaceResultId().toString()))
+            .andExpect(jsonPath("$.raceId").value(DEFAULT_RACE_ID.toString()))
             .andExpect(jsonPath("$.petCategoryId").value(DEFAULT_PET_CATEGORY_ID.toString()))
-            .andExpect(jsonPath("$.place").value(DEFAULT_PLACE))
-            .andExpect(jsonPath("$.time").value(DEFAULT_TIME.getTime()));
+            .andExpect(jsonPath("$.raceParticipantId").value(DEFAULT_RACE_PARTICIPANT_ID.toString()))
+            .andExpect(jsonPath("$.petName").value(DEFAULT_PET_NAME.toString()))
+            .andExpect(jsonPath("$.petType").value(DEFAULT_PET_TYPE.toString()))
+            .andExpect(jsonPath("$.petColor").value(DEFAULT_PET_COLOR.toString()))
+            .andExpect(jsonPath("$.petCategoryName").value(DEFAULT_PET_CATEGORY_NAME.toString()))
+            .andExpect(jsonPath("$.finishPosition").value(DEFAULT_FINISH_POSITION))
+            .andExpect(jsonPath("$.finishTime").value(DEFAULT_FINISH_TIME.doubleValue()))
+            .andExpect(jsonPath("$.startTime").value(DEFAULT_START_TIME.getTime()));
     }
 
     @Test
@@ -169,13 +203,17 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
 
         // Update the raceResult
         RaceResult updatedRaceResult = new RaceResult();
-        updatedRaceResult.setId(raceResult.getId());
-        updatedRaceResult.setPetId(UPDATED_PET_ID);
-        updatedRaceResult.setPetName(UPDATED_PET_NAME);
-        updatedRaceResult.setPetCategory(UPDATED_PET_CATEGORY);
+        updatedRaceResult.setRaceResultId(raceResult.getRaceResultId());
+        updatedRaceResult.setRaceId(UPDATED_RACE_ID);
         updatedRaceResult.setPetCategoryId(UPDATED_PET_CATEGORY_ID);
-        updatedRaceResult.setPlace(UPDATED_PLACE);
-        updatedRaceResult.setTime(UPDATED_TIME);
+        updatedRaceResult.setRaceParticipantId(UPDATED_RACE_PARTICIPANT_ID);
+        updatedRaceResult.setPetName(UPDATED_PET_NAME);
+        updatedRaceResult.setPetType(UPDATED_PET_TYPE);
+        updatedRaceResult.setPetColor(UPDATED_PET_COLOR);
+        updatedRaceResult.setPetCategoryName(UPDATED_PET_CATEGORY_NAME);
+        updatedRaceResult.setFinishPosition(UPDATED_FINISH_POSITION);
+        updatedRaceResult.setFinishTime(UPDATED_FINISH_TIME);
+        updatedRaceResult.setStartTime(UPDATED_START_TIME);
 
         restRaceResultMockMvc.perform(put("/api/race-results")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)
@@ -186,12 +224,17 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         List<RaceResult> raceResults = raceResultRepository.findAll();
         assertThat(raceResults).hasSize(databaseSizeBeforeUpdate);
         RaceResult testRaceResult = raceResults.get(raceResults.size() - 1);
-        assertThat(testRaceResult.getPetId()).isEqualTo(UPDATED_PET_ID);
-        assertThat(testRaceResult.getPetName()).isEqualTo(UPDATED_PET_NAME);
-        assertThat(testRaceResult.getPetCategory()).isEqualTo(UPDATED_PET_CATEGORY);
+        assertThat(testRaceResult.getRaceResultId()).isEqualTo(raceResult.getRaceResultId());
+        assertThat(testRaceResult.getRaceId()).isEqualTo(UPDATED_RACE_ID);
         assertThat(testRaceResult.getPetCategoryId()).isEqualTo(UPDATED_PET_CATEGORY_ID);
-        assertThat(testRaceResult.getPlace()).isEqualTo(UPDATED_PLACE);
-        assertThat(testRaceResult.getTime()).isEqualTo(UPDATED_TIME);
+        assertThat(testRaceResult.getRaceParticipantId()).isEqualTo(UPDATED_RACE_PARTICIPANT_ID);
+        assertThat(testRaceResult.getPetName()).isEqualTo(UPDATED_PET_NAME);
+        assertThat(testRaceResult.getPetType()).isEqualTo(UPDATED_PET_TYPE);
+        assertThat(testRaceResult.getPetColor()).isEqualTo(UPDATED_PET_COLOR);
+        assertThat(testRaceResult.getPetCategoryName()).isEqualTo(UPDATED_PET_CATEGORY_NAME);
+        assertThat(testRaceResult.getFinishPosition()).isEqualTo(UPDATED_FINISH_POSITION);
+        assertThat(testRaceResult.getFinishTime()).isEqualTo(UPDATED_FINISH_TIME);
+        assertThat(testRaceResult.getStartTime()).isEqualTo(UPDATED_START_TIME);
     }
 
     @Test
@@ -201,7 +244,7 @@ public class RaceResultResourceIntTest extends AbstractCassandraTest {
         int databaseSizeBeforeDelete = raceResultRepository.findAll().size();
 
         // Get the raceResult
-        restRaceResultMockMvc.perform(delete("/api/race-results/{id}", raceResult.getId())
+        restRaceResultMockMvc.perform(delete("/api/race-results/{id}", raceResult.getRaceResultId())
                 .accept(TestUtil.APPLICATION_JSON_UTF8))
                 .andExpect(status().isOk());
 

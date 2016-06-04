@@ -3,33 +3,49 @@
     <h2><span>Race Participant</span> {{vm.raceParticipant.id}}</h2>
     <hr>
     <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Race Participant Id</span></dt>
+        <dd>
+            <span>{{vm.raceParticipant.raceParticipantId}}</span>
+        </dd>
         <dt><span>Pet Id</span></dt>
         <dd>
             <span>{{vm.raceParticipant.petId}}</span>
+        </dd>
+        <dt><span>Race Id</span></dt>
+        <dd>
+            <span>{{vm.raceParticipant.raceId}}</span>
         </dd>
         <dt><span>Pet Name</span></dt>
         <dd>
             <span>{{vm.raceParticipant.petName}}</span>
         </dd>
-        <dt><span>Pet Type</span></dt>
-        <dd>
-            <span>{{vm.raceParticipant.petType}}</span>
-        </dd>
         <dt><span>Pet Color</span></dt>
         <dd>
             <span>{{vm.raceParticipant.petColor}}</span>
         </dd>
-        <dt><span>Pet Category</span></dt>
+        <dt><span>Pet Category Name</span></dt>
         <dd>
-            <span>{{vm.raceParticipant.petCategory}}</span>
+            <span>{{vm.raceParticipant.petCategoryName}}</span>
         </dd>
         <dt><span>Pet Category Id</span></dt>
         <dd>
             <span>{{vm.raceParticipant.petCategoryId}}</span>
         </dd>
-        <dt><span>Race Id</span></dt>
+        <dt><span>Start Time</span></dt>
         <dd>
-            <span>{{vm.raceParticipant.raceId}}</span>
+            <span>{{vm.raceParticipant.startTime | date:'medium'}}</span>
+        </dd>
+        <dt><span>Finish Time</span></dt>
+        <dd>
+            <span>{{vm.raceParticipant.finishTime}}</span>
+        </dd>
+        <dt><span>Finish Position</span></dt>
+        <dd>
+            <span>{{vm.raceParticipant.finishPosition}}</span>
+        </dd>
+        <dt><span>Finished</span></dt>
+        <dd>
+            <span>{{vm.raceParticipant.finished}}</span>
         </dd>
     </dl>
 

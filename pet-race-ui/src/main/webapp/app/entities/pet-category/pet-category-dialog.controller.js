@@ -27,7 +27,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            if (vm.petCategory.id !== null) {
+            if (vm.petCategory.petCategoryId !== null) {
                 PetCategory.update(vm.petCategory, onSaveSuccess, onSaveError);
             } else {
                 PetCategory.save(vm.petCategory, onSaveSuccess, onSaveError);

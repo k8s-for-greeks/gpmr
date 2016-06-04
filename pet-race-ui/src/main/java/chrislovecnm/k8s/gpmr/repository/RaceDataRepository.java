@@ -1,11 +1,15 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.RaceData;
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Session;
+
+import chrislovecnm.k8s.gpmr.domain.RaceNormal;
+import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
+import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
@@ -18,39 +22,48 @@ import java.util.UUID;
  * Cassandra repository for the RaceData entity.
  */
 @Repository
-public class RaceDataRepository {
-
-    @Inject
-    private Session session;
+public class RaceDataRepository extends CassandraPaging {
 
     private Mapper<RaceData> mapper;
 
-    private PreparedStatement findAllStmt;
-
-    private PreparedStatement truncateStmt;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceData.class);
-        findAllStmt = session.prepare("SELECT * FROM raceData");
-        truncateStmt = session.prepare("TRUNCATE raceData");
+        createPaging(mapper,"gpmr","race_data");
+    }
+
+   public Page<RaceData> findAll(Pageable pageable) {
+        List<RaceData> raceData = new ArrayList<>();
+        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+            row -> rowCall(row)
+        ).forEach(raceData::add);
+       Page<RaceData> page = new PageImpl<>(raceData,pageable,raceData.size());
+       return page;
+    }
+
+    private RaceData rowCall(Row row) {
+        RaceData rd = new RaceData();
+        rd.setRaceDataId(row.getUUID("raceDataId"));
+        rd.setPetId(row.getUUID("petId"));
+        rd.setRaceId(row.getUUID("raceId"));
+        rd.setPetName(row.getString("petName"));
+        rd.setPetCategoryName(row.getString("petCategoryName"));
+        rd.setPetCategoryId(row.getUUID("petCategoryId"));
+        rd.setInterval(row.getInt("interval"));
+        rd.setRunnerPosition(row.getInt("runnerPosition"));
+        rd.setRunnerDistance(row.getDecimal("runnerDistance"));
+        rd.setStartTime(row.getTimestamp("startTime"));
+        rd.setFinished(row.getBool("finished"));
+        rd.setRunnerPreviousDistance(row.getDecimal("runnerPreviousDistance"));
+        return rd;
     }
 
     public List<RaceData> findAll() {
         List<RaceData> raceData = new ArrayList<>();
-        BoundStatement stmt = findAllStmt.bind();
+        BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
-            row -> {
-                RaceData rd = new RaceData();
-                rd.setId(row.getUUID("id"));
-                rd.setPetId(row.getUUID("petId"));
-                rd.setPetName(row.getString("petName"));
-                rd.setPetCategory(row.getString("petCategory"));
-                rd.setPetCategoryId(row.getUUID("petCategoryId"));
-                rd.setRunnerPostion(row.getInt("runnerPostion"));
-                rd.setRunnerSashColor(row.getString("runnerSashColor"));
-                return rd;
-            }
+            row -> rowCall(row)
         ).forEach(raceData::add);
         return raceData;
     }
@@ -60,8 +73,8 @@ public class RaceDataRepository {
     }
 
     public RaceData save(RaceData raceData) {
-        if (raceData.getId() == null) {
-            raceData.setId(UUID.randomUUID());
+        if (raceData.getRaceDataId() == null) {
+            raceData.setRaceDataId(UUID.randomUUID());
         }
         mapper.save(raceData);
         return raceData;
@@ -72,7 +85,7 @@ public class RaceDataRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt = truncateStmt.bind();
+        BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
     }
 }

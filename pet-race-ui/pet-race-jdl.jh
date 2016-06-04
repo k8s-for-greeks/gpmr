@@ -76,7 +76,7 @@ entity RaceResult {
 
 paginate RaceResult, RaceData, Race, RaceNormal, RaceParticipants with infinite-scroll
 //paginate Race with pagination
-service PetCategories, Pets, PetCategories with serviceImpl
+service PetCategory, Pet with serviceImpl
 
 //dto Employee with mapstruct
 

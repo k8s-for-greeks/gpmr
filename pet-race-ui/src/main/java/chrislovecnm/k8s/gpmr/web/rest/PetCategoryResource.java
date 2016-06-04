@@ -1,11 +1,12 @@
 package chrislovecnm.k8s.gpmr.web.rest;
 
+import com.codahale.metrics.annotation.Timed;
 import chrislovecnm.k8s.gpmr.domain.PetCategory;
 import chrislovecnm.k8s.gpmr.service.PetCategoryService;
 import chrislovecnm.k8s.gpmr.web.rest.util.HeaderUtil;
-import com.codahale.metrics.annotation.Timed;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +17,7 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 /**
  * REST controller for managing PetCategory.
@@ -42,12 +44,12 @@ public class PetCategoryResource {
     @Timed
     public ResponseEntity<PetCategory> createPetCategory(@RequestBody PetCategory petCategory) throws URISyntaxException {
         log.debug("REST request to save PetCategory : {}", petCategory);
-        if (petCategory.getId() != null) {
+        if (petCategory.getPetCategoryId() != null) {
             return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert("petCategory", "idexists", "A new petCategory cannot already have an ID")).body(null);
         }
         PetCategory result = petCategoryService.save(petCategory);
-        return ResponseEntity.created(new URI("/api/pet-categories/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert("petCategory", result.getId().toString()))
+        return ResponseEntity.created(new URI("/api/pet-categories/" + result.getPetCategoryId()))
+            .headers(HeaderUtil.createEntityCreationAlert("petCategory", result.getPetCategoryId().toString()))
             .body(result);
     }
 
@@ -66,12 +68,12 @@ public class PetCategoryResource {
     @Timed
     public ResponseEntity<PetCategory> updatePetCategory(@RequestBody PetCategory petCategory) throws URISyntaxException {
         log.debug("REST request to update PetCategory : {}", petCategory);
-        if (petCategory.getId() == null) {
+        if (petCategory.getPetCategoryId() == null) {
             return createPetCategory(petCategory);
         }
         PetCategory result = petCategoryService.save(petCategory);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert("petCategory", petCategory.getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert("petCategory", petCategory.getPetCategoryId().toString()))
             .body(result);
     }
 

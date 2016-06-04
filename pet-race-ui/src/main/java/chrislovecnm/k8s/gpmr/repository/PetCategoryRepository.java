@@ -1,9 +1,8 @@
 package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.PetCategory;
-import com.datastax.driver.core.BoundStatement;
-import com.datastax.driver.core.PreparedStatement;
-import com.datastax.driver.core.Session;
+
+import com.datastax.driver.core.*;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.stereotype.Repository;
@@ -18,32 +17,26 @@ import java.util.UUID;
  * Cassandra repository for the PetCategory entity.
  */
 @Repository
-public class PetCategoryRepository {
-
-    @Inject
-    private Session session;
+public class PetCategoryRepository extends CassandraPaging {
 
     private Mapper<PetCategory> mapper;
 
-    private PreparedStatement findAllStmt;
-
-    private PreparedStatement truncateStmt;
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(PetCategory.class);
-        findAllStmt = session.prepare("SELECT * FROM petCategory");
-        truncateStmt = session.prepare("TRUNCATE petCategory");
+        createPaging(mapper,"gpmr","pet_category");
     }
 
     public List<PetCategory> findAll() {
         List<PetCategory> petCategories = new ArrayList<>();
-        BoundStatement stmt = findAllStmt.bind();
+        BoundStatement stmt =  findAllStmt.bind();
         session.execute(stmt).all().stream().map(
             row -> {
                 PetCategory petCategory = new PetCategory();
-                petCategory.setId(row.getUUID("id"));
+                petCategory.setPetCategoryId(row.getUUID("petCategoryId"));
                 petCategory.setName(row.getString("name"));
+                petCategory.setSpeed(row.getFloat("speed"));
                 return petCategory;
             }
         ).forEach(petCategories::add);
@@ -55,8 +48,8 @@ public class PetCategoryRepository {
     }
 
     public PetCategory save(PetCategory petCategory) {
-        if (petCategory.getId() == null) {
-            petCategory.setId(UUID.randomUUID());
+        if (petCategory.getPetCategoryId() == null) {
+            petCategory.setPetCategoryId(UUID.randomUUID());
         }
         mapper.save(petCategory);
         return petCategory;
@@ -67,7 +60,7 @@ public class PetCategoryRepository {
     }
 
     public void deleteAll() {
-        BoundStatement stmt = truncateStmt.bind();
+        BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
     }
 }

@@ -27,7 +27,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            if (vm.pet.id !== null) {
+            if (vm.pet.petId !== null) {
                 Pet.update(vm.pet, onSaveSuccess, onSaveError);
             } else {
                 Pet.save(vm.pet, onSaveSuccess, onSaveError);

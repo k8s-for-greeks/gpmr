@@ -18,37 +18,37 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr>
-                    <th><span>ID</span></th>
+                    <th><span>Pet Id</span></th>
                     <th><span>Name</span></th>
-                    <th><span>Pet Category</span></th>
-                    <th><span>Pet Category Id</span></th>
+                    <th><span>Description</span></th>
+                    <th><span>Pet Category Name</span></th>
                     <th><span>Pet Speed</span></th>
                     <th></th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="pet in vm.pets track by pet.id">
-                    <td><a ui-sref="pet-detail({id:pet.id})">{{pet.id}}</a></td>
+                <tr ng-repeat="pet in vm.pets track by pet.petId">
+                    <td><a ui-sref="pet-detail({petId:pet.petId})">{{pet.petId}}</a></td>
                     <td>{{pet.name}}</td>
-                    <td>{{pet.petCategory}}</td>
-                    <td>{{pet.petCategoryId}}</td>
+                    <td>{{pet.description}}</td>
+                    <td>{{pet.petCategoryName}}</td>
                     <td>{{pet.petSpeed}}</td>
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="pet-detail({id:pet.id})"
+                                    ui-sref="pet-detail({id:pet.petId})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="pet.edit({id:pet.id})"
+                                    ui-sref="pet.edit({id:pet.petId})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="pet.delete({id:pet.id})"
+                                    ui-sref="pet.delete({id:pet.petId})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-xs hidden-sm"></span>

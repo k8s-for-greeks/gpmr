@@ -3,37 +3,62 @@
   "fields": [
     {
       "fieldId": 1,
-      "fieldName": "petId",
+      "fieldName": "raceResultId",
       "fieldType": "UUID"
     },
     {
       "fieldId": 2,
-      "fieldName": "petName",
-      "fieldType": "String"
+      "fieldName": "raceId",
+      "fieldType": "UUID"
     },
     {
       "fieldId": 3,
-      "fieldName": "petCategory",
-      "fieldType": "String"
-    },
-    {
-      "fieldId": 4,
       "fieldName": "petCategoryId",
       "fieldType": "UUID"
     },
     {
+      "fieldId": 4,
+      "fieldName": "raceParticipantId",
+      "fieldType": "UUID"
+    },
+    {
       "fieldId": 5,
-      "fieldName": "place",
-      "fieldType": "Integer"
+      "fieldName": "petName",
+      "fieldType": "String"
     },
     {
       "fieldId": 6,
-      "fieldName": "time",
+      "fieldName": "petType",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 7,
+      "fieldName": "petColor",
+      "fieldType": "UUID"
+    },
+    {
+      "fieldId": 8,
+      "fieldName": "petCategoryName",
+      "fieldType": "String"
+    },
+    {
+      "fieldId": 9,
+      "fieldName": "finishPosition",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldId": 10,
+      "fieldName": "finishTime",
+      "fieldType": "Double"
+    },
+    {
+      "fieldId": 11,
+      "fieldName": "startTime",
       "fieldType": "Date"
     }
   ],
   "changelogDate": "20160509045152",
   "dto": "no",
-  "pagination": "no",
+  "pagination": "infinite-scroll",
   "service": "no"
 }

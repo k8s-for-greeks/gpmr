@@ -62,13 +62,17 @@
                     resolve: {
                         entity: function () {
                             return {
+                                raceParticipantId: null,
                                 petId: null,
-                                petName: null,
-                                petType: null,
-                                petColor: null,
-                                petCategory: null,
-                                petCategoryId: null,
                                 raceId: null,
+                                petName: null,
+                                petColor: null,
+                                petCategoryName: null,
+                                petCategoryId: null,
+                                startTime: null,
+                                finishTime: null,
+                                finishPosition: null,
+                                finished: null,
                                 id: null
                             };
                         }
