@@ -1,5 +1,28 @@
 #!/bin/bash
 # Spins up a 1k node cluster on gce. Run this from a kubernetes directory.
+
+#
+# TODO:
+# - allow tweaking of Node disks
+# - which node distro??
+#
+KUBE_RELEASE=v1.3.0-alpha.5
+KUBE_ROOT=kubernetes
+
+export NUM_NODES=${NUM_NODES:-500}
+export MASTER_SIZE=${MASTER_SIZE:-n1-standard-32}
+export NODE_SIZE=${NODE_SIZE:-n1-standard-4}
+export KUBE_GCE_ZONE=${KUBE_GCE_ZONE:-us-central1-b}
+export KUBE_ENABLE_CLUSTER_MONITORING=google
+#export MASTER_DISK_SIZE=${MASTER_DISK_SIZE:-100GB}
+#export NODE_DISK_TYPE=${NODE_DISK_TYPE:-pd-ssd}
+#export NODE_DISK_SIZE=${NODE_DISK_SIZE:-400GB}
+export KUBE_OS_DISTRIBUTION=${KUBE_OS_DISTRIBUTION:-gci}
+
+# This is to avoid full cluster turnup failing if a handful of nodes aren't healthy
+# within default timeout.
+export ALLOWED_NOTREADY_NODES=10
+
 usage() {
   echo "Usage: $0 [-p]" 1>&2;
   echo "  -p PROJECT_ID"
@@ -26,7 +49,8 @@ if [ -z "$PROJECT_ID" ]; then
 	usage
 fi
 # I used the latest alpha build uncomment below to pull
-command -v gcloud  >/dev/null 2>&1 || { echo "I require gcloud but it's not installed.  Aborting." >&2; exit 1; }
+command -v gcloud  >/dev/null 2>&1 || { echo "I require gcloud but it's not installed.  https://cloud.google.com/shell/docs/starting-cloud-shell" >&2; exit 1; }
+
 G_P=$(gcloud config list)
 
 if [[ $G_P == *"${PROJECT_ID}"* ]]
@@ -47,36 +71,75 @@ then
     exit 1
 fi
 
-if [ ! -f "$PWD/kubernetes/cluster/kube-up.sh" ]; then
-    echo "kubernete not found downloading"
-    # todo sholud we test for this??
-    rm kubernetes.tar.gz
-    wget https://github.com/kubernetes/kubernetes/releases/download/v1.3.0-alpha.5/kubernetes.tar.gz
+if [ ! -f "$PWD/$KUBE_ROOT/cluster/kube-up.sh" ]; then
+    echo "kubernetes not found downloading $KUBE_RELEASE"
+    # todo sholud we test for this file??
+    gsutil cp gs://kubernetes-release/release/$KUBE_RELEASE/kubernetes.tar.gz .
     tar xzf kubernetes.tar.gz
-    rm kubernetes.tar.gz
-fi
-cd kubernetes
 
-# These numbers were adjusted from the 2k node jenkins test
-# (https://github.com/kubernetes/test-infra/blob/master/jenkins/job-configs/kubernetes-jenkins/kubernetes-e2e.yaml#L688)
-export NUM_NODES="500"
-export MASTER_SIZE="n1-standard-32"
-export NODE_SIZE="n1-standard-8"
-export KUBE_GCE_ZONE="us-central1-c"
-# This is to avoid full cluster turnup failing if a handful of nodes aren't healthy
-# within default timeout.
-export ALLOWED_NOTREADY_NODES="10"
-# spin up cluster
+    # Detect the OS name/arch so that we can find our binary
+    case "$(uname -s)" in
+      Darwin)
+      host_os=darwin
+      ;;
+      Linux)
+      host_os=linux
+      ;;
+      *)
+      echo "Unsupported host OS.  Must be Linux or Mac OS X." >&2
+      exit 1
+      ;;
+    esac
+    case "$(uname -m)" in
+      x86_64*)
+      host_arch=amd64
+      ;;
+      i?86_64*)
+      host_arch=amd64
+      ;;
+      amd64*)
+      host_arch=amd64
+      ;;
+      arm*)
+      host_arch=arm
+      ;;
+      i?86*)
+      host_arch=386
+      ;;
+      s390x*)
+      host_arch=s390x
+      ;;
+      ppc64le*)
+      host_arch=ppc64le
+      ;;
+      *)
+      echo "Unsupported host arch. Must be x86_64, 386, arm, s390x or ppc64le." >&2
+      exit 1
+      ;;
+    esac
+    echo $host_os
+    echo $host_arch
+    echo "downloading kubectl $KUBE_RELEASE"
+    gsutil cp gs://kubernetes-release/release/$KUBE_RELEASE/kubernetes-client-$host_os-$host_arch.tar.gz .
+    tar xzf kubernetes-client-$host_os-$host_arch.tar.gz
+
+    KUBECTL=${KUBE_ROOT}/platforms/${host_os}/${host_arch}/
+    mkdir -p $KUBECTL
+    cp ${KUBE_ROOT}/client/bin/kubectl $KUBECTL
+fi
+
+cd $KUBE_ROOT
+
 echo "Starting cluster"
 echo Nodes: $NUM_NODES
 echo Master size: $MASTER_SIZE
 echo Node size: $NODE_SIZE
-echo Zone: $KUBE_GCE_ZONE 
+echo Zone: $KUBE_GCE_ZONE
 
 cluster/kube-up.sh
 
 # when done with cluster
-# cluster/kube-down.sh
+# KUBE_GCE_ZONE=us-central1-b cluster/kube-down.sh
 
 # To share access, create a standalone kubeconfig file
 cluster/kubectl.sh config view --minify --flatten > kubeconfig.yml
