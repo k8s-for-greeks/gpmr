@@ -1,4 +1,4 @@
-apiVersion: apps/v1alpha1
+apiVersion: "apps/v1alpha1"
 kind: PetSet
 metadata:
   name: cassandra
@@ -16,8 +16,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: gcr.io/google-samples/cassandra:v9
-        #image: 10.100.179.231:5000/cassandra
+        image: "gcr.io/google-samples/cassandra:v9"
         imagePullPolicy: Always
         command:
           - /run.sh
@@ -33,9 +32,9 @@ spec:
         # If you need it it is going away in C* 4.0
         #- containerPort: 9160
         #  name: thrift
-        resources:
-          limits:
-            cpu: 1
+        #resources:
+        #  limits:
+        #    cpu: 1024m
         env:
           - name: MAX_HEAP_SIZE
             value: 512M
