@@ -4,7 +4,7 @@ metadata:
   name: cassandra
 spec:
   serviceName: cassandra
-  replicas: 2
+  replicas: 10
   template:
     metadata:
       annotations:
@@ -43,6 +43,14 @@ spec:
         # - name: CASSANDRA_GC_STDOUT
         #  value: "true"
 
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "nodetool status"
+          initialDelaySeconds: 60 
+          timeoutSeconds: 5
         # These volume mounts are persistent. They're like inline claims,
         # but not exactly because the names need to match exactly one of
         # the pet volumes.
@@ -56,7 +64,7 @@ spec:
   - metadata:
       name: cassandra-data
       annotations:
-        volume.alpha.kubernetes.io/storage-class: anything
+        volume.alpha.kubernetes.io/storage-class: ssd
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:

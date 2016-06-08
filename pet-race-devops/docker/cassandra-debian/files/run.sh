@@ -28,6 +28,10 @@ CASSANDRA_OPEN_JMX="${CASSANDRA_OPEN_JMX:-false}"
 # send GC to STDOUT
 CASSANDRA_GC_STDOUT="${CASSANDRA_GC_STDOUT:-false}"
 
+# set the seed to itself.  This is only for the first pod, otherwise
+# it will be able to get seeds from the seed provider
+sed -ri 's/seeds: 127.0.0.1/seeds: $POD_IP/' $CFG
+
 # TODO what else needs to be modified
 for yaml in \
   broadcast_address \
