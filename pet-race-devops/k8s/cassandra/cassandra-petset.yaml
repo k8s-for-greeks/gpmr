@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: "10.100.179.231:5000/cassandra:v1.0"
+        image: "gcr.io/aronchick-apollobit/cassandra:v1.0"
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -27,9 +27,9 @@ spec:
           name: cql
         env:
           - name: MAX_HEAP_SIZE
-            value: 512M
+            value: 2048M
           - name: HEAP_NEWSIZE
-            value: 100M
+            value: 200M
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:

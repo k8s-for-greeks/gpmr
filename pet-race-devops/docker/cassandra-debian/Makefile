@@ -1,6 +1,4 @@
-#!/bin/bash
-
-# Copyright 2014 The Kubernetes Authors All rights reserved.
+# Copyright 2016 The Kubernetes Authors All rights reserved.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -14,5 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-perl -pi -e "s/%%ip%%/$(hostname -i)/g" /opt/cassandra/conf/cassandra.yaml
-/opt/cassandra/bin/cassandra -f
+# build the cassandra image.
+
+VERSION=v9
+
+all: build
+
+kubernetes-cassandra.jar: ../java/* ../java/src/main/java/io/k8s/cassandra/*.java
+	cd ../java && mvn package
+	mv ../java/target/kubernetes-cassandra*.jar kubernetes-cassandra.jar
+	cd ../java && mvn clean
+
+build: kubernetes-cassandra.jar
+	docker build -t gcr.io/google_samples/cassandra:${VERSION} .
+
+push: build
+	gcloud docker push gcr.io/google_samples/cassandra:${VERSION}
+
+.PHONY: all build push

@@ -1,20 +1,14 @@
-FROM alpine:edge
+FROM alpine:3.4
 
-# http://bugs.python.org/issue19846
-# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
-ENV LANG C.UTF-8
-
-# gpg: key F73C700D: public key "Larry Hastings <larry@hastings.org>" imported
-ENV GPG_KEY 97FC712E4C024BBEA48A61ED3A5CA953F73C700D
-
-ENV PYTHON_VERSION 3.4.4
+# TODO remove nose and sphinx
 
 # if this is called "PIP_VERSION", pip explodes with "ValueError: invalid truth value '<VERSION>'"
-ENV PYTHON_PIP_VERSION 8.1.2
+# > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
+ENV LANG=C.UTF-8 GPG_KEY=97FC712E4C024BBEA48A61ED3A5CA953F73C700D PYTHON_VERSION=3.4.4 PYTHON_PIP_VERSION=8.1.2
 
-ADD repositories /etc/apk/repositories
+# Don't think we need this anymore
+# ADD repositories /etc/apk/repositories
 
-# FIXME remove zsh and vim
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps curl gnupg \
 	&& curl -fSL "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
@@ -45,9 +39,9 @@ RUN set -ex \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
 	&& pip3 install --no-cache-dir --upgrade --ignore-installed pip==$PYTHON_PIP_VERSION \
-  && pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
+	&& pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
 	&& pip3 install nose sphinx \ 
-	&& pip install cassandra-driver pip==$PYTHON_PIP_VERSION \
+	&& pip3 install cassandra-driver scales pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local -depth \
 		\( \
 		    \( -type d -a -name test -o -name tests \) \
@@ -64,12 +58,9 @@ RUN set -ex \
 	&& apk add --virtual .python-rundeps $runDeps \
 	&& apk del .build-deps \
 	&& rm -rf /usr/src/python ~/.cache
-  && cd /usr/local/bin \
-	&& ln -s easy_install-3.5 easy_install \
+	&& cd /usr/local/bin \
+	&& ln -s easy_install-3.4 easy_install \
 	&& ln -s idle3 idle \
 	&& ln -s pydoc3 pydoc \
 	&& ln -s python3 python \
 	&& ln -s python3-config python-config
-
-COPY run.sh /
-CMD ["/run.sh"]

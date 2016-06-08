@@ -1,5 +1,7 @@
 from datetime import datetime
 
+from cassandra import ConsistencyLevel
+from cassandra.cqlengine.connection import get_cluster
 from cassandra.cqlengine.connection import get_session
 from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
@@ -16,18 +18,23 @@ class PetRaceCassandraDataStore(object):
     seeds = []
     keyspace = 'gpmr'
     session = None
+    cluster = None
 
     # logger = None
 
     def __init__(self, seeds, keyspace):
         self.seeds = seeds
         self.keyspace = keyspace
-        setup_cass(self.seeds, self.keyspace)
+        # TODO for metrics
+        # setup_cass(self.seeds, self.keyspace,
+        #           consistency=ConsistencyLevel.TWO, lazy_connect=False,
+        #           retry_connect=True, metrics_enabled=True)
+        setup_cass(self.seeds, self.keyspace, consistency=ConsistencyLevel.TWO, lazy_connect=False, retry_connect=True)
         self.session = get_session()
         set_session(self.session)
+        self.cluster = get_cluster()
         # self.logger = logging.getLogger('pet_race_job')
         # self.logger.debug("session created")
-        super()
 
     @staticmethod
     def get_pets_by_name(pet_name):
@@ -202,8 +209,7 @@ class PetRaceCassandraDataStore(object):
     def update_race_winner(current_race):
         Race.objects(raceId=current_race['raceId']).update(winnerId=current_race['winnerId'])
 
-    @staticmethod
-    def update_race(current_race, current_racers):
+    def update_race(self, current_race, current_racers):
         for key, value in current_racers.items():
             uuid = uuid_from_time(datetime.utcnow())
             RaceResult.create(
@@ -217,3 +223,31 @@ class PetRaceCassandraDataStore(object):
                 startTime=current_race['startTime']
             )
             PetRaceCassandraDataStore.increment_counter_by_name('RaceResult')
+
+            # TODO
+            # metrics = self.cluster.metrics.stats
+            #
+            # Metric.create(
+            #     connectionErrors=uuid_from_time(datetime.utcnow()),
+            #     writeTimeouts=metrics.write_timeouts,
+            #     readTimeouts=metrics.read_timeouts,
+            #     unavailables=metrics.unavailables,
+            #     otherErrors=metrics.otherErrors,
+            #     retries=metrics.retries,
+            #     ignores=metrics.ignores,
+            #     knownHosts=metrics.known_hosts,
+            #     connectedTo=metrics.connected_to,
+            #     openConnections=metrics.open_connections,
+            #     reqCount=metrics.request_timer['count'],
+            #     reqMinLatency=metrics.request_timer['min'],
+            #     reqMaxLatency=metrics.request_timer['max'],
+            #     reqMeanLatency=metrics.request_timer['mean'],
+            #     reqStdev=metrics.request_timer['stdev'],
+            #     reqMedian=metrics.request_timer['median'],
+            #     req75percentile=metrics.request_timer['75percentile'],
+            #     req97percentile=metrics.request_timer['97percentile'],
+            #     req98percentile=metrics.request_timer['98percentile'],
+            #     req99percentile=metrics.request_timer['99percentile'],
+            #     req999percentile=metrics.request_timer['999percentile'],
+            #     dateCreated=datetime.utcnow(),
+            # )

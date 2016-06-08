@@ -6,3 +6,4 @@ from .race_normal import RaceNormal
 from .race_participant import RaceParticipant
 from .race_result import RaceResult
 from .counter import Counter
+from .metric import Metric
