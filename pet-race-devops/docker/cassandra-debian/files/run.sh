@@ -17,20 +17,23 @@
 set -e
 CONF_DIR=/etc/cassandra
 CFG=$CONF_DIR/cassandra.yaml
+
+# The following vars relate to there counter parts in $CFG
+# for instance rpc_address
 CASSANDRA_RPC_ADDRESS="${CASSANDRA_RPC_ADDRESS:-0.0.0.0}"
 CASSANDRA_NUM_TOKENS="${CASSANDRA_NUM_TOKENS:-32}"
 CASSANDRA_CLUSTER_NAME="${CASSANDRA_CLUSTER_NAME:='Test Cluster'}"
 CASSANDRA_LISTEN_ADDRESS=${POD_IP}
 CASSANDRA_BROADCAST_ADDRESS=${POD_IP}
 CASSANDRA_BROADCAST_RPC_ADDRESS=${POD_IP}
+CASSANDRA_DISK_OPTIMIZATION_STRATEGY="${CASSANDRA_DISK_OPTIMIZATION_STRATEGY:-spinning}"
+CASSANDRA_MIGRATION_WAIT="${CASSANDRA_MIGRATION_WAIT:-1}"
+CASSANDRA_ENDPOINT_SNITCH="${CASSANDRA_ENDPOINT_SNITCH:-SimpleSnitch}"
+
 # Turn off JMX auth
 CASSANDRA_OPEN_JMX="${CASSANDRA_OPEN_JMX:-false}"
 # send GC to STDOUT
 CASSANDRA_GC_STDOUT="${CASSANDRA_GC_STDOUT:-false}"
-
-# set the seed to itself.  This is only for the first pod, otherwise
-# it will be able to get seeds from the seed provider
-sed -ri 's/seeds: 127.0.0.1/seeds: $POD_IP/' $CFG
 
 # TODO what else needs to be modified
 for yaml in \
@@ -40,6 +43,8 @@ for yaml in \
   listen_address \
   num_tokens \
   rpc_address \
+  disk_optimization_strategy \
+  endpoint_snitch \
 ; do
   var="CASSANDRA_${yaml^^}"
   val="${!var}"
@@ -48,14 +53,26 @@ for yaml in \
   fi
 done
 
-# Eventually do snitch $DC && $RACK?
-#if [[ $SNITCH ]]; then
-#  sed -i -e "s/endpoint_snitch: SimpleSnitch/endpoint_snitch: $SNITCH/" $CFG
-#fi
-#if [[ $DC && $RACK ]]; then
-#  echo "dc=$DC" > $CONF_DIR/cassandra-rackdc.properties
-#  echo "rack=$RACK" >> $CONF_DIR/cassandra-rackdc.properties
-#fi
+# TODO: Get rack and dc working
+# Eventually do snitch $DC $RACK?
+# $DC based on yaml.  Two racks in a DC??
+# can use node selectors to put
+# Eventualy code a snitch that talks to the api to get the labels from the nodes
+# Not sure how to do the SeedProviders, either run seperate services or launch a Seed node
+# in every DC. Probably need seperate services and capabilty to set ips based on ENV vars?
+# GoogleProvider sets region as DC and Zone as rack
+# https://github.com/apache/cassandra/blob/cassandra-3.5/src/java/org/apache/cassandra/locator/GoogleCloudSnitch.java
+# GoogleCloudSnitch may work already
+
+if [[ $CASSANDA_DC && $CASSANDA_RACK ]]; then
+  echo "dc=$CASSANDA_DC" > $CONF_DIR/cassandra-rackdc.properties
+  echo "rack=$CASSANDA_RACK" >> $CONF_DIR/cassandra-rackdc.properties
+fi
+
+# set the seed to itself.  This is only for the first pod, otherwise
+# it will be able to get seeds from the seed provider
+# TODO allow for overiding?? Allow to racks use another racks service??
+sed -ri 's/- seeds:.*/- seeds: "'"$POD_IP"'"/' $CFG
 
 # send gc to stdout
 if [[ $CASSANDRA_GC_STDOUT == 'true' ]]; then
@@ -65,6 +82,8 @@ fi
 # enable RMI and JMX to work on one port
 echo "JVM_OPTS=\"\$JVM_OPTS -Djava.rmi.server.hostname=$POD_IP\"" >> $CONF_DIR/cassandra-env.sh
 
+# getting WARNING messages with Migration Service
+echo "-Dcassandra.migration_task_wait_in_seconds=${CASSANDRA_MIGRATION_WAIT}" >> $CONF_DIR/jvm.options
 
 if [[ $CASSANDRA_OPEN_JMX == 'true' ]]; then
   export LOCAL_JMX=no

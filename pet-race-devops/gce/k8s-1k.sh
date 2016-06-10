@@ -9,10 +9,17 @@
 KUBE_RELEASE=v1.3.0-alpha.5
 KUBE_ROOT=kubernetes
 
-export NUM_NODES=${NUM_NODES:-500}
+export NUM_NODES=${NUM_NODES:-334}
+export NUM_NODES_2=${NUM_NODES_2:-333}
+export NUM_NODES_3=${NUM_NODES_3:-333}
+export MULTIZONE=${MULTIZONE:0}
+
+
 export MASTER_SIZE=${MASTER_SIZE:-n1-standard-32}
 export NODE_SIZE=${NODE_SIZE:-n1-standard-4}
 export KUBE_GCE_ZONE=${KUBE_GCE_ZONE:-us-central1-b}
+export KUBE_GCE_ZONE_2=${KUBE_GCE_ZONE_2:-us-central1-f}
+export KUBE_GCE_ZONE_3=${KUBE_GCE_ZONE_3:-us-central1-c}
 export KUBE_ENABLE_CLUSTER_MONITORING=google
 #export MASTER_DISK_SIZE=${MASTER_DISK_SIZE:-100GB}
 #export NODE_DISK_TYPE=${NODE_DISK_TYPE:-pd-ssd}
@@ -134,12 +141,27 @@ echo "Starting cluster"
 echo Nodes: $NUM_NODES
 echo Master size: $MASTER_SIZE
 echo Node size: $NODE_SIZE
-echo Zone: $KUBE_GCE_ZONE
+echo Zone 1: $KUBE_GCE_ZONE
 
 cluster/kube-up.sh
+# To share access, create a standalone kubeconfig file
+cluster/kubectl.sh config view --minify --flatten > $HOME/kubeconfig.yml
+
+if [[ $MULTIZONE == 1 ]]; then
+  echo Zone 2: $KUBE_GCE_ZONE_2
+  export KUBE_MASTER=kubernetes-master
+  export KUBE_USE_EXISTING_MASTER=true 
+  export KUBE_GCE_ZONE=${KUBE_GCE_ZONE_2} 
+  export NUM_NODES=${NUM_NODES_2} 
+  cluster/kube-up.sh
+  echo Zone 3: $KUBE_GCE_ZONE_3
+  export KUBE_GCE_ZONE=${KUBE_GCE_ZONE_3} 
+  export NUM_NODES=${NUM_NODES_3} 
+  cluster/kube-up.sh
+fi
 
 # when done with cluster
+# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-f cluster/kube-down.sh &
+# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-c cluster/kube-down.sh &
+# Wait for the other zones to go down
 # KUBE_GCE_ZONE=us-central1-b cluster/kube-down.sh
-
-# To share access, create a standalone kubeconfig file
-cluster/kubectl.sh config view --minify --flatten > kubeconfig.yml

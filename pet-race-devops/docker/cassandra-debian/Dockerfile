@@ -14,7 +14,7 @@
 
 FROM google/debian:jessie
 
-COPY files/* /
+COPY files /
 
 RUN mv /cassandra.list /etc/apt/sources.list.d/cassandra.list \
   && gpg --keyserver pgp.mit.edu --recv-keys F758CE318D77295D \
@@ -24,15 +24,15 @@ RUN mv /cassandra.list /etc/apt/sources.list.d/cassandra.list \
   && gpg --keyserver pgp.mit.edu --recv-keys 0353B12C \
   && gpg --export --armor 0353B12C | apt-key add - \
   && apt-get update \
-  && apt-get -qq -y install curl procps cassandra openjdk-8-jre-headless libjemalloc1 \
+  && apt-get -qq -y install --no-install-recommends curl procps cassandra openjdk-8-jre-headless libjemalloc1 \
+    localepurge \
   && curl -L https://github.com/Yelp/dumb-init/releases/download/v1.0.3/dumb-init_1.0.3_amd64 >> /dumb-init \
-  && chmod a+rx /run.sh /dumb-init \
+  && chmod a+rx /run.sh /dumb-init /ready-probe.sh \
   && mkdir -p /cassandra_data/data \
   && mv /logback.xml /cassandra.yaml /etc/cassandra/ \
   && chown -R cassandra: /etc/cassandra /cassandra_data /run.sh /kubernetes-cassandra.jar \
   && chmod o+w -R /etc/cassandra /cassandra_data \
-  && apt-get -y purge curl \
-  && apt-get -y autoremove \
+  && apt-get -y purge curl localepurge \
   && apt-get clean \
   && rm -rf \
         doc \
@@ -63,6 +63,7 @@ VOLUME ["/cassandra_data/data"]
 EXPOSE 7000 7001 7199 9042
 
 # Not able to do this until https://github.com/kubernetes/kubernetes/issues/2630 is resolved
+# if you are using attached storage
 # USER cassandra
 
 CMD ["/dumb-init", "/bin/bash", "/run.sh"]
