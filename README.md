@@ -16,7 +16,7 @@ This application is built to run Cassandra on Kubernetes at scale.  The demo wit
 
 ## Why Greek Pet Monster Race
 
-Well we needed to generate ALOT of data.  We probably cannot generate enough.  Timesequence and randmon data are great use cases for Cassandra.  Kubernetes and Cassandra are both ancient greek words.  We are geeks.  [Ancient pets][4] are cool.
+Well we needed to generate ALOT of data.  We probably cannot generate enough.  Timesequences and randmon data are great use cases for Cassandra.  Kubernetes and Cassandra are both ancient greek words.  We are geeks.  [Ancient pets][4] are cool.
 
 Let's have a RACE!!
 
