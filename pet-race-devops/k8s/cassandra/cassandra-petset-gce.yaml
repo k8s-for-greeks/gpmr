@@ -4,7 +4,7 @@ metadata:
   name: cassandra
 spec:
   serviceName: cassandra
-  replicas: 80
+  replicas: 3
   template:
     metadata:
       annotations:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: "gcr.io/aronchick-apollobit/cassandra:v1.0"
+        image: "gcr.io/aronchick-apollobit/cassandra-22:v1.0"
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
@@ -45,8 +45,8 @@ spec:
             value: OneKDemo
           - name: CASSANDRA_SERVICE_NUM_SEEDS
             value: "2"
-          - name: CASSANDRA_MIGRATION_WAIT
-            value: "8"
+          - name: CASSANDRA_RING_DELAY
+            value: "5000"
           - name: POD_NAMESPACE
             valueFrom:
               fieldRef:

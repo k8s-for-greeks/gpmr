@@ -30,6 +30,10 @@ RUN mv /cassandra.list /etc/apt/sources.list.d/cassandra.list \
   && chmod a+rx /run.sh /dumb-init /ready-probe.sh \
   && mkdir -p /cassandra_data/data \
   && mv /logback.xml /cassandra.yaml /etc/cassandra/ \
+# remove me
+  && mv /cassandra.yaml.2.2 /etc/cassandra/cassandra.yaml \
+  && rm /etc/alternatives/java \
+  && ln -s /usr/lib/jvm/java-8-openjdk-amd64/jre/bin/java /etc/alternatives/java \
   && chown -R cassandra: /etc/cassandra /cassandra_data /run.sh /kubernetes-cassandra.jar \
   && chmod o+w -R /etc/cassandra /cassandra_data \
   && apt-get -y purge curl localepurge \

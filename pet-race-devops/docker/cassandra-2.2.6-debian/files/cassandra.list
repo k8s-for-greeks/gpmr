@@ -1,0 +1,8 @@
+#deb http://www.apache.org/dist/cassandra/debian 35x main
+#deb-src http://www.apache.org/dist/cassandra/debian 35x main
+
+deb http://www.apache.org/dist/cassandra/debian 22x main
+deb-src http://www.apache.org/dist/cassandra/debian 22x main
+
+# for jre8
+deb http://http.debian.net/debian jessie-backports main
