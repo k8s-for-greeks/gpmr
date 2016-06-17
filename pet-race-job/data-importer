@@ -7,7 +7,7 @@ from pet_race_job.data_importer import DataImporter
 
 
 def main(arg):
-    options, remainder = getopt.getopt(arg[1:], 'd:h:k', ['directory=', 'help','keyspace'])
+    options, remainder = getopt.getopt(arg[1:], 'd:h:ks:', ['directory=', 'help', 'keyspace', 'seeds'])
 
     # if options.d is None: # where foo is obviously your required option
     #    parser.print_help()
@@ -18,6 +18,8 @@ def main(arg):
             data_dir = arg
         if opt in ('-k', '--keyspace'):
             drop_keyspace = True
+        if opt in ('-s', '--seeds'):
+            seeds = arg
         if opt in ('-h', '--help'):
             print("usage: --directory=data_directory")
             exit(0)
@@ -28,10 +30,11 @@ def main(arg):
     if drop_keyspace is None:
         drop_keyspace = False
 
-    # TODO move this to config files
-    # loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local',
-    #                              'cassandra-1.cassandra.default.svc.cluster.local'], keyspace='gpmr')
-    loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local'], keyspace='gpmr')
+    if seeds is None:
+        loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local',
+                                     'cassandra-1.cassandra.default.svc.cluster.local'], keyspace='gpmr')
+    else:
+        loader = DataImporter(seeds=[seeds], keyspace='gpmr')
 
     if drop_keyspace:
         loader.create_keyspace()

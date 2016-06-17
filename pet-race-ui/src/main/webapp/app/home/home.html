@@ -1,41 +1,73 @@
 <div ng-cloak>
-    <div class="row">
-        <div class="col-md-4">
-            <span class="hipster img-responsive img-rounded"></span>
-        </div>
-        <div class="col-md-8">
-            <h1>Welcome, Java Hipster!</h1>
-            <p class="lead">This is your homepage</p>
 
-            <div ng-switch="vm.isAuthenticated()">
-                <div class="alert alert-success" ng-switch-when="true">
-                    You are logged in as user "{{vm.account.login}}".
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <div has-authority="ROLE_USER">
+
+                    <!-- top tiles -->
+                    <div class="row tile_count">
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Cassandra Instances</span>
+                            <div class="count">1000</div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-clock-o"></i> Races Ran</span>
+                            <div class="count">{{vm.dataCounters['Race'] | number}}</div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Race Data Points</span>
+                            <div class="count">{{vm.dataCounters['RaceData'] | number}}</div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Race Normals</span>
+                            <div class="count">{{vm.dataCounters['RaceNormal'] | number}}</div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Race Results</span>
+                            <div class="count">{{vm.dataCounters['RaceResult'] | number}}</div>
+                        </div>
+                        <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
+                            <span class="count_top"><i class="fa fa-user"></i> Race Data Participants</span>
+                            <div class="count">{{vm.dataCounters['RaceParticipant'] | number}}</div>
+                        </div>
+                    </div>
+
+                    <!-- /top tiles -->
+                    <div class="col-md-12 col-sm-12 col-xs-12">
+                        <div class="dashboard_graph">
+
+                            <div class="row x_title">
+                                <div class="col-md-6">
+                                    <h3>Race Normal <small>Random Normals by Pet</small></h3>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12 col-sm-12 col-xs-12" ng-controller="NormalsByPetController">
+                                <nvd3 options="options" data="data" api="api"></nvd3>
+                            </div>
+
+                            <div class="clearfix"></div>
+                        </div>
+                    </div>
+
+
                 </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    If you want to <a class="alert-link" href="" ng-click="vm.login()">sign in</a>, you can try the default accounts:<br/>- Administrator (login="admin" and password="admin") <br/>- User (login="user" and password="user").
-                </div>
-
-                <div class="alert alert-warning" ng-switch-when="false">
-                    You don't have an account yet? <a class="alert-link" ui-sref="register">Register a new account</a>
+                <div ng-hide="vm.isAuthenticated()">
+                    <div class="page-title">
+                        <h1>The Great Pet Monster Race</h1>
+                    </div>
+                    <div>
+                        <p>We are greeks! Well maybe we are not greeks, but we do make awesome Kubernetes demos.</p>
+                        <p>This application is hosted on Kubernetes, with a backend running in Cassandra. GPMR was built
+                            to
+                            demostrate PetSets and other Kubernetes features, while running Cassandra at scale. This
+                            project
+                            is 100% open source.</p>
+                        <p>Let the races begin.</p>
+                        <p>If you have any questions about K8s for Greeks, visit us here: <a
+                            href="https://github.com/k8s-for-greeks/">K8s for Greeks Github.</a></p>
+                    </div>
                 </div>
             </div>
-
-            <p>
-                If you have any question on JHipster:
-            </p>
-
-            <ul>
-                <li><a href="http://jhipster.github.io/" target="_blank">JHipster homepage</a></li>
-                <li><a href="http://stackoverflow.com/tags/jhipster/info" target="_blank">JHipster on Stack Overflow</a></li>
-                <li><a href="https://github.com/jhipster/generator-jhipster/issues?state=open" target="_blank">JHipster bug tracker</a></li>
-                <li><a href="https://gitter.im/jhipster/generator-jhipster" target="_blank">JHipster public chat room</a></li>
-                <li><a href="https://twitter.com/java_hipster" target="_blank" >follow @java_hipster on Twitter</a></li>
-            </ul>
-
-            <p>
-             <span>If you like JHipster, don't forget to give us a star on </span>&nbsp;<a href="https://github.com/jhipster/generator-jhipster" target="_blank">Github</a>!
-            </p>
         </div>
     </div>
-</div>

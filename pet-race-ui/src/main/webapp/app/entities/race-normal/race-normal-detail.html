@@ -1,12 +1,8 @@
 
 <div>
-    <h2><span>Race Normal</span> {{vm.raceNormal.id}}</h2>
+    <h2><span>Race Normal</span> {{vm.raceNormal.raceNumberId}}</h2>
     <hr>
     <dl class="dl-horizontal jh-entity-details">
-        <dt><span>Race Normal Id</span></dt>
-        <dd>
-            <span>{{vm.raceNormal.raceNormalId}}</span>
-        </dd>
         <dt><span>Race Id</span></dt>
         <dd>
             <span>{{vm.raceNormal.raceId}}</span>
@@ -34,6 +30,12 @@
         <dt><span>Normal Size</span></dt>
         <dd>
             <span>{{vm.raceNormal.normalSize}}</span>
+        </dd>
+        <dt><span>Normals</span></dt>
+        <dd>
+            <ul ng-repeat="data in vm.raceNormal.normals">
+                <li> {{ data }} </li>
+             </ul>
         </dd>
     </dl>
 

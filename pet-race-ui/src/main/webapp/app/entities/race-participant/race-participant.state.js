@@ -28,7 +28,7 @@
         })
         .state('race-participant-detail', {
             parent: 'entity',
-            url: '/race-participant/{id}',
+            url: '/race-participant/{raceParticipantId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'RaceParticipant'
@@ -42,7 +42,7 @@
             },
             resolve: {
                 entity: ['$stateParams', 'RaceParticipant', function($stateParams, RaceParticipant) {
-                    return RaceParticipant.get({id : $stateParams.id});
+                    return RaceParticipant.get({raceParticipantId : $stateParams.raceParticipantId});
                 }]
             }
         })
@@ -72,8 +72,7 @@
                                 startTime: null,
                                 finishTime: null,
                                 finishPosition: null,
-                                finished: null,
-                                id: null
+                                finished: null
                             };
                         }
                     }
@@ -86,7 +85,7 @@
         })
         .state('race-participant.edit', {
             parent: 'race-participant',
-            url: '/{id}/edit',
+            url: '/{raceParticipantId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -99,7 +98,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['RaceParticipant', function(RaceParticipant) {
-                            return RaceParticipant.get({id : $stateParams.id});
+                            return RaceParticipant.get({raceParticipantId : $stateParams.raceParticipantId});
                         }]
                     }
                 }).result.then(function() {
@@ -111,7 +110,7 @@
         })
         .state('race-participant.delete', {
             parent: 'race-participant',
-            url: '/{id}/delete',
+            url: '/{raceParticipantId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -123,7 +122,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['RaceParticipant', function(RaceParticipant) {
-                            return RaceParticipant.get({id : $stateParams.id});
+                            return RaceParticipant.get({raceParticipantId : $stateParams.raceParticipantId});
                         }]
                     }
                 }).result.then(function() {

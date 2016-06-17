@@ -7,7 +7,7 @@
     PetCategory.$inject = ['$resource'];
 
     function PetCategory ($resource) {
-        var resourceUrl =  'api/pet-categories/:id';
+        var resourceUrl =  'api/pet-categories/:petCategoryId';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

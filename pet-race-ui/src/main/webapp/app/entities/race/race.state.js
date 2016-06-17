@@ -28,7 +28,7 @@
         })
         .state('race-detail', {
             parent: 'entity',
-            url: '/race/{id}',
+            url: '/race/{raceId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'Race'
@@ -41,8 +41,11 @@
                 }
             },
             resolve: {
-                entity: ['$stateParams', 'Race', function($stateParams, Race) {
-                    return Race.get({id : $stateParams.id});
+                entity: ['$stateParams', 'Race', function($stateParams, Race, Pet) {
+                    var race = Race.get({raceId : $stateParams.raceId});
+                    //var pet = Pet.get({petId: race.winnerId})
+                    //race.winner = pet
+                    return race 
                 }]
             }
         })
@@ -70,7 +73,7 @@
                                 description: null,
                                 winnerId: null,
                                 startTime: null,
-                                baseSpeed: null,
+                                baseSpeed: null
                             };
                         }
                     }
@@ -83,7 +86,7 @@
         })
         .state('race.edit', {
             parent: 'race',
-            url: '/{id}/edit',
+            url: '/{raceId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -108,7 +111,7 @@
         })
         .state('race.delete', {
             parent: 'race',
-            url: '/{id}/delete',
+            url: '/{raceId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },

@@ -79,6 +79,22 @@ public class RaceNormalResource {
             .headers(HeaderUtil.createEntityUpdateAlert("raceNormal", raceNormal.getRaceId().toString()))
             .body(result);
     }
+    /**
+     * GET  /race-normals-all : get all the raceNormals.
+     *
+     * @return the ResponseEntity with status 200 (OK) and the list of raceNormals in body
+     * @throws URISyntaxException if there is an error to generate the pagination HTTP headers
+     */
+    @RequestMapping(value = "/race-normals-all",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public ResponseEntity<List<RaceNormal>> getAllRaceNormals()
+        throws URISyntaxException {
+        log.debug("REST request to get all RaceNormals");
+        List<RaceNormal> normals = raceNormalRepository.findAll();
+        return new ResponseEntity<>(normals, HttpStatus.OK);
+    }
 
     /**
      * GET  /race-normals : get all the raceNormals.

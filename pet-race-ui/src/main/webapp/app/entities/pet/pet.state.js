@@ -28,7 +28,7 @@
         })
         .state('pet-detail', {
             parent: 'entity',
-            url: '/pet/{id}',
+            url: '/pet/{petId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'Pet'
@@ -80,7 +80,7 @@
         })
         .state('pet.edit', {
             parent: 'pet',
-            url: '/{id}/edit',
+            url: '/{petId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -105,7 +105,7 @@
         })
         .state('pet.delete', {
             parent: 'pet',
-            url: '/{id}/delete',
+            url: '/{petId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },

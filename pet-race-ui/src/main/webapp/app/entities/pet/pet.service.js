@@ -7,7 +7,7 @@
     Pet.$inject = ['$resource'];
 
     function Pet ($resource) {
-        var resourceUrl =  'api/pets/:id';
+        var resourceUrl =  'api/pets/:petId';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

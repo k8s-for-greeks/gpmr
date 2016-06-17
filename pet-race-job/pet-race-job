@@ -7,16 +7,15 @@ from pet_race_job.pet_race import PetRace
 
 
 def main(arg):
-
-    options, remainder = getopt.getopt(arg[1:], 'h:d:l:p:s',
+    options, remainder = getopt.getopt(arg[1:], 'h:d:l:p:s:c:',
                                        ['description=',
                                         'length=',
                                         'pet=',
                                         'scale=',
-                                        'help'])
+                                        'help'
+                                        'cass='])
 
     # logger = logging.getLogger('pet_race_job')
-    seeds = ['cassandra-0.cassandra.default.svc.cluster.local']
 
     # seeds = ['cassandra-0.cassandra.default.svc.cluster.local',
     #         'cassandra-1.cassandra.default.svc.cluster.local']
@@ -27,6 +26,7 @@ def main(arg):
     length = None
     pet = None
     scale = None
+    seeds = None
 
     for opt, arg in options:
         if opt in ('--description', '-d'):
@@ -40,6 +40,13 @@ def main(arg):
         if opt in ('-h', '--help'):
             print("usage: read the code")
             exit(0)
+        if opt in ('-c', '--cass'):
+            seeds = arg
+
+    if seeds is None:
+        seeds = ['cassandra-0.cassandra.default.svc.cluster.local']
+    else:
+        seeds = [seeds]
 
     if not isinstance(description, str):
         exit("--description is missing")

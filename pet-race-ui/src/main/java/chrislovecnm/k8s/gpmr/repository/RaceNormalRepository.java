@@ -1,6 +1,5 @@
 package chrislovecnm.k8s.gpmr.repository;
 
-import chrislovecnm.k8s.gpmr.domain.RaceData;
 import chrislovecnm.k8s.gpmr.domain.RaceNormal;
 
 import com.datastax.driver.core.*;
@@ -12,7 +11,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;

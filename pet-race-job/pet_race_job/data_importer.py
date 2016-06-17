@@ -47,7 +47,7 @@ class DataImporter(object):
 
     def create_tables(self):
         self.connect_cass()
-        sync_table(Counter)
+        sync_table(DataCounter)
         sync_table(PetCategory)
         sync_table(Pet)
         sync_table(RaceData)
@@ -92,11 +92,11 @@ class DataImporter(object):
             self.logger.debug("pet cat created: %s", cat['name'])
 
     def save_counters(self):
-        Counter(type='Race').update()
-        Counter(type='RaceData').update()
-        Counter(type='RaceNormal').update()
-        Counter(type='RaceParticipant').update()
-        Counter(type='RaceResult').update()
+        DataCounter(vtype='Race').update()
+        DataCounter(vtype='RaceData').update()
+        DataCounter(vtype='RaceNormal').update()
+        DataCounter(vtype='RaceParticipant').update()
+        DataCounter(vtype='RaceResult').update()
         self.logger.debug("counters created")
 
     def parse_pet_files(self, d):

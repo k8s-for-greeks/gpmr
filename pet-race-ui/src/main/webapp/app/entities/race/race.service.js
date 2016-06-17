@@ -7,7 +7,7 @@
     Race.$inject = ['$resource', 'DateUtils'];
 
     function Race ($resource, DateUtils) {
-        var resourceUrl =  'api/races/:id';
+        var resourceUrl =  'api/races/:raceId';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},

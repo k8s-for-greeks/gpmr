@@ -27,7 +27,7 @@
 
         vm.save = function () {
             vm.isSaving = true;
-            if (vm.raceResult.id !== null) {
+            if (vm.raceResult.raceResultId !== null) {
                 RaceResult.update(vm.raceResult, onSaveSuccess, onSaveError);
             } else {
                 RaceResult.save(vm.raceResult, onSaveSuccess, onSaveError);

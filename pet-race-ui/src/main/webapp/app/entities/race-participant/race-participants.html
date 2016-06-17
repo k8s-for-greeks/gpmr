@@ -18,7 +18,6 @@
         <table class="jh-table table table-striped">
             <thead>
                 <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
-                    <th jh-sort-by="id"><span>ID</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="raceParticipantId"><span>Race Participant Id</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="petId"><span>Pet Id</span> <span class="glyphicon glyphicon-sort"></span></th>
                     <th jh-sort-by="raceId"><span>Race Id</span> <span class="glyphicon glyphicon-sort"></span></th>
@@ -34,9 +33,8 @@
                 </tr>
             </thead>
             <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
-                <tr ng-repeat="raceParticipant in vm.raceParticipants track by raceParticipant.id">
-                    <td><a ui-sref="race-participant-detail({id:raceParticipant.id})">{{raceParticipant.id}}</a></td>
-                    <td>{{raceParticipant.raceParticipantId}}</td>
+                <tr ng-repeat="raceParticipant in vm.raceParticipants track by raceParticipant.raceParticipantId">
+                    <td><a ui-sref="race-participant-detail({raceParticipantId:raceParticipant.raceParticipantId})">{{raceParticipant.raceParticipantId}}</a></td>
                     <td>{{raceParticipant.petId}}</td>
                     <td>{{raceParticipant.raceId}}</td>
                     <td>{{raceParticipant.petName}}</td>
@@ -50,19 +48,19 @@
                     <td class="text-right">
                         <div class="btn-group flex-btn-group-container">
                             <button type="submit"
-                                    ui-sref="race-participant-detail({id:raceParticipant.id})"
+                                    ui-sref="race-participant-detail({raceParticipantId:raceParticipant.raceParticipantId})"
                                     class="btn btn-info btn-sm">
                                 <span class="glyphicon glyphicon-eye-open"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="race-participant.edit({id:raceParticipant.id})"
+                                    ui-sref="race-participant.edit({raceParticipantId:raceParticipant.raceParticipantId})"
                                     class="btn btn-primary btn-sm">
                                 <span class="glyphicon glyphicon-pencil"></span>
                                 <span class="hidden-xs hidden-sm"></span>
                             </button>
                             <button type="submit"
-                                    ui-sref="race-participant.delete({id:raceParticipant.id})"
+                                    ui-sref="race-participant.delete({raceParticipantId:raceParticipant.raceParticipantId})"
                                     class="btn btn-danger btn-sm">
                                 <span class="glyphicon glyphicon-remove-circle"></span>
                                 <span class="hidden-xs hidden-sm"></span>

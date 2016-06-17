@@ -19,7 +19,7 @@ spring:
             enabled: false # we use gulp + BrowserSync for livereload
     data:
         cassandra:
-            contactPoints: 192.168.64.2
+            contactPoints: 127.0.0.1
             protocolVersion: V3
             compression: LZ4
             keyspaceName: gpmr

@@ -28,7 +28,7 @@
         })
         .state('race-normal-detail', {
             parent: 'entity',
-            url: '/race-normal/{id}',
+            url: '/race-normal/{raceNormalId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'RaceNormal'
@@ -42,7 +42,7 @@
             },
             resolve: {
                 entity: ['$stateParams', 'RaceNormal', function($stateParams, RaceNormal) {
-                    return RaceNormal.get({id : $stateParams.id});
+                    return RaceNormal.get({raceNormalId : $stateParams.raceNormalId});
                 }]
             }
         })
@@ -70,7 +70,7 @@
                                 normalLoc: null,
                                 normalScale: null,
                                 normalSize: null,
-                                id: null
+                                normals: null
                             };
                         }
                     }
@@ -83,7 +83,7 @@
         })
         .state('race-normal.edit', {
             parent: 'race-normal',
-            url: '/{id}/edit',
+            url: '/{raceNormalId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -96,7 +96,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['RaceNormal', function(RaceNormal) {
-                            return RaceNormal.get({id : $stateParams.id});
+                            return RaceNormal.get({raceNumberId : $stateParams.raceNumberId});
                         }]
                     }
                 }).result.then(function() {
@@ -108,7 +108,7 @@
         })
         .state('race-normal.delete', {
             parent: 'race-normal',
-            url: '/{id}/delete',
+            url: '/{raceNumberId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -120,7 +120,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['RaceNormal', function(RaceNormal) {
-                            return RaceNormal.get({id : $stateParams.id});
+                            return RaceNormal.get({raceNumberId : $stateParams.raceNumberId});
                         }]
                     }
                 }).result.then(function() {

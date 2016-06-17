@@ -28,7 +28,7 @@
         })
         .state('race-data-detail', {
             parent: 'entity',
-            url: '/race-data/{id}',
+            url: '/race-data/{raceDataId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'RaceData'
@@ -42,7 +42,7 @@
             },
             resolve: {
                 entity: ['$stateParams', 'RaceData', function($stateParams, RaceData) {
-                    return RaceData.get({id : $stateParams.id});
+                    return RaceData.get({raceDataId : $stateParams.raceDataId});
                 }]
             }
         })
@@ -73,8 +73,7 @@
                                 runnerDistance: null,
                                 startTime: null,
                                 finished: null,
-                                runnerPreviousDistance: null,
-                                id: null
+                                runnerPreviousDistance: null
                             };
                         }
                     }
@@ -87,7 +86,7 @@
         })
         .state('race-data.edit', {
             parent: 'race-data',
-            url: '/{id}/edit',
+            url: '/{raceDataId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -100,7 +99,7 @@
                     size: 'lg',
                     resolve: {
                         entity: ['RaceData', function(RaceData) {
-                            return RaceData.get({id : $stateParams.id});
+                            return RaceData.get({raceDataId : $stateParams.raceDataId});
                         }]
                     }
                 }).result.then(function() {
@@ -112,7 +111,7 @@
         })
         .state('race-data.delete', {
             parent: 'race-data',
-            url: '/{id}/delete',
+            url: '/{raceDataId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -124,7 +123,7 @@
                     size: 'md',
                     resolve: {
                         entity: ['RaceData', function(RaceData) {
-                            return RaceData.get({id : $stateParams.id});
+                            return RaceData.get({raceDataId : $stateParams.raceDataId});
                         }]
                     }
                 }).result.then(function() {

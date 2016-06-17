@@ -7,7 +7,7 @@
     RaceNormal.$inject = ['$resource', 'DateUtils'];
 
     function RaceNormal ($resource, DateUtils) {
-        var resourceUrl =  'api/race-normals/:id';
+        var resourceUrl =  'api/race-normals/:raceNormalId';
 
         return $resource(resourceUrl, {}, {
             'query': { method: 'GET', isArray: true},
@@ -19,7 +19,8 @@
                     return data;
                 }
             },
-            'update': { method:'PUT' }
+            'update': { method:'PUT' },
+            
         });
     }
 })();

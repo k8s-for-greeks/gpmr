@@ -10,7 +10,7 @@
     function RaceParticipantController ($scope, $state, RaceParticipant, ParseLinks, AlertService) {
         var vm = this;
         vm.raceParticipants = [];
-        vm.predicate = 'id';
+        vm.predicate = 'raceParticipantId';
         vm.reverse = true;
         vm.page = 0;
         vm.loadAll = function() {
@@ -21,8 +21,8 @@
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
-                if (vm.predicate !== 'id') {
-                    result.push('id');
+                if (vm.predicate !== 'raceParticipantId') {
+                    result.push('raceParticipantId');
                 }
                 return result;
             }

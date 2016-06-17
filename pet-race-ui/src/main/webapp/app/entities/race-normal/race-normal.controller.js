@@ -10,7 +10,7 @@
     function RaceNormalController ($scope, $state, RaceNormal, ParseLinks, AlertService) {
         var vm = this;
         vm.raceNormals = [];
-        vm.predicate = 'id';
+        vm.predicate = 'raceNormalId';
         vm.reverse = true;
         vm.page = 0;
         vm.loadAll = function() {
@@ -21,8 +21,8 @@
             }, onSuccess, onError);
             function sort() {
                 var result = [vm.predicate + ',' + (vm.reverse ? 'asc' : 'desc')];
-                if (vm.predicate !== 'id') {
-                    result.push('id');
+                if (vm.predicate !== 'raceNormalId') {
+                    result.push('raceNormalId');
                 }
                 return result;
             }

@@ -13,8 +13,8 @@
         vm.clear = function() {
             $uibModalInstance.dismiss('cancel');
         };
-        vm.confirmDelete = function (id) {
-            RaceData.delete({id: id},
+        vm.confirmDelete = function (raceDataId) {
+            RaceData.delete({raceDataId: raceDataId},
                 function () {
                     $uibModalInstance.close(true);
                 });

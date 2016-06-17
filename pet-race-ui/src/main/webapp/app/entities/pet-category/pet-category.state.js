@@ -28,7 +28,7 @@
         })
         .state('pet-category-detail', {
             parent: 'entity',
-            url: '/pet-category/{id}',
+            url: '/pet-category/{petCategoryId}',
             data: {
                 authorities: ['ROLE_USER'],
                 pageTitle: 'PetCategory'
@@ -77,7 +77,7 @@
         })
         .state('pet-category.edit', {
             parent: 'pet-category',
-            url: '/{id}/edit',
+            url: '/{petCategoryId}/edit',
             data: {
                 authorities: ['ROLE_USER']
             },
@@ -102,7 +102,7 @@
         })
         .state('pet-category.delete', {
             parent: 'pet-category',
-            url: '/{id}/delete',
+            url: '/{petCategoryId}/delete',
             data: {
                 authorities: ['ROLE_USER']
             },

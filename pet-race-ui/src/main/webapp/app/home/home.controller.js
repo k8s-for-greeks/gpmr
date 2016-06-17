@@ -5,15 +5,19 @@
         .module('gpmrApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'DataCounter', 'RaceNormal','$log'];
 
-    function HomeController ($scope, Principal, LoginService, $state) {
+    function HomeController ($scope, Principal, LoginService, $state, DataCounter, RaceNormal, $log) {
         var vm = this;
 
         vm.account = null;
         vm.isAuthenticated = null;
         vm.login = LoginService.open;
         vm.register = register;
+
+        vm.dataCounters = null;
+        vm.normals = null;
+
         $scope.$on('authenticationSuccess', function() {
             getAccount();
         });
@@ -29,5 +33,15 @@
         function register () {
             $state.go('register');
         }
+
+        vm.loadAll = function() {
+            DataCounter.query(function(result) {
+                vm.dataCounters = {};
+                for (var i = 0; i < result.length; i++) {
+                    vm.dataCounters[result[i].vtype] = result[i].value;
+                }
+            });
+        };
+        vm.loadAll();
     }
 })();

@@ -3,9 +3,10 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>gpmr</title>
-    <meta name="description" content="">
+    <title>GPMR</title>
+    <meta name="description" content="The Great Pet Monster Race">
     <meta name="viewport" content="width=device-width">
+    <link rel="shortcut icon" type="image/png" href="favicon.png">
     <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
     <!-- build:css content/css/vendor.css -->
     <!-- bower:css -->
@@ -13,23 +14,42 @@
     <!-- endinject -->
     <link rel="stylesheet" href="content/css/vendor.css">
     <!-- endbuild -->
+
     <!-- build:css content/css/main.css -->
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
+    <!-- bower:css -->
+    <link href="bower_components/gentelella/vendors/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <!-- endinject -->
+    <!-- bower:css -->
+    <link href="bower_components/gentelella/build/css/custom.css" rel="stylesheet">
+    <link href="bower_components/gentelella/vendors/animate.css/animate.css" rel="stylesheet">
+    <link href="bower_components/gentelella/vendors/iCheck/skins/flat/blue.css" rel="stylesheet">
+    <link href="bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <!-- endinject -->
+    <!-- bower:css -->
+    <link href="bower_components/nvd3/build/nv.d3.css" rel="stylesheet">
+    <!-- endinject -->
+    <!--link href="bower_components/gentelella/vendors/mcss/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/-->
+
 </head>
-<body ng-app="gpmrApp">
+<body ng-app="gpmrApp" class="nav-md">
     <!--[if lt IE 9]>
         <p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
     <page-ribbon></page-ribbon>
-    <div ui-view="navbar" ng-cloak></div>
-    <div class="container">
-        <div class="well" ui-view="content">
+    <div class="container body">
+        <div class="main_container">
+        <div ui-view="sidebar" ng-cloak class="col-md-3 left_col"></div>
+        <div ui-view="navbar" ng-cloak class="top_nav"></div>
+
+        <div ui-view="content" class="right_col" role="main" style="min-height: 1694px;">
             <!-- Angular views -->
         </div>
 
         <div class="footer" ng-cloak>
-            <p>This is your footer</p>
+            <p>© 2016 <a href="https://github.com/k8s-for-greeks/">K8s for Greeks</a>
+        </div>
         </div>
     </div>
 
@@ -42,7 +62,6 @@
         r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
         ga('create','UA-XXXXX-X');ga('send','pageview');
     </script>-->
-
     <!-- build:js app/vendor.js -->
     <!-- bower:js -->
     <script src="bower_components/jquery/dist/jquery.js"></script>
@@ -63,8 +82,27 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
+    <script src="bower_components/gentelella/build/js/custom.js"></script>
+    <script src="bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="bower_components/gentelella/vendors/fastclick/lib/fastclick.js"></script>
+    <script src="bower_components/gentelella/vendors/nprogress/nprogress.js"></script>
+    <script src="bower_components/gentelella/vendors/Chart.js/dist/Chart.min.js"></script>
+    <script src="bower_components/gentelella/vendors/bernii/gauge.js/dist/gauge.min.js"></script>
+    <script src="bower_components/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <script src="bower_components/gentelella/vendors/iCheck/icheck.min.js"></script>
+    <script src="bower_components/gentelella/vendors/skycons/skycons.js"></script>
+    <script src="bower_components/gentelella/production/js/moment/moment.min.js"></script>
+    <script src="bower_components/gentelella/production/js/datepicker/daterangepicker.js"></script>
+    <script src="bower_components/d3/d3.js"></script>
+    <script src="bower_components/nvd3/build/nv.d3.js"></script>
+    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- build:js app/app.js  -->
     <!-- inject:js -->
@@ -83,6 +121,7 @@
     <script src="app/services/auth/auth.jwt.service.js"></script>
     <script src="app/services/auth/activate.service.js"></script>
     <script src="app/services/auth/account.service.js"></script>
+    <script src="app/layouts/sidebar/sidebar.controller.js"></script>
     <script src="app/layouts/navbar/navbar.controller.js"></script>
     <script src="app/layouts/navbar/active-link.directive.js"></script>
     <script src="app/layouts/error/error.state.js"></script>
@@ -105,6 +144,7 @@
     <script src="app/entities/race-normal/race-normal-delete-dialog.controller.js"></script>
     <script src="app/entities/race-normal/race-normal.state.js"></script>
     <script src="app/entities/race-normal/race-normal.service.js"></script>
+    <script src="app/entities/race-normal/race-normal-all.service.js"></script>
     <script src="app/entities/race-normal/race-normal.controller.js"></script>
     <script src="app/entities/race-data/race-data-dialog.controller.js"></script>
     <script src="app/entities/race-data/race-data-detail.controller.js"></script>
@@ -131,6 +171,12 @@
     <script src="app/entities/pet/pet.service.js"></script>
     <script src="app/entities/pet/pet.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
+    <script src="app/entities/data-counter/data-counter-dialog.controller.js"></script>
+    <script src="app/entities/data-counter/data-counter-detail.controller.js"></script>
+    <script src="app/entities/data-counter/data-counter-delete-dialog.controller.js"></script>
+    <script src="app/entities/data-counter/data-counter.state.js"></script>
+    <script src="app/entities/data-counter/data-counter.service.js"></script>
+    <script src="app/entities/data-counter/data-counter.controller.js"></script>
     <script src="app/components/util/truncate-words.filter.js"></script>
     <script src="app/components/util/truncate-characters.filter.js"></script>
     <script src="app/components/util/sort-by.directive.js"></script>
@@ -151,6 +197,7 @@
     <script src="app/components/alert/alert-error.directive.js"></script>
     <script src="app/components/alert/alert.service.js"></script>
     <script src="app/components/alert/alert.directive.js"></script>
+    <script src="app/charts/normals-by-pet/normals-by-pet.controller.js"></script>
     <script src="app/blocks/interceptor/notification.interceptor.js"></script>
     <script src="app/blocks/interceptor/errorhandler.interceptor.js"></script>
     <script src="app/blocks/interceptor/auth-expired.interceptor.js"></script>
@@ -205,6 +252,7 @@
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
     <script src="app/account/account.state.js"></script>
+    <script src="content/js/stats.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
