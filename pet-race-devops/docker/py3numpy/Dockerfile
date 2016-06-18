@@ -6,9 +6,6 @@ FROM alpine:3.4
 # > At the moment, setting "LANG=C" on a Linux system *fundamentally breaks Python 3*, and that's not OK.
 ENV LANG=C.UTF-8 GPG_KEY=97FC712E4C024BBEA48A61ED3A5CA953F73C700D PYTHON_VERSION=3.4.4 PYTHON_PIP_VERSION=8.1.2
 
-# Don't think we need this anymore
-# ADD repositories /etc/apk/repositories
-
 RUN set -ex \
 	&& apk add --no-cache --virtual .fetch-deps curl gnupg \
 	&& curl -fSL "https://www.python.org/ftp/python/${PYTHON_VERSION%%[a-z]*}/Python-$PYTHON_VERSION.tar.xz" -o python.tar.xz \
@@ -34,15 +31,15 @@ RUN set -ex \
 		readline-dev \
 		xz-dev \
 		zlib-dev \
+		ca-certificates \
 	&& cd /usr/src/python \
 	&& ./configure --enable-shared --enable-unicode=ucs4 \
 	&& make -j$(getconf _NPROCESSORS_ONLN) \
 	&& make install \
 	&& pip3 install --no-cache-dir --upgrade --ignore-installed pip==$PYTHON_PIP_VERSION \
 	&& pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
-	&& pip3 install nose sphinx \ 
-	&& pip3 install cassandra-driver scales pip==$PYTHON_PIP_VERSION \
-        && pip3 install scales \
+        && pip3 install scales pip==$PYTHON_PIP_VERSION \
+	&& pip3 install cassandra-driver pip==$PYTHON_PIP_VERSION \
 	&& find /usr/local -depth \
 		\( \
 		    \( -type d -a -name test -o -name tests \) \
@@ -58,7 +55,7 @@ RUN set -ex \
 	)" \
 	&& apk add --virtual .python-rundeps $runDeps \
 	&& apk del .build-deps \
-	&& rm -rf /usr/src/python ~/.cache
+	&& rm -rf /usr/src/python ~/.cache \
 	&& cd /usr/local/bin \
 	&& ln -s easy_install-3.4 easy_install \
 	&& ln -s idle3 idle \

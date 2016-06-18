@@ -6,7 +6,7 @@
 # - allow tweaking of Node disks
 # - which node distro??
 #
-KUBE_RELEASE=v1.3.0-alpha.5
+KUBE_RELEASE=v1.3.0-beta.1
 KUBE_ROOT=kubernetes
 
 export NUM_NODES=${NUM_NODES:-334}
@@ -14,16 +14,15 @@ export NUM_NODES_2=${NUM_NODES_2:-333}
 export NUM_NODES_3=${NUM_NODES_3:-333}
 export MULTIZONE=${MULTIZONE:0}
 
-
 export MASTER_SIZE=${MASTER_SIZE:-n1-standard-32}
 export NODE_SIZE=${NODE_SIZE:-n1-standard-4}
 export KUBE_GCE_ZONE=${KUBE_GCE_ZONE:-us-central1-b}
 export KUBE_GCE_ZONE_2=${KUBE_GCE_ZONE_2:-us-central1-f}
 export KUBE_GCE_ZONE_3=${KUBE_GCE_ZONE_3:-us-central1-c}
-export KUBE_ENABLE_CLUSTER_MONITORING=google
-#export MASTER_DISK_SIZE=${MASTER_DISK_SIZE:-100GB}
-#export NODE_DISK_TYPE=${NODE_DISK_TYPE:-pd-ssd}
-#export NODE_DISK_SIZE=${NODE_DISK_SIZE:-400GB}
+#export KUBE_ENABLE_CLUSTER_MONITORING=google
+#export MASTER_DISK_SIZE=${MASTER_DISK_SIZE:-40GB}
+#export NODE_DISK_TYPE=${NODE_DISK_TYPE:-local-ssd}
+#export NODE_DISK_SIZE=${NODE_DISK_SIZE:-100GB}
 export KUBE_OS_DISTRIBUTION=${KUBE_OS_DISTRIBUTION:-gci}
 
 # This is to avoid full cluster turnup failing if a handful of nodes aren't healthy

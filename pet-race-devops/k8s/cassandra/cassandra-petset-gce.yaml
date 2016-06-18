@@ -14,7 +14,8 @@ spec:
     spec:
       containers:
       - name: cassandra
-        image: "gcr.io/aronchick-apollobit/cassandra-22:v1.0"
+        #image: "gcr.io/aronchick-apollobit/cassandra-22:v1.0"
+        image: "gcr.io/aronchick-apollobit/cassandra-debian-custom:v1.0"
         imagePullPolicy: Always
         ports:
         - containerPort: 7000
