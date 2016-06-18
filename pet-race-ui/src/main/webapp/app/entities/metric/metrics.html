@@ -1,0 +1,98 @@
+<div>
+    <h2>Metrics</h2>
+    <jhi-alert></jhi-alert>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-4 no-padding-left">
+                <button class="btn btn-primary" ui-sref="metric.new" >
+                    <span class="glyphicon glyphicon-plus"></span>
+                    <span >
+                        Create new Metric
+                    </span>
+                </button>
+            </div>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive">
+        <table class="jh-table table table-striped">
+            <thead>
+                <tr jh-sort="vm.predicate" ascending="vm.reverse" callback="vm.reset()">
+                    <th jh-sort-by="metricId"><span>Metric Id</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="connectionErrors"><span>Connection Errors</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="writeTimeouts"><span>Write Timeouts</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="readTimeouts"><span>Read Timeouts</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="unavailables"><span>Unavailables</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="otherErrors"><span>Other Errors</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="retries"><span>Retries</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="ignores"><span>Ignores</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="knownHosts"><span>Known Hosts</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="connectedTo"><span>Connected To</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="openConnections"><span>Open Connections</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqCount"><span>Req Count</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqMinLatency"><span>Req Min Latency</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqMaxLatency"><span>Req Max Latency</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqMeanLatency"><span>Req Mean Latency</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqStdev"><span>Req Stdev</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="reqMedian"><span>Req Median</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="req75percentile"><span>Req 75 Percentile</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="req97percentile"><span>Req 97 Percentile</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="req98percentile"><span>Req 98 Percentile</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="req99percentile"><span>Req 99 Percentile</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="req999percentile"><span>Req 999 Percentile</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th jh-sort-by="dateCreated"><span>Date Created</span> <span class="glyphicon glyphicon-sort"></span></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll="vm.loadPage(vm.page + 1)" infinite-scroll-disabled="vm.page >= vm.links['last']">
+                <tr ng-repeat="metric in vm.metrics track by metric.metricId">
+                    <td><a ui-sref="metric-detail({metricId:metric.metricId})">{{metric.metricId}}</a></td>
+                    <td>{{metric.connectionErrors}}</td>
+                    <td>{{metric.writeTimeouts}}</td>
+                    <td>{{metric.readTimeouts}}</td>
+                    <td>{{metric.unavailables}}</td>
+                    <td>{{metric.otherErrors}}</td>
+                    <td>{{metric.retries}}</td>
+                    <td>{{metric.ignores}}</td>
+                    <td>{{metric.knownHosts}}</td>
+                    <td>{{metric.connectedTo}}</td>
+                    <td>{{metric.openConnections}}</td>
+                    <td>{{metric.reqCount}}</td>
+                    <td>{{metric.reqMinLatency}}</td>
+                    <td>{{metric.reqMaxLatency}}</td>
+                    <td>{{metric.reqMeanLatency}}</td>
+                    <td>{{metric.reqStdev}}</td>
+                    <td>{{metric.reqMedian}}</td>
+                    <td>{{metric.req75percentile}}</td>
+                    <td>{{metric.req97percentile}}</td>
+                    <td>{{metric.req98percentile}}</td>
+                    <td>{{metric.req99percentile}}</td>
+                    <td>{{metric.req999percentile}}</td>
+                    <td>{{metric.dateCreated | date:'medium'}}</td>
+                    <td class="text-right">
+                        <div class="btn-group flex-btn-group-container">
+                            <button type="submit"
+                                    ui-sref="metric-detail({metricId:metric.metricId})"
+                                    class="btn btn-info btn-sm">
+                                <span class="glyphicon glyphicon-eye-open"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="metric.edit({metricId:metric.metricId})"
+                                    class="btn btn-primary btn-sm">
+                                <span class="glyphicon glyphicon-pencil"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                            <button type="submit"
+                                    ui-sref="metric.delete({metricId:metric.metricId})"
+                                    class="btn btn-danger btn-sm">
+                                <span class="glyphicon glyphicon-remove-circle"></span>
+                                <span class="hidden-xs hidden-sm"></span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

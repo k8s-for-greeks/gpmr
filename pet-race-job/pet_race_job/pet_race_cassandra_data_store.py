@@ -8,6 +8,7 @@ from cassandra.cqlengine.connection import setup as setup_cass
 from cassandra.util import uuid_from_time
 
 from pet_race_job.model import *
+import logging
 
 
 class PetRaceCassandraDataStore(object):
@@ -20,21 +21,22 @@ class PetRaceCassandraDataStore(object):
     session = None
     cluster = None
 
-    # logger = None
+    logger = None
 
     def __init__(self, seeds, keyspace):
         self.seeds = seeds
         self.keyspace = keyspace
-        # TODO for metrics
-        # setup_cass(self.seeds, self.keyspace,
-        #           consistency=ConsistencyLevel.TWO, lazy_connect=False,
-        #           retry_connect=True, metrics_enabled=True)
+
+        # TODO configure ConsitencyLevel
+        setup_cass(self.seeds, self.keyspace,
+                   consistency=ConsistencyLevel.ONE, lazy_connect=False,
+                   retry_connect=True, metrics_enabled=True)
         # setup_cass(self.seeds, self.keyspace, consistency=ConsistencyLevel.ANY, lazy_connect=False, retry_connect=True)
-        setup_cass(self.seeds, self.keyspace, consistency=ConsistencyLevel.ONE, lazy_connect=False, retry_connect=True)
+        #setup_cass(self.seeds, self.keyspace, consistency=ConsistencyLevel.ONE, lazy_connect=False, retry_connect=True)
         self.session = get_session()
         set_session(self.session)
         self.cluster = get_cluster()
-        # self.logger = logging.getLogger('pet_race_job')
+        self.logger = logging.getLogger('pet_race_job')
         # self.logger.debug("session created")
 
     @staticmethod
@@ -225,30 +227,33 @@ class PetRaceCassandraDataStore(object):
             )
             PetRaceCassandraDataStore.increment_counter_by_name('RaceResult')
 
-            # TODO
-            # metrics = self.cluster.metrics.stats
-            #
-            # Metric.create(
-            #     connectionErrors=uuid_from_time(datetime.utcnow()),
-            #     writeTimeouts=metrics.write_timeouts,
-            #     readTimeouts=metrics.read_timeouts,
-            #     unavailables=metrics.unavailables,
-            #     otherErrors=metrics.otherErrors,
-            #     retries=metrics.retries,
-            #     ignores=metrics.ignores,
-            #     knownHosts=metrics.known_hosts,
-            #     connectedTo=metrics.connected_to,
-            #     openConnections=metrics.open_connections,
-            #     reqCount=metrics.request_timer['count'],
-            #     reqMinLatency=metrics.request_timer['min'],
-            #     reqMaxLatency=metrics.request_timer['max'],
-            #     reqMeanLatency=metrics.request_timer['mean'],
-            #     reqStdev=metrics.request_timer['stdev'],
-            #     reqMedian=metrics.request_timer['median'],
-            #     req75percentile=metrics.request_timer['75percentile'],
-            #     req97percentile=metrics.request_timer['97percentile'],
-            #     req98percentile=metrics.request_timer['98percentile'],
-            #     req99percentile=metrics.request_timer['99percentile'],
-            #     req999percentile=metrics.request_timer['999percentile'],
-            #     dateCreated=datetime.utcnow(),
-            # )
+        metrics = self.cluster.metrics.stats
+        hosts = int(metrics.known_hosts())
+        connected_to = int(metrics.connected_to())
+        open_connections = int(metrics.open_connections())
+
+        Metric.create(
+            metricId=uuid_from_time(datetime.utcnow()),
+            connectionErrors=metrics.connection_errors,
+            writeTimeouts=metrics.write_timeouts,
+            readTimeouts=metrics.read_timeouts,
+            unavailables=metrics.unavailables,
+            otherErrors=metrics.other_errors,
+            retries=metrics.retries,
+            ignores=metrics.ignores,
+            knownHosts=hosts,
+            connectedTo=connected_to,
+            openConnections=open_connections,
+            reqCount=metrics.request_timer['count'],
+            reqMinLatency=metrics.request_timer['min'],
+            reqMaxLatency=metrics.request_timer['max'],
+            reqMeanLatency=metrics.request_timer['mean'],
+            reqStdev=metrics.request_timer['stdev'],
+            reqMedian=metrics.request_timer['median'],
+            req75percentile=metrics.request_timer['75percentile'],
+            req97percentile=metrics.request_timer['97percentile'],
+            req98percentile=metrics.request_timer['98percentile'],
+            req99percentile=metrics.request_timer['99percentile'],
+            req999percentile=metrics.request_timer['999percentile'],
+            dateCreated=datetime.utcnow(),
+        )

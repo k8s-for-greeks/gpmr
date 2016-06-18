@@ -42,6 +42,7 @@ RUN set -ex \
 	&& pip3 install numpy==1.9.3 pip==$PYTHON_PIP_VERSION \
 	&& pip3 install nose sphinx \ 
 	&& pip3 install cassandra-driver scales pip==$PYTHON_PIP_VERSION \
+        && pip3 install scales \
 	&& find /usr/local -depth \
 		\( \
 		    \( -type d -a -name test -o -name tests \) \

@@ -55,6 +55,7 @@ class DataImporter(object):
         sync_table(RaceResult)
         sync_table(RaceParticipant)
         sync_table(Race)
+        sync_table(Metric)
         self.logger.debug("tables created")
 
     def save_pets(self, pets_create, category_name):

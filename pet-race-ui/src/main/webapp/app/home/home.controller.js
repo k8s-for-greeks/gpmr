@@ -5,9 +5,9 @@
         .module('gpmrApp')
         .controller('HomeController', HomeController);
 
-    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'DataCounter', 'RaceNormal','$log'];
+    HomeController.$inject = ['$scope', 'Principal', 'LoginService', '$state', 'DataCounter', 'MetricJava','$log'];
 
-    function HomeController ($scope, Principal, LoginService, $state, DataCounter, RaceNormal, $log) {
+    function HomeController ($scope, Principal, LoginService, $state, DataCounter, MetricJava, $log) {
         var vm = this;
 
         vm.account = null;
@@ -40,6 +40,10 @@
                 for (var i = 0; i < result.length; i++) {
                     vm.dataCounters[result[i].vtype] = result[i].value;
                 }
+            });
+            
+            MetricJava.get(function(result) {
+               vm.javaMetric = result;
             });
         };
         vm.loadAll();

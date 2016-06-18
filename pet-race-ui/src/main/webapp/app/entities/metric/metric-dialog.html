@@ -1,0 +1,163 @@
+
+<form name="editForm" role="form" novalidate ng-submit="vm.save()">
+
+    <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                ng-click="vm.clear()">&times;</button>
+        <h4 class="modal-title" id="myMetricLabel">Create or edit a Metric</h4>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group">
+            <label class="control-label" for="field_metricId">Metric Id</label>
+            <input type="text" class="form-control" name="metricId" id="field_metricId"
+                    ng-model="vm.metric.metricId"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_connectionErrors">Connection Errors</label>
+            <input type="number" class="form-control" name="connectionErrors" id="field_connectionErrors"
+                    ng-model="vm.metric.connectionErrors"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_writeTimeouts">Write Timeouts</label>
+            <input type="number" class="form-control" name="writeTimeouts" id="field_writeTimeouts"
+                    ng-model="vm.metric.writeTimeouts"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_readTimeouts">Read Timeouts</label>
+            <input type="number" class="form-control" name="readTimeouts" id="field_readTimeouts"
+                    ng-model="vm.metric.readTimeouts"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_unavailables">Unavailables</label>
+            <input type="number" class="form-control" name="unavailables" id="field_unavailables"
+                    ng-model="vm.metric.unavailables"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_otherErrors">Other Errors</label>
+            <input type="number" class="form-control" name="otherErrors" id="field_otherErrors"
+                    ng-model="vm.metric.otherErrors"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_retries">Retries</label>
+            <input type="number" class="form-control" name="retries" id="field_retries"
+                    ng-model="vm.metric.retries"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_ignores">Ignores</label>
+            <input type="number" class="form-control" name="ignores" id="field_ignores"
+                    ng-model="vm.metric.ignores"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_knownHosts">Known Hosts</label>
+            <input type="number" class="form-control" name="knownHosts" id="field_knownHosts"
+                    ng-model="vm.metric.knownHosts"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_connectedTo">Connected To</label>
+            <input type="number" class="form-control" name="connectedTo" id="field_connectedTo"
+                    ng-model="vm.metric.connectedTo"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_openConnections">Open Connections</label>
+            <input type="number" class="form-control" name="openConnections" id="field_openConnections"
+                    ng-model="vm.metric.openConnections"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqCount">Req Count</label>
+            <input type="number" class="form-control" name="reqCount" id="field_reqCount"
+                    ng-model="vm.metric.reqCount"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqMinLatency">Req Min Latency</label>
+            <input type="number" class="form-control" name="reqMinLatency" id="field_reqMinLatency"
+                    ng-model="vm.metric.reqMinLatency"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqMaxLatency">Req Max Latency</label>
+            <input type="number" class="form-control" name="reqMaxLatency" id="field_reqMaxLatency"
+                    ng-model="vm.metric.reqMaxLatency"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqMeanLatency">Req Mean Latency</label>
+            <input type="number" class="form-control" name="reqMeanLatency" id="field_reqMeanLatency"
+                    ng-model="vm.metric.reqMeanLatency"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqStdev">Req Stdev</label>
+            <input type="number" class="form-control" name="reqStdev" id="field_reqStdev"
+                    ng-model="vm.metric.reqStdev"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_reqMedian">Req Median</label>
+            <input type="number" class="form-control" name="reqMedian" id="field_reqMedian"
+                    ng-model="vm.metric.reqMedian"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_req75percentile">Req 75 Percentile</label>
+            <input type="number" class="form-control" name="req75percentile" id="field_req75percentile"
+                    ng-model="vm.metric.req75percentile"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_req97percentile">Req 97 Percentile</label>
+            <input type="number" class="form-control" name="req97percentile" id="field_req97percentile"
+                    ng-model="vm.metric.req97percentile"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_req98percentile">Req 98 Percentile</label>
+            <input type="number" class="form-control" name="req98percentile" id="field_req98percentile"
+                    ng-model="vm.metric.req98percentile"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_req99percentile">Req 99 Percentile</label>
+            <input type="number" class="form-control" name="req99percentile" id="field_req99percentile"
+                    ng-model="vm.metric.req99percentile"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_req999percentile">Req 999 Percentile</label>
+            <input type="number" class="form-control" name="req999percentile" id="field_req999percentile"
+                    ng-model="vm.metric.req999percentile"
+                     />
+        </div>
+        <div class="form-group">
+            <label class="control-label" for="field_dateCreated">Date Created</label>
+                <div class="input-group">
+                    <input id="field_dateCreated" type="text" class="form-control" name="dateCreated" uib-datepicker-popup="{{dateformat}}" ng-model="vm.metric.dateCreated" is-open="vm.datePickerOpenStatus.dateCreated"
+                    />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-default" ng-click="vm.openCalendar('dateCreated')"><i class="glyphicon glyphicon-calendar"></i></button>
+                    </span>
+                </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.clear()">
+            <span class="glyphicon glyphicon-ban-circle"></span>&nbsp;<span>Cancel</span>
+        </button>
+        <button type="submit" ng-disabled="editForm.$invalid || isSaving" class="btn btn-primary">
+            <span class="glyphicon glyphicon-save"></span>&nbsp;<span>Save</span>
+        </button>
+    </div>
+</form>

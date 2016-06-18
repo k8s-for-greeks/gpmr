@@ -1,0 +1,28 @@
+
+CREATE TABLE IF NOT EXISTS metric (
+    id uuid,
+    metricId uuid,
+    connectionErrors int,
+    writeTimeouts int,
+    readTimeouts int,
+    unavailables int,
+    otherErrors int,
+    retries int,
+    ignores int,
+    knownHosts int,
+    connectedTo int,
+    openConnections int,
+    reqCount int,
+    reqMinLatency double,
+    reqMaxLatency double,
+    reqMeanLatency double,
+    reqStdev double,
+    reqMedian double,
+    req75percentile double,
+    req97percentile double,
+    req98percentile double,
+    req99percentile double,
+    req999percentile double,
+    dateCreated timestamp,
+    PRIMARY KEY(id)
+);

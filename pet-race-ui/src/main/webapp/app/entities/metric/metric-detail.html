@@ -1,0 +1,101 @@
+
+<div>
+    <h2><span>Metric</span> {{vm.metric.metricId}}</h2>
+    <hr>
+    <dl class="dl-horizontal jh-entity-details">
+        <dt><span>Connection Errors</span></dt>
+        <dd>
+            <span>{{vm.metric.connectionErrors}}</span>
+        </dd>
+        <dt><span>Write Timeouts</span></dt>
+        <dd>
+            <span>{{vm.metric.writeTimeouts}}</span>
+        </dd>
+        <dt><span>Read Timeouts</span></dt>
+        <dd>
+            <span>{{vm.metric.readTimeouts}}</span>
+        </dd>
+        <dt><span>Unavailables</span></dt>
+        <dd>
+            <span>{{vm.metric.unavailables}}</span>
+        </dd>
+        <dt><span>Other Errors</span></dt>
+        <dd>
+            <span>{{vm.metric.otherErrors}}</span>
+        </dd>
+        <dt><span>Retries</span></dt>
+        <dd>
+            <span>{{vm.metric.retries}}</span>
+        </dd>
+        <dt><span>Ignores</span></dt>
+        <dd>
+            <span>{{vm.metric.ignores}}</span>
+        </dd>
+        <dt><span>Known Hosts</span></dt>
+        <dd>
+            <span>{{vm.metric.knownHosts}}</span>
+        </dd>
+        <dt><span>Connected To</span></dt>
+        <dd>
+            <span>{{vm.metric.connectedTo}}</span>
+        </dd>
+        <dt><span>Open Connections</span></dt>
+        <dd>
+            <span>{{vm.metric.openConnections}}</span>
+        </dd>
+        <dt><span>Req Count</span></dt>
+        <dd>
+            <span>{{vm.metric.reqCount}}</span>
+        </dd>
+        <dt><span>Req Min Latency</span></dt>
+        <dd>
+            <span>{{vm.metric.reqMinLatency}}</span>
+        </dd>
+        <dt><span>Req Max Latency</span></dt>
+        <dd>
+            <span>{{vm.metric.reqMaxLatency}}</span>
+        </dd>
+        <dt><span>Req Mean Latency</span></dt>
+        <dd>
+            <span>{{vm.metric.reqMeanLatency}}</span>
+        </dd>
+        <dt><span>Req Stdev</span></dt>
+        <dd>
+            <span>{{vm.metric.reqStdev}}</span>
+        </dd>
+        <dt><span>Req Median</span></dt>
+        <dd>
+            <span>{{vm.metric.reqMedian}}</span>
+        </dd>
+        <dt><span>Req 75 Percentile</span></dt>
+        <dd>
+            <span>{{vm.metric.req75percentile}}</span>
+        </dd>
+        <dt><span>Req 97 Percentile</span></dt>
+        <dd>
+            <span>{{vm.metric.req97percentile}}</span>
+        </dd>
+        <dt><span>Req 98 Percentile</span></dt>
+        <dd>
+            <span>{{vm.metric.req98percentile}}</span>
+        </dd>
+        <dt><span>Req 99 Percentile</span></dt>
+        <dd>
+            <span>{{vm.metric.req99percentile}}</span>
+        </dd>
+        <dt><span>Req 999 Percentile</span></dt>
+        <dd>
+            <span>{{vm.metric.req999percentile}}</span>
+        </dd>
+        <dt><span>Date Created</span></dt>
+        <dd>
+            <span>{{vm.metric.dateCreated | date:'medium'}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            onclick="window.history.back()"
+            class="btn btn-info">
+        <span class="glyphicon glyphicon-arrow-left"></span>&nbsp;<span> Back</span>
+    </button>
+</div>
