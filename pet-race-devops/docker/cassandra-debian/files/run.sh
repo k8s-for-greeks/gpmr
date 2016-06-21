@@ -29,6 +29,8 @@ CASSANDRA_BROADCAST_RPC_ADDRESS=${POD_IP}
 CASSANDRA_DISK_OPTIMIZATION_STRATEGY="${CASSANDRA_DISK_OPTIMIZATION_STRATEGY:-spinning}"
 CASSANDRA_MIGRATION_WAIT="${CASSANDRA_MIGRATION_WAIT:-1}"
 CASSANDRA_ENDPOINT_SNITCH="${CASSANDRA_ENDPOINT_SNITCH:-SimpleSnitch}"
+CASSANDRA_RING_DELAY="${CASSANDRA_RING_DELAY:-30000}"
+CASSANDRA_AUTO_BOOTSTRAP="${CASSANDRA_AUTO_BOOTSTRAP:-true}"
 
 # Turn off JMX auth
 CASSANDRA_OPEN_JMX="${CASSANDRA_OPEN_JMX:-false}"
@@ -52,6 +54,8 @@ for yaml in \
     sed -ri 's/^(# )?('"$yaml"':).*/\2 '"$val"'/' "$CFG"
   fi
 done
+
+echo "auto_bootstrap: ${CASSANDRA_AUTO_BOOTSTRAP}" >> $CFG
 
 # TODO: Get rack and dc working
 # Eventually do snitch $DC $RACK?
@@ -84,6 +88,8 @@ echo "JVM_OPTS=\"\$JVM_OPTS -Djava.rmi.server.hostname=$POD_IP\"" >> $CONF_DIR/c
 
 # getting WARNING messages with Migration Service
 echo "-Dcassandra.migration_task_wait_in_seconds=${CASSANDRA_MIGRATION_WAIT}" >> $CONF_DIR/jvm.options
+echo "-Dcassandra.ring_delay_ms=${CASSANDRA_RING_DELAY}" >> $CONF_DIR/jvm.options
+
 
 if [[ $CASSANDRA_OPEN_JMX == 'true' ]]; then
   export LOCAL_JMX=no

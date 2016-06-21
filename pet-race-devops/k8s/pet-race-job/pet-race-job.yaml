@@ -2,18 +2,22 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: pet-race-giants
+  labels:
+    name: pet-races
 spec:
   parallelism: 2
-  completions: 5
+  completions: 4
   template:
     metadata:
       name: pet-race-giants
+      labels:
+        name: pet-races
     spec:
       containers:
       - name: pet-race-giants
-        image: 10.100.179.231:5000/py3numpy-job:v1.0
+        image: gcr.io/aronchick-apollobit/py3numpy-job:v1.0
         command: ["pet-race-job", "--description=A_pet_race", "--length=100", "--pet=Giants", "--scale=3"]
-        resources:
-          limits:
-            cpu: ".5"
+        #resources:
+        #  limits:
+        #    cpu: ".5"
       restartPolicy: Never

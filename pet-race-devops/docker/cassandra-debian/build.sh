@@ -31,7 +31,7 @@ if [ -z "$PROJECT_ID" ]; then
 fi
 
 REPO=gcr.io/$PROJECT_ID
-DOCKER="${REPO}/cassandra:${VERSION}"
+DOCKER="${REPO}/${PWD##*/}:${VERSION}"
 
 docker build -t ${DOCKER} .
 

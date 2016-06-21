@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: py3numpy
+  annotations:
+    scheduler.alpha.kubernetes.io/affinity: >
+      {
+        "nodeAffinity": {
+          "requiredDuringSchedulingIgnoredDuringExecution": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "kubernetes.io/hostname",
+                    "operator": "In",
+                    "values": ["kubernetes-minion-group-z32k"]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+spec:
+  containers:
+  - command:
+    command:
+      - sh
+      - -c
+      - 'while true; do sleep 1; done'
+    image: gcr.io/aronchick-apollobit/py3numpy:v1.0
+    imagePullPolicy: IfNotPresent
+    name: py3numpy
