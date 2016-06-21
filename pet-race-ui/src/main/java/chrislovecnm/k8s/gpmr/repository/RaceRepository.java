@@ -26,13 +26,13 @@ public class RaceRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Race.class);
-        createPaging(mapper,"gpmr","race");
+        createPaging("gpmr","race");
     }
 
     public Page<Race> findAll(Pageable pageable) {
         List<Race> races = new ArrayList<>();
 
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(races::add);
         Page<Race> page = new PageImpl<>(races,pageable,races.size());

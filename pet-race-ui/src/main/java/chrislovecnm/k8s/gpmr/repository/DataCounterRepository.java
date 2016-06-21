@@ -25,11 +25,11 @@ public class DataCounterRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(DataCounter.class);
-        createPaging(mapper,"gpmr","data_counter");
+        createPaging("gpmr","data_counter");
     }
     public Page<DataCounter> findAll(Pageable pageable) {
        List<DataCounter> dataCounters = new ArrayList<>();
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(dataCounters::add);
         return new PageImpl<>(dataCounters,pageable,dataCounters.size());

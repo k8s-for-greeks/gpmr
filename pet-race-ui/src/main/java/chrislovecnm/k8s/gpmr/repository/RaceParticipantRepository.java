@@ -27,7 +27,7 @@ public class RaceParticipantRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceParticipant.class);
-        createPaging(mapper,"gpmr","race_participant");
+        createPaging("gpmr","race_participant");
     }
 
 
@@ -50,7 +50,7 @@ public class RaceParticipantRepository extends CassandraPaging {
     public Page<RaceParticipant> findAll(Pageable pageable) {
         List<RaceParticipant> raceParticipants = new ArrayList<>();
 
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(raceParticipants::add);
         Page<RaceParticipant> page = new PageImpl<>(raceParticipants,pageable,raceParticipants.size());

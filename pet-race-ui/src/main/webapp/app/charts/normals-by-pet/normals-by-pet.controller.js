@@ -1,36 +1,36 @@
 /**
  * Created by clove on 6/16/16.
  */
-var randomColor = (function(){
+var randomColor = (function () {
     var golden_ratio_conjugate = 0.618033988749895;
     var h = Math.random();
 
-    var hslToRgb = function (h, s, l){
+    var hslToRgb = function (h, s, l) {
         var r, g, b;
 
-        if(s == 0){
+        if (s == 0) {
             r = g = b = l; // achromatic
-        }else{
-            function hue2rgb(p, q, t){
-                if(t < 0) t += 1;
-                if(t > 1) t -= 1;
-                if(t < 1/6) return p + (q - p) * 6 * t;
-                if(t < 1/2) return q;
-                if(t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        } else {
+            function hue2rgb(p, q, t) {
+                if (t < 0) t += 1;
+                if (t > 1) t -= 1;
+                if (t < 1 / 6) return p + (q - p) * 6 * t;
+                if (t < 1 / 2) return q;
+                if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
                 return p;
             }
 
             var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
             var p = 2 * l - q;
-            r = hue2rgb(p, q, h + 1/3);
+            r = hue2rgb(p, q, h + 1 / 3);
             g = hue2rgb(p, q, h);
-            b = hue2rgb(p, q, h - 1/3);
+            b = hue2rgb(p, q, h - 1 / 3);
         }
 
-        return '#'+Math.round(r * 255).toString(16)+Math.round(g * 255).toString(16)+Math.round(b * 255).toString(16);
+        return '#' + Math.round(r * 255).toString(16) + Math.round(g * 255).toString(16) + Math.round(b * 255).toString(16);
     };
 
-    return function(){
+    return function () {
         h += golden_ratio_conjugate;
         h %= 1;
         return hslToRgb(h, 0.5, 0.60);
@@ -44,11 +44,10 @@ var randomColor = (function(){
         .module('gpmrApp')
         .controller('NormalsByPetController', NormalsByPetController);
 
-    NormalsByPetController.$inject = ['$scope', 'RaceNormalAll','$log'];
+    NormalsByPetController.$inject = ['$scope', 'RaceNormal', '$log'];
 
 
-
-    function NormalsByPetController($scope, RaceNormalAll, $log) {
+    function NormalsByPetController($scope, RaceNormal, $log) {
 
         var vm = this;
         vm.count = 0;
@@ -56,6 +55,7 @@ var randomColor = (function(){
         vm.page = 1;
         vm.normals = {};
         vm.size = 100;
+        vm.pageSize = 10;
         vm.options = {
             chart: {
                 type: 'boxPlotChart',
@@ -76,14 +76,15 @@ var randomColor = (function(){
             }
         };
 
-        // FIXME automatically paginate
-        
         vm.loadAll = function () {
 
-            RaceNormalAll.query({
+            RaceNormal.query({
+                page: vm.page,
+                size: vm.pageSize,
             }, onSuccess, onError);
 
             function onSuccess(data, headers) {
+                var results = data.length;
                 for (var i = 0; i < data.length; i++) {
                     var j = data[i];
                     if (!(j.petCategoryName in vm.normals)) {
@@ -97,7 +98,7 @@ var randomColor = (function(){
                     }
                 }
 
-                Object.keys(vm.normals).forEach(function(key,index) {
+                Object.keys(vm.normals).forEach(function (key, index) {
                     var a = vm.normals[key].normals;
                     var nums = stats(vm.normals[key].normals).sort();
                     var _outliers = nums.clone().findOutliers();
@@ -118,17 +119,47 @@ var randomColor = (function(){
                     if (vm.options.chart.yDomain[1] < _max + 10) {
                         vm.options.chart.yDomain[1] = Math.ceil((_max + 10));
                     }
+
+                    if (results < vm.pageSize) {
+                        $log.log("results: " + vm.results);
+                        $log.log("results done");
+                        $scope.options = vm.options;
+                        $scope.data = vm.data;
+                    } else {
+                        $log.log("results loading again");
+                        vm.page += 1;
+                        $scope.options = vm.options;
+                        $scope.data = vm.data;
+                        //vm.loadAll();
+                    }
                 });
 
-                $scope.options = vm.options;
-                $scope.data = vm.data;
 
             }
 
             function onError(error) {
                 AlertService.error(error.data.message);
             }
+
+
         }
+
+        /*
+        vm.load = function () {
+            while (true) {
+                $log.log("loading all");
+                vm.loadAll();
+                if (vm.results < vm.pageSize) {
+                    $log.log("results: " + vm.results);
+                    $log.log("results done");
+                    break;
+                }
+                vm.page += 1;
+            }
+            $scope.options = vm.options;
+            $scope.data = vm.data;
+            vm.page = 1;
+        }*/
 
         vm.loadAll();
 

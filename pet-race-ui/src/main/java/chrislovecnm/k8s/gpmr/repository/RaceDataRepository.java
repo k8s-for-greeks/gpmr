@@ -2,9 +2,8 @@ package chrislovecnm.k8s.gpmr.repository;
 
 import chrislovecnm.k8s.gpmr.domain.RaceData;
 
-import chrislovecnm.k8s.gpmr.domain.RaceNormal;
-import chrislovecnm.k8s.gpmr.domain.RaceParticipant;
 import com.datastax.driver.core.*;
+import com.datastax.driver.core.querybuilder.QueryBuilder;
 import com.datastax.driver.mapping.Mapper;
 import com.datastax.driver.mapping.MappingManager;
 import org.springframework.data.domain.Page;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,16 +24,18 @@ public class RaceDataRepository extends CassandraPaging {
 
     private Mapper<RaceData> mapper;
 
+    private String keyspace = "gpmr";
+    private String table = "race_data";
 
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceData.class);
-        createPaging(mapper,"gpmr","race_data");
+        createPaging(keyspace,table);
     }
 
    public Page<RaceData> findAll(Pageable pageable) {
         List<RaceData> raceData = new ArrayList<>();
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(raceData::add);
        Page<RaceData> page = new PageImpl<>(raceData,pageable,raceData.size());
@@ -87,5 +87,19 @@ public class RaceDataRepository extends CassandraPaging {
     public void deleteAll() {
         BoundStatement stmt =  truncateStmt.bind();
         session.execute(stmt);
+    }
+
+    public List<RaceData> findAllByRace(UUID uuid) {
+        List<RaceData> raceData = new ArrayList<>();
+
+        Statement statement = QueryBuilder.select()
+            .all()
+            .from(keyspace, table)
+            .where(QueryBuilder.eq("raceId", uuid));
+
+        session.execute(statement).all().stream().map(
+            row -> rowCall(row)
+        ).forEach(raceData::add);
+        return raceData;
     }
 }

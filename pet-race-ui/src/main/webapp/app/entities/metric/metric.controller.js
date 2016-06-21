@@ -16,7 +16,7 @@
         vm.loadAll = function() {
             Metric.query({
                 page: vm.page,
-                size: 20,
+                size: 100,
                 sort: sort()
             }, onSuccess, onError);
             function sort() {

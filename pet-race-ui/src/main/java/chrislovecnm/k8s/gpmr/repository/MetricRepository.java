@@ -29,7 +29,7 @@ public class MetricRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Metric.class);
-        createPaging(mapper,"gpmr","metric");
+        createPaging("gpmr","metric");
     }
 
     public Page<Metric> findAll(Pageable pageable) {

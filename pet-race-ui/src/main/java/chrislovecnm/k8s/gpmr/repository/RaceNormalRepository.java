@@ -27,12 +27,12 @@ public class RaceNormalRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(RaceNormal.class);
-        createPaging(mapper,"gpmr","race_normal");
+        createPaging("gpmr","race_normal");
     }
 
     public Page<RaceNormal> findAll(Pageable pageable) {
         List<RaceNormal> raceNormals = new ArrayList<>();
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(raceNormals::add);
         Page<RaceNormal> page = new PageImpl<>(raceNormals,pageable,raceNormals.size());

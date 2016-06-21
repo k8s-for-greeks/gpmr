@@ -100,6 +100,21 @@ public class RaceDataResource {
     }
 
     /**
+     * GET  /race-data/race/:id : get the "id" raceData.
+     *
+     * @param id the id of the raceData to retrieve
+     * @return the ResponseEntity with status 200 (OK) and with body the raceData, or with status 404 (Not Found)
+     */
+    @RequestMapping(value = "/race-data/race/{id}",
+        method = RequestMethod.GET,
+        produces = MediaType.APPLICATION_JSON_VALUE)
+    @Timed
+    public List<RaceData> getRaceDataByRace(@PathVariable String id) {
+        log.debug("REST request to get RaceData by Race Id : {}", id);
+        return raceDataRepository.findAllByRace(UUID.fromString(id));
+    }
+
+    /**
      * GET  /race-data/:id : get the "id" raceData.
      *
      * @param id the id of the raceData to retrieve

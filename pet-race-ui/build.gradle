@@ -22,6 +22,15 @@ buildscript {
 
 }
 
+apply plugin: 'idea'
+
+idea {
+    module {
+        inheritOutputDirs = false
+        outputDir = file("$buildDir/classes/main/")
+    }
+}
+
 apply plugin: 'java'
 sourceCompatibility=1.8
 targetCompatibility=1.8
@@ -45,7 +54,7 @@ springBoot {
 }
 
 bootRun {
-    addResources = false
+    addResources = true
 }
 
 test {
@@ -153,6 +162,7 @@ dependencies {
     compile "org.springframework.boot:spring-boot-starter-web"
     compile "org.springframework.boot:spring-boot-starter-websocket"
     compile "org.springframework.boot:spring-boot-starter-thymeleaf"
+    compile "org.springframework.boot:spring-boot-devtools"
     compile 'org.springframework.data:spring-data-cassandra:1.5.0.BUILD-SNAPSHOT'
     compile 'org.springframework.data:spring-cql:1.5.0.BUILD-SNAPSHOT'
     compile("com.datastax.cassandra:cassandra-driver-core:${datastax_driver_version}") {

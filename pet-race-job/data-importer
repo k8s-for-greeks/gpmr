@@ -7,11 +7,16 @@ from pet_race_job.data_importer import DataImporter
 
 
 def main(arg):
-    options, remainder = getopt.getopt(arg[1:], 'd:h:ks:', ['directory=', 'help', 'keyspace', 'seeds'])
+    options, remainder = getopt.getopt(arg[1:], 'd:h:ks:c', ['directory=', 'help', 'keyspace', 'seeds=', 'create'])
 
     # if options.d is None: # where foo is obviously your required option
     #    parser.print_help()
     #    sys.exit(1)
+
+    seeds = None
+    data_dir = None
+    drop_keyspace = None
+    create = False
 
     for opt, arg in options:
         if opt in ('-d', '--directory'):
@@ -20,6 +25,8 @@ def main(arg):
             drop_keyspace = True
         if opt in ('-s', '--seeds'):
             seeds = arg
+        if opt in ('-c', '--create'):
+            create = True
         if opt in ('-h', '--help'):
             print("usage: --directory=data_directory")
             exit(0)
@@ -41,7 +48,7 @@ def main(arg):
 
     loader.create_tables()
 
-    if drop_keyspace:
+    if create:
         loader.save_counters()
         # todo move path to config files
         pet_cats = loader.parse_pet_categories(data_dir + '/pet_categories.csv')

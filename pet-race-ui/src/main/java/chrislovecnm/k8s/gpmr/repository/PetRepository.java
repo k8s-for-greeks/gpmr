@@ -24,7 +24,7 @@ public class PetRepository extends CassandraPaging {
     @PostConstruct
     public void init() {
         mapper = new MappingManager(session).mapper(Pet.class);
-        createPaging(mapper,"gpmr","pet");
+        createPaging("gpmr","pet");
     }
 
     public List<Pet> findAll() {
