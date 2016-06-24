@@ -15,9 +15,11 @@ spec:
     spec:
       containers:
       - name: pet-race-giants
-        image: gcr.io/aronchick-apollobit/py3numpy-job:v1.0
+        image: gcr.io/aronchick-apollobit/py3numpy-job-dev:v1.0
         command: ["pet-race-job", "--description=A_pet_race", "--length=100", "--pet=Giants", "--scale=3"]
-        #resources:
-        #  limits:
-        #    cpu: ".5"
+        resources:
+          limits:
+            cpu: "2"
+          requests:
+            cpu: "2"
       restartPolicy: Never

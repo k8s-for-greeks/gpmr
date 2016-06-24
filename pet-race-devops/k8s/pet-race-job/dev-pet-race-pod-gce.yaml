@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: py3numpy
+spec:
+  containers:
+  - command:
+    command:
+      - sh
+      - -c
+      - 'while true; do sleep 1; done'
+    image: gcr.io/aronchick-apollobit/py3numpy-job-dev:v1.0
+    imagePullPolicy: Always
+    name: py3numpy
+    resources:
+      limits:
+        cpu: "1"
+      requests:
+        cpu: "1"

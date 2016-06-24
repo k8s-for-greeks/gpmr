@@ -1,0 +1,50 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-race-ui
+  labels:
+    app: pet-race-ui
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    targetPort: 8080
+    protocol: TCP
+    name: http
+  selector:
+    app: pet-race-ui
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: pet-race-ui
+spec:
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: pet-race-ui
+    spec:
+      containers:
+      - name: pet-race-ui
+        image: "gcr.io/aronchick-apollobit/pet-race-ui:v1.0"
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "2"
+            memory: 2Gi
+          requests:
+            cpu: "2"
+            memory: 2Gi
+---
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: pet-race-ui
+spec:
+  tls:
+  - secretName: tls
+  backend:
+    serviceName: pet-race-ui
+    servicePort: 8080

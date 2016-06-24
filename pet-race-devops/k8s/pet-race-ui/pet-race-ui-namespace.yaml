@@ -1,0 +1,6 @@
+kind: Namespace
+apiVersion: v1
+metadata:
+  name: pet-race-ui
+  labels:
+    name: pet-race-ui

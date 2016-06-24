@@ -1,15 +1,9 @@
-
-```console
-# namspace
 kubectl create -f pet-race-namspace.yaml
+kubectl create --namespace=pet-races -f pet-race-job-gce.yaml
 
-# race
-kubectl create --namespace=pet-races -f pet-race-job.yaml
 
-# pod
-kubectl create --namespace=pet-races -f pet-race-pod-gce.yaml
-kubectl get --namespace=pet-races po
-kubectl exec -it --namespace=pet-races py3numpy -- /bin/sh
-kubectl delete --namespace=pet-races -f pet-race-pod-gce.yaml
+kubectl create --namespace=pet-races -f dev-pet-race-pod-gce.yaml
+kubectl --namespace=pet-races get po
+kubectl --namespace=pet-races exec -it py3numpy /bin/sh
+kubectl --namespace=pet-races delete po py3numpy
 
-```
