@@ -1,6 +1,13 @@
 #!/bin/bash
 
-if [[ $DEBUG ]]; then 
-  if [[ $(nodetool status | grep $POD_IP) == *"UN"* ]]; then echo "UN"; else echo "NOT UP"; fi
+if [[ $(nodetool status | grep $POD_IP) == *"UN"* ]]; then 
+  if [[ $DEBUG ]]; then 
+    echo "Not Up";
+  fi
+  exit 0; 
+else 
+  if [[ $DEBUG ]]; then 
+    echo "UN";
+  fi
+  exit 1; 
 fi
-if [[ $(nodetool status | grep $POD_IP) == *"UN"* ]]; then exit 0; else exit 1; fi

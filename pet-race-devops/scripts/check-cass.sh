@@ -26,25 +26,33 @@ while getopts "lc" o; do
 done
 shift $((OPTIND-1))
 
-PO=$(kubectl.sh get po -o wide | grep cass)
+PO_DATA=$(kubectl.sh get po -o wide | grep cassandra-data)
+PO_ANA=$(kubectl.sh get po -o wide | grep cassandra-ana)
 
-SORTED=$( echo "${PO}" | sort -n -r -k 1.10)
-NUM_PO=$(echo "{$PO}" | wc -l)
+SORTED_DATA=$( echo "${PO_DATA}" | sort -n -r -k 1.15)
+NUM_PO_DATA=$(echo "{$PO_DATA}" | wc -l)
+
+SORTED_ANA=$( echo "${PO_ANA}" | sort -n -r -k 1.20)
+NUM_PO_ANA=$(echo "{$PO_ANA}" | wc -l)
+
 PETSET=$(kubectl.sh get petset -o wide)
+TOTAL=$((NUM_PO_DATA + NUM_PO_ANA))
 
 echo "Pods up"
-echo "$SORTED"
-echo "=============================="
-echo "cass pods up:       $NUM_PO"
+echo "$SORTED_DATA"
+echo "$SORTED_ANA"
+echo "Data:      $NUM_PO_DATA"
+echo "Analytics: $NUM_PO_ANA"
+echo "Total:     $TOTAL"
 echo "=============================="
 echo "Petsets"
 echo "${PETSET}"
 
-RESTART=$(echo "$SORTED" | grep -v -e "Running   0")
-if [ -n "$RESTARTED" ]; then
-  echo "restarted"
-  echo "$RESTART"
-fi
+#RESTART=$(echo "$SORTED" | grep -v -e "Running   0")
+#if [ -n "$RESTARTED" ]; then
+#  echo "restarted"
+#  echo "$RESTART"
+#fi
 
 if [ -n "$CASS" ]; then
   EXEC=$(kubectl.sh exec -it cassandra-2 -- nodetool status | grep UN | wc -l)

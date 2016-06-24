@@ -6,20 +6,20 @@
 # - allow tweaking of Node disks
 # - which node distro??
 #
-KUBE_RELEASE=v1.3.0-beta.1
+#KUBE_RELEASE=v1.3.0-beta.1
 KUBE_ROOT=kubernetes
 
-export NUM_NODES=${NUM_NODES:-334}
-export NUM_NODES_2=${NUM_NODES_2:-333}
-export NUM_NODES_3=${NUM_NODES_3:-333}
+export NUM_NODES=${NUM_NODES:-336}
+export NUM_NODES_2=${NUM_NODES_2:-332}
+export NUM_NODES_3=${NUM_NODES_3:-332}
 export MULTIZONE=${MULTIZONE:0}
 
 export MASTER_SIZE=${MASTER_SIZE:-n1-standard-32}
-export NODE_SIZE=${NODE_SIZE:-n1-standard-4}
+export NODE_SIZE=${NODE_SIZE:-n1-standard-8}
 export KUBE_GCE_ZONE=${KUBE_GCE_ZONE:-us-central1-b}
 export KUBE_GCE_ZONE_2=${KUBE_GCE_ZONE_2:-us-central1-f}
 export KUBE_GCE_ZONE_3=${KUBE_GCE_ZONE_3:-us-central1-c}
-#export KUBE_ENABLE_CLUSTER_MONITORING=google
+export KUBE_ENABLE_CLUSTER_MONITORING=google
 #export MASTER_DISK_SIZE=${MASTER_DISK_SIZE:-40GB}
 #export NODE_DISK_TYPE=${NODE_DISK_TYPE:-local-ssd}
 #export NODE_DISK_SIZE=${NODE_DISK_SIZE:-100GB}
@@ -160,7 +160,7 @@ if [[ $MULTIZONE == 1 ]]; then
 fi
 
 # when done with cluster
-# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-f cluster/kube-down.sh &
-# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-c cluster/kube-down.sh &
+# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-f kubernetes/cluster/kube-down.sh &
+# KUBE_USE_EXISTING_MASTER=true KUBE_GCE_ZONE=us-central1-c kubernetes/cluster/kube-down.sh &
 # Wait for the other zones to go down
-# KUBE_GCE_ZONE=us-central1-b cluster/kube-down.sh
+# KUBE_GCE_ZONE=us-central1-b kubernetes/cluster/kube-down.sh

@@ -34,7 +34,7 @@ public class MetricRepository extends CassandraPaging {
 
     public Page<Metric> findAll(Pageable pageable) {
         List<Metric> metrics = new ArrayList<>();
-        fetchRowsWithPage(pageable.getOffset(), pageable.getPageSize()).stream().map(
+        fetchRowsWithPage(pageable).stream().map(
             row -> rowCall(row)
         ).forEach(metrics::add);
         Page<Metric> page = new PageImpl<>(metrics,pageable,metrics.size());

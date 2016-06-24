@@ -1,19 +1,19 @@
 apiVersion: "apps/v1alpha1"
 kind: PetSet
 metadata:
-  name: cassandra-data
+  name: cassandra-analytics
 spec:
-  serviceName: cassandra-data
+  serviceName: cassandra-analytics
   replicas: 5
   template:
     metadata:
       annotations:
         pod.alpha.kubernetes.io/initialized: "true"
       labels:
-        app: cassandra-data
+        app: cassandra-analytics
     spec:
       containers:
-      - name: cassandra
+      - name: cassandra-analytics
         image: "gcr.io/aronchick-apollobit/cassandra-debian:v1.1"
         imagePullPolicy: Always
         ports:
@@ -40,7 +40,7 @@ spec:
           - name: HEAP_NEWSIZE
             value: 2048M
           - name: CASSANDRA_SEEDS
-            value: "cassandra-data-0.cassandra-data.default.svc.cluster.local,cassandra-data-1.cassandra-data.default.svc.cluster.local"
+            value: "cassandra-analytics-0.cassandra-analytics.default.svc.cluster.local,cassandra-analytics-1.cassandra-analytics.default.svc.cluster.local,cassandra-data-0.cassandra-data.default.svc.cluster.local,cassandra-data-1.cassandra-data.default.svc.cluster.local"
           - name: CASSANDRA_NUM_TOKENS
             value: "16"
           - name: CASSANDRA_CLUSTER_NAME
@@ -48,9 +48,9 @@ spec:
           - name: CASSANDRA_RING_DELAY
             value: "6000"
           - name: CASSANDRA_DC
-            value: "DC1-Data"
+            value: "DC1-Analytics"
           - name: CASSANDRA_RACK
-            value: "OneKDemo_Rack1"
+            value: "OneKDemo-Rack1-Analytics"
           - name: CASSANDRA_OPEN_JMX
             value: "true"
           - name: CASSANDRA_AUTO_BOOTSTRAP
@@ -74,23 +74,22 @@ spec:
         # but not exactly because the names need to match exactly one of
         # the pet volumes.
         volumeMounts:
-        - name: cassandra-data
+        - name: cassandra-analytics
           mountPath: /cassandra_data
       # can we use hostPath with petset?? - would allow for restart
       #volumes:
-      #  - name: cassandra-data
+      #  - name: cassandra-analytics
       #    emptyDir: {}
   # These are converted to volume claims by the controller
   # and mounted at the paths mentioned above.
   # do not use these until ssd GCEPersistentDisk
   volumeClaimTemplates:
   - metadata:
-      name: cassandra-data
+      name: cassandra-analytics
       annotations:
-        # TODO: wth does this even do?
         volume.alpha.kubernetes.io/storage-class: anything
     spec:
       accessModes: [ "ReadWriteOnce" ]
       resources:
         requests:
-          storage: 100Gi
+          storage: 380Gi

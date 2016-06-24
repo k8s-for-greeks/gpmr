@@ -19,16 +19,13 @@
     <link rel="stylesheet" href="content/css/main.css">
     <!-- endbuild -->
     <!-- bower:css -->
-    <link href="bower_components/gentelella/vendors/font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <!-- endinject -->
     <!-- bower:css -->
-    <link href="bower_components/gentelella/build/css/custom.css" rel="stylesheet">
-    <link href="bower_components/gentelella/vendors/animate.css/animate.css" rel="stylesheet">
-    <link href="bower_components/gentelella/vendors/iCheck/skins/flat/purple.css" rel="stylesheet">
-    <link href="bower_components/gentelella/vendors/bootstrap-progressbar/css/bootstrap-progressbar-3.3.4.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <!-- endinject -->
     <!-- bower:css -->
-    <link href="bower_components/nvd3/build/nv.d3.css" rel="stylesheet">
+    <link rel="stylesheet" href="bower_components/angular-loading-bar/build/loading-bar.css">
     <!-- endinject -->
     <!--link href="bower_components/gentelella/vendors/mcss/maps/jquery-jvectormap-2.0.3.css" rel="stylesheet"/-->
 
@@ -82,20 +79,6 @@
     <script src="bower_components/bootstrap-ui-datetime-picker/dist/datetime-picker.js"></script>
     <script src="bower_components/ng-file-upload/ng-file-upload.js"></script>
     <script src="bower_components/ngInfiniteScroll/build/ng-infinite-scroll.js"></script>
-    <script src="bower_components/gentelella/build/js/custom.js"></script>
-    <script src="bower_components/gentelella/vendors/bootstrap/dist/js/bootstrap.min.js"></script>
-    <script src="bower_components/gentelella/vendors/fastclick/lib/fastclick.js"></script>
-    <script src="bower_components/gentelella/vendors/nprogress/nprogress.js"></script>
-    <script src="bower_components/gentelella/vendors/Chart.js/dist/Chart.min.js"></script>
-    <script src="bower_components/gentelella/vendors/bernii/gauge.js/dist/gauge.min.js"></script>
-    <script src="bower_components/gentelella/vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <script src="bower_components/gentelella/vendors/iCheck/icheck.min.js"></script>
-    <script src="bower_components/gentelella/vendors/skycons/skycons.js"></script>
-    <script src="bower_components/gentelella/production/js/moment/moment.min.js"></script>
-    <script src="bower_components/gentelella/production/js/datepicker/daterangepicker.js"></script>
-    <script src="bower_components/d3/d3.js"></script>
-    <script src="bower_components/nvd3/build/nv.d3.js"></script>
-    <script src="bower_components/angular-nvd3/dist/angular-nvd3.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -142,17 +125,10 @@
     <script src="app/entities/race-normal/race-normal-dialog.controller.js"></script>
     <script src="app/entities/race-normal/race-normal-detail.controller.js"></script>
     <script src="app/entities/race-normal/race-normal-delete-dialog.controller.js"></script>
+    <script src="app/entities/race-normal/race-normal-all.service.js"></script>
     <script src="app/entities/race-normal/race-normal.state.js"></script>
     <script src="app/entities/race-normal/race-normal.service.js"></script>
-    <script src="app/entities/race-normal/race-normal-all.service.js"></script>
     <script src="app/entities/race-normal/race-normal.controller.js"></script>
-    <script src="app/entities/metric/metric-dialog.controller.js"></script>
-    <script src="app/entities/metric/metric-detail.controller.js"></script>
-    <script src="app/entities/metric/metric-delete-dialog.controller.js"></script>
-    <script src="app/entities/metric/metric.state.js"></script>
-    <script src="app/entities/metric/metric-java.service.js"></script>
-    <script src="app/entities/metric/metric.service.js"></script>
-    <script src="app/entities/metric/metric.controller.js"></script>
     <script src="app/entities/race-data/race-data-dialog.controller.js"></script>
     <script src="app/entities/race-data/race-data-detail.controller.js"></script>
     <script src="app/entities/race-data/race-data-delete-dialog.controller.js"></script>
@@ -177,6 +153,13 @@
     <script src="app/entities/pet/pet.state.js"></script>
     <script src="app/entities/pet/pet.service.js"></script>
     <script src="app/entities/pet/pet.controller.js"></script>
+    <script src="app/entities/metric/metric-java.service.js"></script>
+    <script src="app/entities/metric/metric-dialog.controller.js"></script>
+    <script src="app/entities/metric/metric-detail.controller.js"></script>
+    <script src="app/entities/metric/metric-delete-dialog.controller.js"></script>
+    <script src="app/entities/metric/metric.state.js"></script>
+    <script src="app/entities/metric/metric.service.js"></script>
+    <script src="app/entities/metric/metric.controller.js"></script>
     <script src="app/entities/entity.state.js"></script>
     <script src="app/entities/data-counter/data-counter-dialog.controller.js"></script>
     <script src="app/entities/data-counter/data-counter-detail.controller.js"></script>
@@ -204,6 +187,8 @@
     <script src="app/components/alert/alert-error.directive.js"></script>
     <script src="app/components/alert/alert.service.js"></script>
     <script src="app/components/alert/alert.directive.js"></script>
+    <script src="app/charts/race-data-by-race/race-data-by-race-controller.js"></script>
+    <script src="app/charts/race-data-by-race/race-data-by-race.service.js"></script>
     <script src="app/charts/normals-by-pet/normals-by-pet.controller.js"></script>
     <script src="app/blocks/interceptor/notification.interceptor.js"></script>
     <script src="app/blocks/interceptor/errorhandler.interceptor.js"></script>
@@ -259,7 +244,6 @@
     <script src="app/account/activate/activate.state.js"></script>
     <script src="app/account/activate/activate.controller.js"></script>
     <script src="app/account/account.state.js"></script>
-    <script src="content/js/stats.js"></script>
     <!-- endinject -->
     <!-- endbuild -->
 
