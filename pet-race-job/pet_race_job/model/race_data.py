@@ -37,10 +37,10 @@ class RaceData(Model):
     runnerPreviousDistance = columns.Decimal()
 
     __keyspace__ = 'gpmr'
-    __options__ = {'compaction': {'class': 'SizeTieredCompactionStrategy',
-                                  'bucket_low': '.3',
-                                  'bucket_high': '2',
-                                  'min_threshold': '2',
-                                  'max_threshold': '64',
-                                  'tombstone_compaction_interval': '86400'},
-                   'gc_grace_seconds': '0'}
+    #__options__ = {'compaction': {'class': 'SizeTieredCompactionStrategy',
+    #                              'bucket_low': '.3',
+    #                              'bucket_high': '2',
+    #                              'min_threshold': '2',
+    #                              'max_threshold': '64',
+    #                              'tombstone_compaction_interval': '86400'},
+    #               'gc_grace_seconds': '0'}

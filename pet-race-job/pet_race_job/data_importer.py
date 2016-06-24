@@ -4,12 +4,13 @@ import logging
 import os
 from datetime import datetime
 
+from cassandra import cluster as cluster
 from cassandra.cqlengine.connection import get_session
 from cassandra.cqlengine.connection import set_session
 from cassandra.cqlengine.connection import setup as setup_cass
-from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple
+from cassandra.cqlengine.management import sync_table, drop_keyspace, create_keyspace_simple, \
+    create_keyspace_network_topology
 from cassandra.util import uuid_from_time
-from cassandra import cluster as cluster
 
 from pet_race_job.model import *
 
@@ -38,17 +39,34 @@ class DataImporter(object):
         self.session = get_session()
         set_session(self.session)
 
+    def drop_keyspace(self):
+        setup_cass(self.seeds, 'system')
+        self.session = get_session()
+        set_session(self.session)
+        drop_keyspace(self.keyspace)
+        self.logger.debug("ks dropped")
+
+    def create_network_keyspace(self):
+        cluster.max_schema_agreement_wait = 0
+        setup_cass(self.seeds, 'system')
+        self.session = get_session()
+        set_session(self.session)
+        dc_map = {'DC1-Data': 3, 'DC1-Analytics': 3}
+        create_keyspace_network_topology(name=self.keyspace, dc_replication_map=dc_map)
+        create_keyspace_simple(name=self.keyspace, replication_factor=3)
+        self.logger.debug("ks network topo created")
+
     def create_keyspace(self):
         cluster.max_schema_agreement_wait = 0
         setup_cass(self.seeds, 'system')
         self.session = get_session()
         set_session(self.session)
-        drop_keyspace(self.keyspace)
         create_keyspace_simple(name=self.keyspace, replication_factor=3)
         self.logger.debug("ks created")
 
     def create_tables(self):
         self.connect_cass()
+        cluster.max_schema_agreement_wait = 0
         sync_table(DataCounter)
         sync_table(PetCategory)
         sync_table(Pet)
@@ -95,6 +113,9 @@ class DataImporter(object):
             self.logger.debug("pet cat created: %s", cat['name'])
 
     def save_counters(self):
+
+        self.connect_cass()
+
         DataCounter(vtype='Race').update()
         DataCounter(vtype='RaceData').update()
         DataCounter(vtype='RaceNormal').update()

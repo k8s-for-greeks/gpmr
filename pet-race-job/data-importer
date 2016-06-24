@@ -7,50 +7,64 @@ from pet_race_job.data_importer import DataImporter
 
 
 def main(arg):
-    options, remainder = getopt.getopt(arg[1:], 'd:h:ks:c', ['directory=', 'help', 'keyspace', 'seeds=', 'create'])
-
-    # if options.d is None: # where foo is obviously your required option
-    #    parser.print_help()
-    #    sys.exit(1)
+    options, remainder = getopt.getopt(arg[1:], 'd:h:ktns:ca',
+                                       ['directory=', 'help', 'keyspace', 'seeds=', 'create', 'network', 'tables',
+                                        'dropkeyspace'])
 
     seeds = None
     data_dir = None
-    drop_keyspace = None
+
+    drop_keyspace = False
+    create_keyspace = False
     create = False
+    use_multi_dc_keyspace = False
+    tables = False
 
     for opt, arg in options:
         if opt in ('-d', '--directory'):
             data_dir = arg
-        if opt in ('-k', '--keyspace'):
+        if opt in ('-a', '--dropkeyspace'):
             drop_keyspace = True
+        if opt in ('-k', '--keyspace'):
+            create_keyspace = True
+        if opt in ('-n', '--network'):
+            use_multi_dc_keyspace = True
         if opt in ('-s', '--seeds'):
             seeds = arg
+        if opt in ('-t', '--tables'):
+            tables = True
         if opt in ('-c', '--create'):
             create = True
         if opt in ('-h', '--help'):
             print("usage: --directory=data_directory")
             exit(0)
 
-    if data_dir is None:
-        exit("no parameter found")
-
-    if drop_keyspace is None:
-        drop_keyspace = False
+    if data_dir is None and create:
+        exit("no -d parameter found")
 
     if seeds is None:
-        loader = DataImporter(seeds=['cassandra-0.cassandra.default.svc.cluster.local',
-                                     'cassandra-1.cassandra.default.svc.cluster.local'], keyspace='gpmr')
+        loader = DataImporter(seeds=['cassandra-data-0.cassandra-data.default.svc.cluster.local',
+                                     'cassandra-data-1.cassandra-data.default.svc.cluster.local',
+                                     'cassandra-analytics-0.cassandra-analytics.default.svc.cluster.local',
+                                     'cassandra-analytics-1.cassandra-analytics.default.svc.cluster.local'
+                                     ], keyspace='gpmr')
     else:
         loader = DataImporter(seeds=[seeds], keyspace='gpmr')
 
     if drop_keyspace:
+        loader.drop_keyspace()
+
+    if use_multi_dc_keyspace:
+        loader.create_network_keyspace()
+
+    if create_keyspace:
         loader.create_keyspace()
 
-    loader.create_tables()
+    if tables:
+        loader.create_tables()
 
     if create:
         loader.save_counters()
-        # todo move path to config files
         pet_cats = loader.parse_pet_categories(data_dir + '/pet_categories.csv')
         loader.save_pet_categories(pet_cats)
 
