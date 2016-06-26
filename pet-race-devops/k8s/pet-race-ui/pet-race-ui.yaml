@@ -19,7 +19,7 @@ kind: ReplicationController
 metadata:
   name: pet-race-ui
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
@@ -30,6 +30,8 @@ spec:
         image: "gcr.io/aronchick-apollobit/pet-race-ui:v1.0"
         ports:
         - containerPort: 8080
+        securityContext:
+          privileged: true
         resources:
           limits:
             cpu: "2"
@@ -42,6 +44,8 @@ apiVersion: extensions/v1beta1
 kind: Ingress
 metadata:
   name: pet-race-ui
+  annotations:
+    kubernetes.io/ingress.allowHTTP: "false"
 spec:
   tls:
   - secretName: tls

@@ -15,4 +15,4 @@
 FROM gcr.io/aronchick-apollobit/google-debian-openjdk8:v1.0
 
 ADD *.war /app.war
-CMD ["/dumb-init", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.war"]
+CMD ["/dumb-init", "java", "-Djava.security.egd=file:/dev/./urandom", "-jar", "/app.war", "--spring.profiles.active=prod"]
