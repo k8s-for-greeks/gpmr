@@ -2,35 +2,26 @@
 
 import getopt
 import sys
+import datetime
 
 from pet_race_job.pet_race import PetRace
 
 
 def main(arg):
-    options, remainder = getopt.getopt(arg[1:], 'h:d:l:p:s:c:',
-                                       ['description=',
-                                        'length=',
+    options, remainder = getopt.getopt(arg[1:], 'h:l:p:s:c:',
+                                       ['length=',
                                         'pet=',
                                         'scale=',
                                         'help'
                                         'cass='])
 
-    # logger = logging.getLogger('pet_race_job')
-
-    # seeds = ['cassandra-0.cassandra.default.svc.cluster.local',
-    #         'cassandra-1.cassandra.default.svc.cluster.local']
-
     keyspace = 'gpmr'
-
-    description = None
     length = None
     pet = None
     scale = None
     seeds = None
 
     for opt, arg in options:
-        if opt in ('--description', '-d'):
-            description = str(arg)
         if opt in ('--length', '-l'):
             length = int(arg)
         if opt in ('--pet', '-p'):
@@ -50,19 +41,19 @@ def main(arg):
     else:
         seeds = [seeds]
 
-    if not isinstance(description, str):
-        exit("--description is missing")
-
     if not isinstance(length, int):
-        exit("--length is missing")
+        length = 100
 
     if not isinstance(scale, int):
-        exit("--scale is missing")
+        scale = 3
 
     if not isinstance(pet, str):
         exit("--pet is missing")
 
     pet_race = PetRace(seeds=seeds, keyspace=keyspace)
+    i = datetime.datetime.now()
+    d = i.strftime('%Y/%m/%d %H:%M:%S')
+    description = "A race of " + pet + " " + d
     pet_race.create_race(length, description, pet, scale)
     # logger.debug("running race")
     pet_race.run_race()
