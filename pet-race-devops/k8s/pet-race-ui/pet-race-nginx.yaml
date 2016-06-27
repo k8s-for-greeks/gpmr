@@ -1,0 +1,72 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: pet-race-nginx
+  namespace: pet-race-ui
+  labels:
+    app: pet-race-nginx
+    tier: frontend
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      name: http
+    - port: 443
+      name: https
+  selector:
+    app: pet-race-nginx
+    tier: frontend
+---
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: pet-race-nginx
+  namespace: pet-race-ui
+  labels:
+    app: pet-race-nginx
+    tier: frontend
+  annotations:
+    scheduler.alpha.kubernetes.io/affinity: >
+      {
+        "nodeAffinity": {
+          "requiredDuringSchedulingIgnoredDuringExecution": {
+            "nodeSelectorTerms": [
+              {
+                "matchExpressions": [
+                  {
+                    "key": "failure-domain.beta.kubernetes.io/zone",
+                    "operator": "In",
+                    "values": ["us-central1-a"]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      }
+spec:
+  replicas: 1
+  selector:
+    app: pet-race-nginx
+    tier: frontend
+  template:
+    metadata:
+      labels:
+        app: pet-race-nginx
+        tier: frontend
+    spec:
+      volumes:
+      - name: pet-race-ui-nginx-tls
+        secret:
+          secretName: pet-race-ui-nginx-tls
+      containers:
+      - name: pet-race-nginx
+        image: "gcr.io/aronchick-apollobit/pet-race-ui-nginx:v1.1"
+        ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        volumeMounts:
+        - mountPath: /etc/nginx/ssl
+          name: pet-race-ui-nginx-tls

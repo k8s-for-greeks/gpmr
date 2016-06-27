@@ -4,10 +4,10 @@ echo "
 apiVersion: v1
 kind: Secret
 metadata:
-  name: pet-race-ui-nginx-tls
+  name: pet-race-tls
   namespace: pet-race-ui
 data:
-  nginx.crt: `base64 -w 0 /tmp/nginx.crt`
-  nginx.key: `base64 -w 0 /tmp/nginx.key`
+  tls.crt: `base64 -w 0 /tmp/nginx.crt`
+  tls.key: `base64 -w 0 /tmp/nginx.key`
 " | /home/clove/gpmr/pet-race-devops/gce/kubernetes/cluster/kubectl.sh create --namespace=pet-race-ui -f -
 rm /tmp/nginx.*
