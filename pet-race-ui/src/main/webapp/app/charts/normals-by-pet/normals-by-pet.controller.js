@@ -41,7 +41,7 @@ var randomColor = (function () {
  * Stats.js (https://github.com/angusgibbs/stats.js)
  * Copyright 2012 Angus Gibbs
  */
-(function () {
+(function(root) {
     // Create the top level stats object
     // =================================
 
@@ -980,7 +980,7 @@ var randomColor = (function () {
         // Just write to window (or whatever is the root object)
         root.stats = stats;
     }
-})();
+}(this));
 
 (function () {
     'use strict';
