@@ -14,6 +14,7 @@
             'ui.router',
             'infinite-scroll',
             'nvd3',
+            'stats',
             // jhipster-needle-angularjs-add-module JHipster will add new module here
             'angular-loading-bar',
         ])
