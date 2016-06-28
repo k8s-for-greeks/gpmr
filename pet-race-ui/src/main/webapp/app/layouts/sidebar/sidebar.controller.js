@@ -132,9 +132,11 @@
             $BOX_PANEL.remove();
         });
 
+/*
         $('[data-toggle="tooltip"]').tooltip({
             container: 'body'
         });
+        */
 
     }
 })();
