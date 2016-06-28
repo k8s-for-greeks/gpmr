@@ -13,6 +13,7 @@
 
     function SidebarController($state, Auth, Principal, ProfileService, LoginService) {
         var vm = this;
+        vm.url = window.location.href.split('?')[0];
 
         vm.isAuthenticated = Principal.isAuthenticated;
 
@@ -75,10 +76,10 @@
         });
 
         // check active menu
-        $('#sidebar-menu').find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+        $('#sidebar-menu').find('a[href="' + vm.url + '"]').parent('li').addClass('current-page');
 
         $('#sidebar-menu').find('a').filter(function () {
-            return this.href == CURRENT_URL;
+            return this.href == vm.url;
         }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
             setContentHeight();
         }).parent().addClass('active')
@@ -99,10 +100,10 @@
         };
 
         // check active menu
-        $('#sidebar-menu').find('a[href="' + CURRENT_URL + '"]').parent('li').addClass('current-page');
+        $('#sidebar-menu').find('a[href="' + vm.url + '"]').parent('li').addClass('current-page');
 
         $('#sidebar-menu').find('a').filter(function () {
-            return this.href == CURRENT_URL;
+            return this.href == vm.url;
         }).parent('li').addClass('current-page').parents('ul').slideDown(function () {
             setContentHeight();
         }).parent().addClass('active');
