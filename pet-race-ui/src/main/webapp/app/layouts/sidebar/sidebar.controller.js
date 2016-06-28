@@ -34,7 +34,6 @@
             $state.go('home');
         }
 
-        $BODY = $('body');
         $MENU_TOGGLE = $('#menu_toggle');
         $SIDEBAR_MENU = $('#sidebar-menu');
         $SIDEBAR_FOOTER = $('.sidebar-footer');
@@ -44,6 +43,7 @@
         $FOOTER = $('footer');
 
         $SIDEBAR_MENU.find('a[class=col-menu]').on('click', function (ev) {
+            $BODY = $('body');
             var $li = $(this).parent();
 
             if ($li.is('.active')) {
@@ -70,6 +70,7 @@
         });
 
         $MENU_TOGGLE.on('click', function () {
+            $BODY = $('body');
             if ($BODY.hasClass('nav-md')) {
                 $SIDEBAR_MENU.find('li.active ul').hide();
                 $SIDEBAR_MENU.find('li.active').addClass('active-sm').removeClass('active');
@@ -95,6 +96,7 @@
         var setContentHeight = function () {
             // reset height
             $RIGHT_COL.css('min-height', $(window).height());
+            $BODY = $('body');
 
             var bodyHeight = $BODY.outerHeight(),
                 footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
